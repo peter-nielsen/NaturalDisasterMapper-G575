@@ -1,0 +1,136 @@
+/* Stylesheet by Peter Nielsen, David J. Waro, Jacob P. Hrubecky */
+
+body {
+  background-color: #f2ffe6;
+}
+
+#title {
+  position: absolute;
+  top: 2%;
+  text-align: left;
+  font-size: 50px;
+  font-family: Arial;
+  color: #e0b574;
+  text-shadow:
+    -1px -1px 0 #004d00,
+     1px -1px 0 #004d00,
+     -1px 1px 0 #004d00,
+      1px 1px 0 #004d00;
+}
+
+
+#mapid {
+  height: 80%;
+  width: 60%;
+  position: absolute;
+  top:19%;
+  bottom:0;
+  left:20%;
+  right:20%;
+  overflow: hidden;
+  display: inline-block;
+  z-index: 1000;
+  border-style: solid;
+  border-width: medium;
+  border-color: black;
+  border-radius: 1em;
+}
+
+.legend-control-container {
+  background-color: rgba(255,255,255,0.8);
+  text-align: center;
+  border: solid gray 1.5px;
+  border-radius: 1em;
+}
+
+#temporal-legend {
+  line-height: 15px;
+  text-align: center;
+  font-family: Helvetica, sans-serif;
+}
+
+.sequence-control-container {
+    width: 235px;
+    height: 28px;
+    background-color: rgba(255,255,255,0.8);
+    padding: 6px;
+    line-height: 38px;
+    text-align: center;
+    border: solid gray 1.5px;
+    border-radius: 1em;
+}
+
+#left-pane {
+  position: fixed;
+  display: inline-block;
+  top: 19%;
+  width: 17%;
+  height: 76%;
+  left: 1.5%;
+  right: 81.5%;
+  bottom: 5%;
+  background-color: #FFDEAD;
+  border: solid;
+  border-width: thin;
+  border-color: black;
+  border-radius: 1em;
+}
+
+.dropdown{
+  text-align: center;
+}
+
+#right-pane {
+  position: fixed;
+  display: inline-block;
+  top: 19%;
+  width: 17%;
+  height: 76%;
+  left: 81.5%;
+  right: 1.5%;
+  bottom: 5%;
+  background-color: #FFDEAD;
+  border: solid;
+  border-width: thin;
+  border-color: black;
+  border-radius: 1em;
+}
+
+.range-slider {
+    width: 150px;
+}
+
+#forward {
+    float: right;
+    line-height: 18px;
+    border-radius: 5px;
+    border: solid black 1px;
+    font-size: 15px;
+    width: 30px;
+}
+
+#reverse {
+    float: left;
+    line-height: 18px;
+    border-radius: 5px;
+    border: solid black 1px;
+    font-size: 15px;
+    width: 30px;
+}
+.chart {
+    background-color: black;
+    border: medium solid #999;
+    display: block;
+    margin: auto;
+}
+
+.chart {
+    background-color: black;
+    border: medium solid #999;
+    display: block;
+    margin: auto;
+}
+
+.leaflet-popup-content p {
+  margin:  0.2em 0;
+}

@@ -1,0 +1,125 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Location": "California",
+        "Total_Events_2000": 74,
+        "Total_Events_2001": 125,
+        "Total_Events_2002": 180,
+        "Total_Events_2003": 135,
+        "Total_Events_2004": 85,
+        "Total_Events_2005": 65,
+        "Total_Events_2006": 85,
+        "Total_Events_2007": 185,
+        "Total_Events_2008": 186,
+        "Total_Events_2009": 183,
+        "Total_Events_2010": 33,
+        "Total_Events_2011": 33,
+        "Total_Events_2012": 39,
+        "Total_Events_2013": 67,
+        "Total_Events_2014": 203,
+        "Total_Events_2015": 250,
+        "Total_Events_2016": 253
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -119.417931,
+          36.778259
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Location": "Nevada",
+        "Total_Events_2000": 4,
+        "Total_Events_2001": 3,
+        "Total_Events_2002": 2,
+        "Total_Events_2003": 3,
+        "Total_Events_2004": 6,
+        "Total_Events_2005": 0,
+        "Total_Events_2006": 1,
+        "Total_Events_2007": 3,
+        "Total_Events_2008": 0,
+        "Total_Events_2009": 0,
+        "Total_Events_2010": 5,
+        "Total_Events_2011": 6,
+        "Total_Events_2012": 7,
+        "Total_Events_2013": 10,
+        "Total_Events_2014": 12,
+        "Total_Events_2015": 5,
+        "Total_Events_2016": 7
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -117.224121,
+          39.876019
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Location": "Arizona",
+        "Total_Events_2000": 14,
+        "Total_Events_2001": 5,
+        "Total_Events_2002": 20,
+        "Total_Events_2003": 13,
+        "Total_Events_2004": 12,
+        "Total_Events_2005": 13,
+        "Total_Events_2006": 12,
+        "Total_Events_2007": 5,
+        "Total_Events_2008": 6,
+        "Total_Events_2009": 21,
+        "Total_Events_2010": 24,
+        "Total_Events_2011": 152,
+        "Total_Events_2012": 31,
+        "Total_Events_2013": 82,
+        "Total_Events_2014": 76,
+        "Total_Events_2015": 27,
+        "Total_Events_2016": 35
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.56,
+          34.37
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Location": "New Mexico",
+        "Total_Events_2000": 205,
+        "Total_Events_2001": 5,
+        "Total_Events_2002": 183,
+        "Total_Events_2003": 183,
+        "Total_Events_2004": 35,
+        "Total_Events_2005": 7,
+        "Total_Events_2006": 75,
+        "Total_Events_2007": 26,
+        "Total_Events_2008": 15,
+        "Total_Events_2009": 14,
+        "Total_Events_2010": 19,
+        "Total_Events_2011": 498,
+        "Total_Events_2012": 514,
+        "Total_Events_2013": 515,
+        "Total_Events_2014": 503,
+        "Total_Events_2015": 133,
+        "Total_Events_2016": 12
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -105.96,
+          34.59
+        ]
+      }
+    }
+  ]
+}
