@@ -329,14 +329,17 @@ function createSequenceControls(mymap, attributes, index){
       var container = L.DomUtil.create('div', 'sequence-control-container');
 
       //creates range input element (slider)
-      $(container).append('<input class="range-slider" type="range">');
+      $("#section-4").append('<input class="range-slider" type="range">');
 
       //add forward and reverse buttons
-      $(container).append('<button class="skip" id="reverse" title="Reverse"><b><</b></button>');
-      $(container).append('<button class="skip" id="forward" title="Forward"><b>></b></button>');
+      $("#section-4").append('<button class="skip" id="reverse" title="Reverse"><b></b></button>');
+      $("#section-4").append('<button class="skip" id="forward" title="Forward"><b>></b></button>');
+
+			$('#reverse').html('<img id="reverseImage" src="img/reverse_button.png" onmouseover="" style="cursor: pointer;">');
+    	$('#forward').html('<img id="forwardImage" src="img/forward_button.png" onmouseover="" style="cursor: pointer;">');
 
       //turn off any mouse event listeners on the sequence control
-      $(container).on('mousedown dblclick', function(e){
+      $("#section-4").on('mousedown dblclick', function(e){
         L.DomEvent.stopPropagation(e);
       });
 
@@ -404,13 +407,11 @@ function createSequenceControls(mymap, attributes, index){
 function dropdown(mymap, attributes) {
 
 	var dropdown = L.DomUtil.create('div', 'dropdown');
-	dropdown.innerHTML = 'Select an Event<select><option value="stateTotalEventsLayer">Total Events</option><option>Avalanche</option>'+
-	'<option>Blizzard</option><option value="stateDroughtsLayer">Drought</option><option>Excessive Heat</option>'+
-	'<option>Extreme Cold/ Wind Chill</option><option>Tornado</option><option value="statesWildfiresLayer">Wildfire</option></select>';
+	dropdown.innerHTML = '<select><option value="stateTotalEventsLayer">Total Events</option><option value="stateAvalanchesLayer">Avalanche</option>'+
+	'<option value="stateBlizzardsLayer">Blizzard</option><option value="stateDroughtsLayer">Drought</option><option value="stateExcessiveHeatLayer">Excessive Heat</option>'+
+	'<option value="stateExtremeColdLayer">Extreme Cold/ Wind Chill</option><option value="stateTornadosLayer">Tornado</option><option value="statesWildfiresLayer">Wildfire</option></select>';
 
-
-
-	$("#left-pane").append(dropdown);
+	$("#section-1").append(dropdown);
 
 }
 
@@ -451,7 +452,7 @@ function getOverlayData(mymap, attributes) {
 			});
 
 			//geoJSON layer with leaflet is created to add data to the map
-			var stateWildfiresLayer = L.geoJson(response, {
+			var stateAvalanchesLayer = L.geoJson(response, {
 				//pointToLayer is used to change the marker features to circle markers,
 				pointToLayer: function (feature, latlng) {
 					return L.circleMarker (latlng, geojsonMarkerOptions);
@@ -459,13 +460,31 @@ function getOverlayData(mymap, attributes) {
 			});
 
 			//function to size the overlay data according to wildfires
-			stateWildfiresLayer.eachLayer(function(layer){
+			stateAvalanchesLayer.eachLayer(function(layer){
 				// wildfire event
-				var mops = layer.feature.properties.Wildfire_2000;
+				var b = layer.feature.properties.Avalanche_2000;
 				// the radius is calculated using the calcPropSymbols function
-				var radius1 = calcPropRadius(mops);
+				var radius3 = calcPropRadius(b);
 				//the radius is set to the data layer
-				layer.setRadius(radius1);
+				layer.setRadius(radius3);
+			});
+
+			//geoJSON layer with leaflet is created to add data to the map
+			var stateBlizzardsLayer = L.geoJson(response, {
+				//pointToLayer is used to change the marker features to circle markers,
+				pointToLayer: function (feature, latlng) {
+					return L.circleMarker (latlng, geojsonMarkerOptions);
+						}
+			});
+
+			//function to size the overlay data according to wildfires
+			stateBlizzardsLayer.eachLayer(function(layer){
+				// wildfire event
+				var c = layer.feature.properties.Blizzard_2000;
+				// the radius is calculated using the calcPropSymbols function
+				var radius4 = calcPropRadius(c);
+				//the radius is set to the data layer
+				layer.setRadius(radius4);
 			});
 
 			//geoJSON layer with leaflet is created to add data to the map
@@ -487,7 +506,7 @@ function getOverlayData(mymap, attributes) {
 			});
 
 			//geoJSON layer with leaflet is created to add data to the map
-			var stateAvalanchesLayer = L.geoJson(response, {
+			var stateExcessiveHeatLayer = L.geoJson(response, {
 				//pointToLayer is used to change the marker features to circle markers,
 				pointToLayer: function (feature, latlng) {
 					return L.circleMarker (latlng, geojsonMarkerOptions);
@@ -495,13 +514,67 @@ function getOverlayData(mymap, attributes) {
 			});
 
 			//function to size the overlay data according to wildfires
-			stateAvalanchesLayer.eachLayer(function(layer){
+			stateExcessiveHeatLayer.eachLayer(function(layer){
 				// wildfire event
-				var b = layer.feature.properties.Avalanche_2000;
+				var d = layer.feature.properties.Excessive_Heat_2000;
 				// the radius is calculated using the calcPropSymbols function
-				var radius3 = calcPropRadius(b);
+				var radius5 = calcPropRadius(d);
 				//the radius is set to the data layer
-				layer.setRadius(radius3);
+				layer.setRadius(radius5);
+			});
+
+			//geoJSON layer with leaflet is created to add data to the map
+			var stateExtremeColdLayer = L.geoJson(response, {
+				//pointToLayer is used to change the marker features to circle markers,
+				pointToLayer: function (feature, latlng) {
+					return L.circleMarker (latlng, geojsonMarkerOptions);
+						}
+			});
+
+			//function to size the overlay data according to wildfires
+			stateExtremeColdLayer.eachLayer(function(layer){
+				// wildfire event
+				var e = layer.feature.properties.Extreme_Cold_Wind_Chill_2000;
+				// the radius is calculated using the calcPropSymbols function
+				var radius6 = calcPropRadius(e);
+				//the radius is set to the data layer
+				layer.setRadius(radius6);
+			});
+
+			//geoJSON layer with leaflet is created to add data to the map
+			var stateTornadosLayer = L.geoJson(response, {
+				//pointToLayer is used to change the marker features to circle markers,
+				pointToLayer: function (feature, latlng) {
+					return L.circleMarker (latlng, geojsonMarkerOptions);
+						}
+			});
+
+			//function to size the overlay data according to wildfires
+			stateTornadosLayer.eachLayer(function(layer){
+				// wildfire event
+				var f = layer.feature.properties.Tornado_2000;
+				// the radius is calculated using the calcPropSymbols function
+				var radius7 = calcPropRadius(f);
+				//the radius is set to the data layer
+				layer.setRadius(radius7);
+			});
+
+			//geoJSON layer with leaflet is created to add data to the map
+			var stateWildfiresLayer = L.geoJson(response, {
+				//pointToLayer is used to change the marker features to circle markers,
+				pointToLayer: function (feature, latlng) {
+					return L.circleMarker (latlng, geojsonMarkerOptions);
+						}
+			});
+
+			//function to size the overlay data according to wildfires
+			stateWildfiresLayer.eachLayer(function(layer){
+				// wildfire event
+				var mops = layer.feature.properties.Wildfire_2000;
+				// the radius is calculated using the calcPropSymbols function
+				var radius1 = calcPropRadius(mops);
+				//the radius is set to the data layer
+				layer.setRadius(radius1);
 			});
 
 			//leaflet overlay control to add the overlay data
@@ -511,43 +584,51 @@ function getOverlayData(mymap, attributes) {
 			var avalanches = {
 			"<span class = 'overlayText'>Avalanches</span>": stateAvalanchesLayer
 			};
+			var blizzards = {
+			"<span class = 'overlayText'>Blizzards</span>": stateBlizzardsLayer
+			};
 			var droughts = {
 			"<span class = 'overlayText'>Droughts</span>": stateDroughtsLayer
+			};
+			var excessiveHeat = {
+			"<span class = 'overlayText'>Droughts</span>": stateExcessiveHeatLayer
+			};
+			var extremeCold = {
+			"<span class = 'overlayText'>Droughts</span>": stateExtremeColdLayer
+			};
+			var tornados = {
+			"<span class = 'overlayText'>Droughts</span>": stateTornadosLayer
 			};
 			var wildfires = {
 			"<span class = 'overlayText'>Wildfires</span>": stateWildfiresLayer
 			};
 
-
-
 			var layerOptions = {
     		"Total Events": stateTotalEventsLayer,
 				"Avalanche": stateAvalanchesLayer,
+				"Blizzard": stateBlizzardsLayer,
 				"Drought": stateDroughtsLayer,
-    		"Wildfire": stateWildfiresLayer,
+				"Excessive Heat": stateExcessiveHeatLayer,
+				"Extreme Cold/ Wind Chill": stateExtremeColdLayer,
+				"Tornado": stateTornadosLayer,
+    		"Wildfire": stateWildfiresLayer
 			};
 
 
 			//adding the control to the map
 			var j = L.control.layers(layerOptions).addTo(mymap);
 
-			// // call to create the dropdown menu
-			// dropdown(mymap, attributes);
-			//
-			// $(".dropdown select").on("change", function(g) {
-			// 	console.log("target value: " + g.target.value);
-			//
-			// 	var milk = g.target.value;
-			// 	console.log(milk);
-			//
-			//
-			//
-			// 	console.log(stateDroughtsLayer);
-			// 	console.log(cabbage);
-			// 	console.log(cabbage.Droughts);
-			// 	console.log(cabbage.value);
-			// 	console.log("boolean: " + g.target.value == cabbage[1]);
-			// });
+			// call to create the dropdown menu
+			dropdown(mymap, attributes);
+
+			$(".dropdown select").on("change", function(g) {
+				console.log("target value: " + g.target.value);
+
+				var milk = g.target.value;
+				console.log(milk);
+				console.log(stateDroughtsLayer);
+				console.log(layerOptions);
+			});
 
 		}
 
@@ -558,10 +639,10 @@ function getOverlayData(mymap, attributes) {
 // function to create the Proportional Symbols map legend
 function createLegend(mymap, attributes){
 
-      $('#left-pane').append('<div id="temporal-legend" >');
+      $('#section-3').append('<div id="temporal-legend" >');
 
       // start attribute legend svg string
-      var svg = '<svg id="attribute-legend" width="200px" height="500px">';
+      var svg = '<svg id="attribute-legend" width="200px" height="150px">';
 
       //object to base loop on
       var circles = {
@@ -584,7 +665,7 @@ function createLegend(mymap, attributes){
       svg += "</svg>";
 
 			// add attribute legend svg to container
-      $('#left-pane').append(svg);
+      $('#section-3').append(svg);
 
   updateLegend(mymap, attributes[0]);
 

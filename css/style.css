@@ -1,23 +1,43 @@
 /* Stylesheet by Peter Nielsen, David J. Waro, Jacob P. Hrubecky */
 
 body {
-  background-color: #f2ffe6;
+  background-image: url('dark_fish_skin.png');
+  width: 100%;
+  height: 100%;
 }
 
 #title {
-  position: absolute;
-  top: 2%;
-  text-align: left;
-  font-size: 50px;
-  font-family: Arial;
-  color: #e0b574;
-  text-shadow:
-    -1px -1px 0 #004d00,
-     1px -1px 0 #004d00,
-     -1px 1px 0 #004d00,
-      1px 1px 0 #004d00;
+  position: fixed;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  border: 1px;
+  stroke: black;
+  font: normal 50px/1 "Trebuchet MS", Helvetica, sans-serif;
+  color: rgba(255,255,255,1);
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  text-shadow: 4px 4px 6px rgba(0,0,0,0.91) ;
 }
 
+#top {
+  width: 100em;
+  top: 0;
+  left: 0;
+  height: 80px;
+  position: fixed;
+  display: inline-block;
+  background: blue; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left top, #001a66, white); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #001a66, white); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, #001a66, white); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #001a66, white); /* Standard syntax */
+  opacity: 0.8;
+  border: solid;
+  border-width: thin;
+  border-color: black;
+  z-index: -1;
+}
 
 #mapid {
   height: 80%;
@@ -33,7 +53,6 @@ body {
   border-style: solid;
   border-width: medium;
   border-color: black;
-  border-radius: 1em;
 }
 
 .legend-control-container {
@@ -44,20 +63,49 @@ body {
 }
 
 #temporal-legend {
-  line-height: 15px;
+  position: absolute;
+  left: 6%;
+  top: 17%;
   text-align: center;
   font-family: Helvetica, sans-serif;
 }
 
-.sequence-control-container {
-    width: 235px;
-    height: 28px;
-    background-color: rgba(255,255,255,0.8);
-    padding: 6px;
-    line-height: 38px;
-    text-align: center;
-    border: solid gray 1.5px;
-    border-radius: 1em;
+#attribute-legend {
+  position: fixed;
+  bottom: 15%;
+  left: 3%;
+}
+
+#reverseImage {
+  height: 100%;
+  width: 100%;
+}
+
+#forwardImage {
+  height: 100%;
+  width: 100%;
+}
+
+#section-1 {
+  position: absolute;
+  text-align: left;
+  font-family: Helvetica, sans-serif;
+  left: 11.5%;
+  top: 2%;
+}
+
+#section-3 {
+  position: absolute;
+  height: 40%;
+  width: 100%;
+  bottom: 20%;
+}
+
+#section-4 {
+  position: absolute;
+  height: 20%;
+  width: 100%;
+  bottom: 0;
 }
 
 #left-pane {
@@ -65,15 +113,16 @@ body {
   display: inline-block;
   top: 19%;
   width: 17%;
-  height: 76%;
+  max-height: 500px;
   left: 1.5%;
   right: 81.5%;
   bottom: 5%;
-  background-color: #FFDEAD;
   border: solid;
   border-width: thin;
   border-color: black;
   border-radius: 1em;
+  background-image: url("gray_jean.png");
+  overflow-y: scroll;
 }
 
 .dropdown{
@@ -89,19 +138,24 @@ body {
   left: 81.5%;
   right: 1.5%;
   bottom: 5%;
-  background-color: #FFDEAD;
   border: solid;
   border-width: thin;
   border-color: black;
   border-radius: 1em;
+  background-image: url("gray_jean.png");
 }
 
 .range-slider {
-    width: 150px;
+    width: 60%;
+    top: 60%;
+    left: 19%;
+    position: absolute;
 }
 
 #forward {
-    float: right;
+    position: absolute;
+    top: 55%;
+    right: 2%;
     line-height: 18px;
     border-radius: 5px;
     border: solid black 1px;
@@ -110,7 +164,9 @@ body {
 }
 
 #reverse {
-    float: left;
+    position: absolute;
+    top: 55%;
+    left: 2%;
     line-height: 18px;
     border-radius: 5px;
     border: solid black 1px;
