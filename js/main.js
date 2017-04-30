@@ -4,6 +4,7 @@ function initialize(){
 	getData();
 };
 
+
 // Title
 $("#title").append("Natural Disaster Mapper");
 
@@ -18,98 +19,9 @@ var basemap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/W
 	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 });
 
-
-// sets map element and its properties
-function createMap() {
-
-	var mymap = L.map('mapid', {
-	}).setView([37.0866, -115.00], 5);
-
-	mymap.setMaxBounds([
-		[0, -200],
-		[75, -20],
-	]).setMinZoom(3);
-
-	// tile layer
-	basemap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-	}).addTo(mymap);
-
-		//add navigation bar to the map
-	L.control.navbar().addTo(mymap);
-
-	states = new L.GeoJSON.AJAX("data/states_excluding_SW.geojson", {style: statesStyle});
-	states.addTo(mymap).bringToBack();
-
-	swStates = new L.GeoJSON.AJAX("data/sw_states.geojson", {style: swStyle});
-	swStates.addTo(mymap).bringToFront();
-
-	counties = new L.GeoJSON.AJAX("data/counties.geojson", {style: swStyle}).bringToBack();
-
-	mymap.on('zoomend', function (e) {
-		console.log("zoom: " + mymap.getZoom());
-			changeLayers(mymap, swStates, counties);
-	});
-
-	// 1. getData(mymap);
-	layers(mymap);
-	getOverlayData(mymap);
-
-}; // close to createMap
-
-function baseLayers(mymap) {
-
-	basemap.addTo(mymap);
-	states.addTo(mymap).bringToBack();
-	swStates.addTo(mymap).bringToFront();
-
-	counties = new L.GeoJSON.AJAX("data/counties.geojson", {style: swStyle}).bringToBack();
-
-	mymap.on('zoomend', function (e) {
-		console.log("zoom: " + mymap.getZoom());
-			changeLayers(mymap, swStates, counties);
-	});
-};
-
-// function to add the different geojson layers
-function layers(mymap) {
-
-	// var events = new L.GeoJSON.AJAX("data/county_events.geojson");
-	// events.addTo(mymap);
-
-	var events = $.ajax("data/State_events.geojson", {
-		dataType: "json",
-		success: function(response){
-
-			// creating an array of attributes
-			var attributes = processData(response);
-
-			// call function to create proportional symbols
-			createPropSymbols(response, mymap, attributes);
-			createSequenceControls(mymap, attributes);
-			createLegend(mymap, attributes);
-		}
-	});
-
-
-	mymap.on('zoomend', function (e) {
-		console.log("zoom: " + mymap.getZoom());
-	    changeLayers(mymap, swStates, counties);
-	});
-}; // close to layers function
-
-
-
-
-function changeLayers(mymap, swStates, counties) {
-	if (mymap.getZoom() >= 7) {
-		mymap.removeLayer(swStates);
-		counties.addTo(mymap).bringToBack();
-	} else if (mymap.getZoom() < 7) {
-		mymap.removeLayer(counties);
-		swStates.addTo(mymap).bringToBack();
-	};
-};
+var activeField;
+var attributes;
+var sequencer;
 
 
 // assigns the respected geojsons to the apropriate variables
@@ -126,33 +38,122 @@ function getData(mymap) {
 
 }; // close to getData
 
+
+// sets map element and its properties
+function createMap() {
+
+	// create map, map div, and map's initial view
+	var mymap = L.map('mapid', {
+	}).setView([37.0866, -115.00], 5);
+
+	// set map boundaries
+	mymap.setMaxBounds([
+		[0, -200],
+		[75, -20],
+	]).setMinZoom(3);
+
+	// tile layer
+	basemap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+	}).addTo(mymap);
+
+	// add navigation bar to the map
+	L.control.navbar().addTo(mymap);
+
+	// add state borders
+	states = new L.GeoJSON.AJAX("data/states_excluding_SW.geojson", {style: statesStyle});
+	states.addTo(mymap).bringToBack();
+
+	swStates = new L.GeoJSON.AJAX("data/sw_states.geojson", {style: swStyle});
+	swStates.addTo(mymap).bringToFront();
+
+	// when the map zooms, change the visible layers
+	mymap.on('zoomend', function (e) {
+		//console.log("zoom: " + mymap.getZoom());
+		changeLayers(mymap, swStates, counties);
+	});
+
+	//getData(mymap);
+	layers(mymap);
+	getOverlayData(mymap);
+
+}; // close to createMap
+
+
+// function to add the initial State total events layer
+function layers(mymap) {
+	// var events = new L.GeoJSON.AJAX("data/county_events.geojson");
+	// events.addTo(mymap);
+	var events = $.ajax("data/State_events.geojson", {
+		dataType: "json",
+		success: function(response){
+			activeField = "Total";
+			// creating an array of attributes
+			attributes = processData(response, activeField);
+			// call function to create proportional symbols
+			createPropSymbols(response, mymap, attributes);
+			createSequenceControls(mymap, attributes);
+			createLegend(mymap, attributes);
+		}
+	});
+}; // close to layers function
+
+
+// adds the baseLayers back to the map after all layers have been removed by
+// the dropdown event listener
+function baseLayers(mymap) {
+		basemap.addTo(mymap);
+		states.addTo(mymap).bringToBack();
+		swStates.addTo(mymap).bringToFront();
+
+		mymap.on('zoomend', function (e) {
+			//console.log("zoom: " + mymap.getZoom());
+			changeLayers(mymap, swStates, counties);
+		});
+};
+
+
+// Changes layers based on the zoome level
+function changeLayers(mymap, swStates, counties) {
+	if (mymap.getZoom() >= 7) {
+		mymap.removeLayer(swStates);
+		counties.addTo(mymap).bringToBack();
+	} else if (mymap.getZoom() < 7) {
+		mymap.removeLayer(counties);
+		swStates.addTo(mymap).bringToBack();
+	};
+};
+
+
+// callback for data viz
 function callback(error, csvData){
     createMap();
  		stateGraph('data/state_events.csv');
 };
 
-// styling for more SW Region
+
+// styling for SW Region with out a fill
 function swStyle() {
-	return {
-		fillColor: 'white',
-		weight: 2,
-		opacity: 1,
-		color: 'white',
-		fillOpacity: 0,
-	};
+		return {
+				fillColor: 'white',
+				weight: 2,
+				opacity: 1,
+				color: 'white',
+				fillOpacity: 0,
+		};
 };
 
-// styling for more opaque geojson
+
+// styling for non-SW region that is more opaque
 function statesStyle() {
-	return {
-		fillColor: 'gray',
-		weight: 2,
-		opacity: 1,
-		color: 'white',
-		fillOpacity: 0.7
-	};
+		return {
+				fillColor: 'gray',
+				weight: 2,
+				opacity: 1,
+				color: 'white',
+				fillOpacity: 0.7
+		};
 };
-
 
 
 // build an attributes array for the data
@@ -161,13 +162,15 @@ function processData(data){
   // empty array to hold attributes
   var attributes = [];
 
+	console.log("activeField: " + activeField);
+
   // properties of the first feature in the dataset
   var properties = data.features[0].properties;
 
   // push each attribute name into attributes array
   for (var attribute in properties){
 
-    // // only take attributes with population values
+    // only use total events to start
     // if (attribute.indexOf("Avalanche") > -1){
     //   attributes.push(attribute);
     // } else if (attribute.indexOf("Blizzard") > -1){
@@ -183,7 +186,7 @@ function processData(data){
 		// } else if (attribute.indexOf("Wildfire") > -1){
     //   attributes.push(attribute);
 		// } else
-		if (attribute.indexOf("Total") > -1){
+		if (attribute.indexOf(activeField) > -1){
       attributes.push(attribute);
 		};
 
@@ -335,11 +338,8 @@ function search (mymap, data, proportionalSymbols){
 // Create new sequence controls
 function createSequenceControls(mymap, attributes, index){
 
-  // position the sequence control in the bottom left of the map
-  var SequenceControl = L.Control.extend({
-    options: {
-      position: 'bottomleft'
-    },
+  // create a sequence control variable
+  sequencer = L.Control.extend({
 
     onAdd: function (mymap) {
 
@@ -367,7 +367,7 @@ function createSequenceControls(mymap, attributes, index){
   }); // close to var SequenceControl
 
   // add the Sequence Control to the map
-  mymap.addControl(new SequenceControl());
+  mymap.addControl(new sequencer());
 
   //set slider attributes
   $('.range-slider').attr({
@@ -620,20 +620,19 @@ function getOverlayData(mymap, attributes) {
 			"<span class = 'overlayText'>Wildfires</span>": stateWildfiresLayer
 			};
 
-			var layerOptions = {
-    		"Total Events": stateTotalEventsLayer,
-				"Avalanche": stateAvalanchesLayer,
-				"Blizzard": stateBlizzardsLayer,
-				"Drought": stateDroughtsLayer,
-				"Excessive Heat": stateExcessiveHeatLayer,
-				"Extreme Cold/ Wind Chill": stateExtremeColdLayer,
-				"Tornado": stateTornadosLayer,
-    		"Wildfire": stateWildfiresLayer
-			};
-
-
-			//adding the control to the map
-			//var j = L.control.layers(layerOptions).addTo(mymap);
+			// var layerOptions = {
+    	// 	"Total Events": stateTotalEventsLayer,
+			// 	"Avalanche": stateAvalanchesLayer,
+			// 	"Blizzard": stateBlizzardsLayer,
+			// 	"Drought": stateDroughtsLayer,
+			// 	"Excessive Heat": stateExcessiveHeatLayer,
+			// 	"Extreme Cold/ Wind Chill": stateExtremeColdLayer,
+			// 	"Tornado": stateTornadosLayer,
+    	// 	"Wildfire": stateWildfiresLayer
+			// };
+			//
+			// //adding the control to the map
+			// //var j = L.control.layers(layerOptions).addTo(mymap);
 
 			var activeLayer;
 
@@ -645,69 +644,94 @@ function getOverlayData(mymap, attributes) {
 					var targetLayer = g.target.value;
 
 					if (targetLayer == 'stateTotalEventsLayer') {
-							console.log("Total Events");
 							activeLayer = stateTotalEventsLayer;
+							activeField = "Total";
 							mymap.eachLayer(function (layer) {
     							mymap.removeLayer(layer);
 							});
 							baseLayers(mymap);
 							mymap.addLayer(activeLayer);
+							attributes = processData(response, activeField);
+							createSequenceControls(mymap, attributes);
+							updateLegend(mymap, attributes[0]);
 					} else if (targetLayer == 'stateAvalanchesLayer') {
-							console.log("Avalanches");
 							activeLayer = stateAvalanchesLayer;
+							activeField = "Avalanche";
 							mymap.eachLayer(function (layer) {
     							mymap.removeLayer(layer);
 							});
 							baseLayers(mymap);
 							mymap.addLayer(activeLayer);
+							attributes = processData(response, activeField);
+							createSequenceControls(mymap, attributes);
+							updateLegend(mymap, attributes[0]);
 					} else if (targetLayer == 'stateBlizzardsLayer') {
-							console.log("Blizzards");
 							activeLayer = stateBlizzardsLayer;
+							activeField = "Blizzard";
 							mymap.eachLayer(function (layer) {
     							mymap.removeLayer(layer);
 							});
 							baseLayers(mymap);
 							mymap.addLayer(activeLayer);
+							attributes = processData(response, activeField);
+							createSequenceControls(mymap, attributes);
+							updateLegend(mymap, attributes[0]);
 					} else if (targetLayer == 'stateDroughtsLayer') {
-							console.log("Droughts");
 							activeLayer = stateDroughtsLayer;
+							activeField = "Drought";
 							mymap.eachLayer(function (layer) {
     							mymap.removeLayer(layer);
 							});
 							baseLayers(mymap);
 							mymap.addLayer(activeLayer);
+							attributes = processData(response, activeField);
+							console.log("muff");
+							createSequenceControls(mymap, attributes);
+							updateLegend(mymap, attributes[0]);
 					} else if (targetLayer == 'stateExcessiveHeatLayer') {
-							console.log("Excessive Heat");
 							activeLayer = stateExcessiveHeatLayer;
+							activeField = "Excessive_Heat"
 							mymap.eachLayer(function (layer) {
     							mymap.removeLayer(layer);
 							});
 							baseLayers(mymap);
 							mymap.addLayer(activeLayer);
+							attributes = processData(response, activeField);
+							createSequenceControls(mymap, attributes);
+							updateLegend(mymap, attributes[0]);
 					} else if (targetLayer == 'stateExtremeColdLayer') {
-							console.log("Extreme Cold");
 							activeLayer = stateExtremeColdLayer;
+							activeField = "Extreme_Cold";
 							mymap.eachLayer(function (layer) {
     							mymap.removeLayer(layer);
 							});
 							baseLayers(mymap);
 							mymap.addLayer(activeLayer);
+							attributes = processData(response, activeField);
+							createSequenceControls(mymap, attributes);
+							updateLegend(mymap, attributes[0]);
 					} else if (targetLayer == 'stateTornadosLayer') {
-							console.log("Tornados");
 							activeLayer = stateTornadosLayer;
+							activeField = "Tornado";
 							mymap.eachLayer(function (layer) {
     							mymap.removeLayer(layer);
 							});
 							baseLayers(mymap);
 							mymap.addLayer(activeLayer);
+							attributes = processData(response, activeField);
+							createSequenceControls(mymap, attributes);
+							updateLegend(mymap, attributes[0]);
 					} else if (targetLayer == 'stateWildfiresLayer') {
-							console.log("Wildfires");
 							activeLayer = stateWildfiresLayer;
+							activeField = "Wildfire";
 							mymap.eachLayer(function (layer) {
     							mymap.removeLayer(layer);
 							});
 							baseLayers(mymap);
 							mymap.addLayer(activeLayer);
+							attributes = processData(response, activeField);
+							createSequenceControls(mymap, attributes);
+							updateLegend(mymap, attributes[0]);
 					};
 			});
 
@@ -795,11 +819,15 @@ function getCircleValues(mymap, attribute){
 // updates the temporal legend with new content
 function updateLegend(mymap, attribute){
 
-  var year = attribute.split("_")[2]; // split on the 3rd _
+  // var year = attribute.split("_")[2]; // split on the 3rd _
+	//console.log(year);
 
-	if (year[0] !== "2") {
-		year = attribute.split("_")[1];
-	}
+	var year = attribute.split("_").pop(); // split on the 3rd _
+
+	// if (year[0] !== "2") {
+	// 	console.log("muff: " + year);
+	// 	year = attribute.split("_")[1];
+	// }
 
   var eventType = attribute.split("_")[0] + " "; // split on the 4th _
 
@@ -844,7 +872,7 @@ function updatePropSymbols(mymap, attribute){
       // access feature properties
       var props = layer.feature.properties;
 
-      // subtract one because all pop growths will be at 1._ _ something, so we
+      // subtract one because all pop growths will be at 1._ _ attributes, so we
       // want more variation
       var attValue = Number(props[attribute]);
 
