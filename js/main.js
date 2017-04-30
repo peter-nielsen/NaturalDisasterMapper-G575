@@ -7,13 +7,22 @@ function initialize(){
 // Title
 $("#title").append("Natural Disaster Mapper");
 
+// global basemap layers
+var states = new L.GeoJSON.AJAX("data/states_excluding_SW.geojson", {style: statesStyle});
+
+var swStates = new L.GeoJSON.AJAX("data/sw_states.geojson", {style: swStyle});
+
+var counties = new L.GeoJSON.AJAX("data/counties.geojson", {style: swStyle}).bringToBack();
+
+var basemap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+});
 
 
 // sets map element and its properties
 function createMap() {
 
 	var mymap = L.map('mapid', {
-		//layers: [totalEventsOverlay]
 	}).setView([37.0866, -115.00], 5);
 
 	mymap.setMaxBounds([
@@ -22,12 +31,25 @@ function createMap() {
 	]).setMinZoom(3);
 
 	// tile layer
-	L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+	basemap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
 		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
 	}).addTo(mymap);
 
 		//add navigation bar to the map
 	L.control.navbar().addTo(mymap);
+
+	states = new L.GeoJSON.AJAX("data/states_excluding_SW.geojson", {style: statesStyle});
+	states.addTo(mymap).bringToBack();
+
+	swStates = new L.GeoJSON.AJAX("data/sw_states.geojson", {style: swStyle});
+	swStates.addTo(mymap).bringToFront();
+
+	counties = new L.GeoJSON.AJAX("data/counties.geojson", {style: swStyle}).bringToBack();
+
+	mymap.on('zoomend', function (e) {
+		console.log("zoom: " + mymap.getZoom());
+			changeLayers(mymap, swStates, counties);
+	});
 
 	// 1. getData(mymap);
 	layers(mymap);
@@ -35,7 +57,19 @@ function createMap() {
 
 }; // close to createMap
 
+function baseLayers(mymap) {
 
+	basemap.addTo(mymap);
+	states.addTo(mymap).bringToBack();
+	swStates.addTo(mymap).bringToFront();
+
+	counties = new L.GeoJSON.AJAX("data/counties.geojson", {style: swStyle}).bringToBack();
+
+	mymap.on('zoomend', function (e) {
+		console.log("zoom: " + mymap.getZoom());
+			changeLayers(mymap, swStates, counties);
+	});
+};
 
 // function to add the different geojson layers
 function layers(mymap) {
@@ -43,15 +77,7 @@ function layers(mymap) {
 	// var events = new L.GeoJSON.AJAX("data/county_events.geojson");
 	// events.addTo(mymap);
 
-	var states = new L.GeoJSON.AJAX("data/states_excluding_SW.geojson", {style: statesStyle});
-	states.addTo(mymap).bringToBack();
-
-	var swStates = new L.GeoJSON.AJAX("data/sw_states.geojson", {style: swStyle});
-	swStates.addTo(mymap).bringToFront();
-
-	var counties = new L.GeoJSON.AJAX("data/counties.geojson", {style: swStyle}).bringToBack();
-
-	var events = $.ajax("data/County_events.geojson", {
+	var events = $.ajax("data/State_events.geojson", {
 		dataType: "json",
 		success: function(response){
 
@@ -98,12 +124,6 @@ function getData(mymap) {
 			.defer(d3.json, "data/states_excluding_SW.geojson")
 			.await(callback);
 
-	// if (mymap.getZoom() >= 7) {
-	// 		eventLayer = "data/county_events.geojson";
-	// } else if (mymap.getZoom() < 7 ) {
-	// 		eventLayer = "data/state_events.geojson";
-	// }
-
 }; // close to getData
 
 function callback(error, csvData){
@@ -134,9 +154,6 @@ function statesStyle() {
 };
 
 
-function events(){
-
-};
 
 // build an attributes array for the data
 function processData(data){
@@ -409,11 +426,10 @@ function dropdown(mymap, attributes) {
 	var dropdown = L.DomUtil.create('div', 'dropdown');
 	dropdown.innerHTML = '<select><option value="stateTotalEventsLayer">Total Events</option><option value="stateAvalanchesLayer">Avalanche</option>'+
 	'<option value="stateBlizzardsLayer">Blizzard</option><option value="stateDroughtsLayer">Drought</option><option value="stateExcessiveHeatLayer">Excessive Heat</option>'+
-	'<option value="stateExtremeColdLayer">Extreme Cold/ Wind Chill</option><option value="stateTornadosLayer">Tornado</option><option value="statesWildfiresLayer">Wildfire</option></select>';
+	'<option value="stateExtremeColdLayer">Extreme Cold/ Wind Chill</option><option value="stateTornadosLayer">Tornado</option><option value="stateWildfiresLayer">Wildfire</option></select>';
 
 	$("#section-1").append(dropdown);
-
-}
+};
 
 
 //Get data using jquery ajax method
@@ -426,7 +442,7 @@ function getOverlayData(mymap, attributes) {
 			//marker style options are set to a variable
 			var geojsonMarkerOptions = {
 				radius: 10,
-				fillColor: "#6495ED",
+				fillColor: "#00FFCC",
 		    color: "#000",
 		    weight: 1,
 		    opacity: 1,
@@ -456,7 +472,7 @@ function getOverlayData(mymap, attributes) {
 				//pointToLayer is used to change the marker features to circle markers,
 				pointToLayer: function (feature, latlng) {
 					return L.circleMarker (latlng, geojsonMarkerOptions);
-						}
+				}
 			});
 
 			//function to size the overlay data according to wildfires
@@ -618,22 +634,85 @@ function getOverlayData(mymap, attributes) {
 			//adding the control to the map
 			var j = L.control.layers(layerOptions).addTo(mymap);
 
+			var activeLayer;
+
 			// call to create the dropdown menu
 			dropdown(mymap, attributes);
 
 			$(".dropdown select").on("change", function(g) {
-				console.log("target value: " + g.target.value);
+					console.log("target value: " + g.target.value);
+					var targetLayer = g.target.value;
 
-				var milk = g.target.value;
-				console.log(milk);
-				console.log(stateDroughtsLayer);
-				console.log(layerOptions);
+					if (targetLayer == 'stateTotalEventsLayer') {
+							console.log("Total Events");
+							activeLayer = stateTotalEventsLayer;
+							mymap.eachLayer(function (layer) {
+    							mymap.removeLayer(layer);
+							});
+							baseLayers(mymap);
+							mymap.addLayer(activeLayer);
+					} else if (targetLayer == 'stateAvalanchesLayer') {
+							console.log("Avalanches");
+							activeLayer = stateAvalanchesLayer;
+							mymap.eachLayer(function (layer) {
+    							mymap.removeLayer(layer);
+							});
+							baseLayers(mymap);
+							mymap.addLayer(activeLayer);
+					} else if (targetLayer == 'stateBlizzardsLayer') {
+							console.log("Blizzards");
+							activeLayer = stateBlizzardsLayer;
+							mymap.eachLayer(function (layer) {
+    							mymap.removeLayer(layer);
+							});
+							baseLayers(mymap);
+							mymap.addLayer(activeLayer);
+					} else if (targetLayer == 'stateDroughtsLayer') {
+							console.log("Droughts");
+							activeLayer = stateDroughtsLayer;
+							mymap.eachLayer(function (layer) {
+    							mymap.removeLayer(layer);
+							});
+							baseLayers(mymap);
+							mymap.addLayer(activeLayer);
+					} else if (targetLayer == 'stateExcessiveHeatLayer') {
+							console.log("Excessive Heat");
+							activeLayer = stateExcessiveHeatLayer;
+							mymap.eachLayer(function (layer) {
+    							mymap.removeLayer(layer);
+							});
+							baseLayers(mymap);
+							mymap.addLayer(activeLayer);
+					} else if (targetLayer == 'stateExtremeColdLayer') {
+							console.log("Extreme Cold");
+							activeLayer = stateExtremeColdLayer;
+							mymap.eachLayer(function (layer) {
+    							mymap.removeLayer(layer);
+							});
+							baseLayers(mymap);
+							mymap.addLayer(activeLayer);
+					} else if (targetLayer == 'stateTornadosLayer') {
+							console.log("Tornados");
+							activeLayer = stateTornadosLayer;
+							mymap.eachLayer(function (layer) {
+    							mymap.removeLayer(layer);
+							});
+							baseLayers(mymap);
+							mymap.addLayer(activeLayer);
+					} else if (targetLayer == 'stateWildfiresLayer') {
+							console.log("Wildfires");
+							activeLayer = stateWildfiresLayer;
+							mymap.eachLayer(function (layer) {
+    							mymap.removeLayer(layer);
+							});
+							baseLayers(mymap);
+							mymap.addLayer(activeLayer);
+					};
 			});
 
 		}
-
 	});
-};
+}; // close to getOverlayData
 
 
 // function to create the Proportional Symbols map legend
@@ -655,7 +734,7 @@ function createLegend(mymap, attributes){
       for (var circle in circles){
 
         //c ircle string
-        svg += '<circle class="legend-circle" id="' + circle + '" fill="#FFD700" fill-opacity="0.8" stroke="#000000" cx="70"/>';
+        svg += '<circle class="legend-circle" id="' + circle + '" fill="#FFD700" fill-opacity="0" stroke="#000000" cx="70"/>';
 
         // text string
         svg += '<text id="' + circle + '-text" x="150" y="' + circles[circle] + '"></text>';
