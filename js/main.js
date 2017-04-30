@@ -325,6 +325,7 @@ function search (mymap, data, proportionalSymbols){
 
   // add the control to the map
   mymap.addControl(searchLayer);
+	$("section-2").append(searchLayer);
 
 }; // close to search function
 
@@ -632,7 +633,7 @@ function getOverlayData(mymap, attributes) {
 
 
 			//adding the control to the map
-			var j = L.control.layers(layerOptions).addTo(mymap);
+			//var j = L.control.layers(layerOptions).addTo(mymap);
 
 			var activeLayer;
 
