@@ -819,20 +819,12 @@ function getCircleValues(mymap, attribute){
 // updates the temporal legend with new content
 function updateLegend(mymap, attribute){
 
-  // var year = attribute.split("_")[2]; // split on the 3rd _
-	//console.log(year);
-
 	var year = attribute.split("_").pop(); // split on the 3rd _
-
-	// if (year[0] !== "2") {
-	// 	console.log("muff: " + year);
-	// 	year = attribute.split("_")[1];
-	// }
 
   var eventType = attribute.split("_")[0] + " "; // split on the 4th _
 
   // content to be added to the legend
-  var legendContent = "<b><br>Number of " + eventType + "Events</br> in " + year + ".</b>";
+  var legendContent = "<b>Number of " + eventType + "Events in " + year + ".</b>";
 
   // add in the text to the legend div
   $('#temporal-legend').html(legendContent);
