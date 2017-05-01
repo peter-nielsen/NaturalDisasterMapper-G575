@@ -1,4 +1,4 @@
-/* Script by Jacob P. Hrubecky, David J. Waro, Peter Nielsen, 2017 */
+/* Script by David J. Waro, Jacob P. Hrubecky, Peter Nielsen, 2017 */
 
 function initialize(){
 	getData();
@@ -21,7 +21,6 @@ var basemap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/W
 
 var activeField;
 var attributes;
-var sequencer;
 
 
 // assigns the respected geojsons to the apropriate variables
@@ -74,6 +73,7 @@ function createMap() {
 	});
 
 	//getData(mymap);
+	makeSequencer(mymap);
 	layers(mymap);
 	getOverlayData(mymap);
 
@@ -128,7 +128,17 @@ function changeLayers(mymap, swStates, counties) {
 // callback for data viz
 function callback(error, csvData){
     createMap();
- 		stateGraph('data/state_events.csv');
+
+		// translate swStates TopoJSON
+		var swRegion = topojson.feature(sw, sw.objects.NZ_Boundaries).features;
+
+		// join csv data to GeoJSON enumeration units
+		swRegion = joinData(swRegion, csvData);
+
+		stateGraph('data/state_events.csv');
+
+		stateGraph('data/state_events.csv');
+
 };
 
 
@@ -333,13 +343,10 @@ function search (mymap, data, proportionalSymbols){
 }; // close to search function
 
 
+function makeSequencer(mymap) {
 
-
-// Create new sequence controls
-function createSequenceControls(mymap, attributes, index){
-
-  // create a sequence control variable
-  sequencer = L.Control.extend({
+	// create a sequence control variable
+  var sequencer = L.Control.extend({
 
     onAdd: function (mymap) {
 
@@ -368,6 +375,42 @@ function createSequenceControls(mymap, attributes, index){
 
   // add the Sequence Control to the map
   mymap.addControl(new sequencer());
+};
+
+
+// what the sequence controls do
+function createSequenceControls(mymap, attributes, index){
+
+  // // create a sequence control variable
+  // sequencer = L.Control.extend({
+	//
+  //   onAdd: function (mymap) {
+	//
+  //     // create the control container div with a particular class name
+  //     var container = L.DomUtil.create('div', 'sequence-control-container');
+	//
+  //     //creates range input element (slider)
+  //     $("#section-4").append('<input class="range-slider" type="range">');
+	//
+  //     //add forward and reverse buttons
+  //     $("#section-4").append('<button class="skip" id="reverse" title="Reverse"><b></b></button>');
+  //     $("#section-4").append('<button class="skip" id="forward" title="Forward"><b>></b></button>');
+	//
+	// 		$('#reverse').html('<img id="reverseImage" src="img/reverse_button.png" onmouseover="" style="cursor: pointer;">');
+  //   	$('#forward').html('<img id="forwardImage" src="img/forward_button.png" onmouseover="" style="cursor: pointer;">');
+	//
+  //     //turn off any mouse event listeners on the sequence control
+  //     $("#section-4").on('mousedown dblclick', function(e){
+  //       L.DomEvent.stopPropagation(e);
+  //     });
+	//
+  //     return container;
+	//
+  //   } // close to onAdd
+  // }); // close to var SequenceControl
+	//
+  // // add the Sequence Control to the map
+  // mymap.addControl(new sequencer());
 
   //set slider attributes
   $('.range-slider').attr({
@@ -419,6 +462,61 @@ function createSequenceControls(mymap, attributes, index){
   }); // close to '.skip' click function
 
 }; // close to createSequenceControls function
+
+
+//
+// function updateMap(mymap, attributes, index, proportionalSymbols) {
+//
+// 	//set slider attributes
+//   $('.range-slider').attr({
+//     max: 16,
+//     min: 0,
+//     value: 0,
+//     step: 1
+//   });
+//
+//   // input listener for slider
+//   $('.range-slider').on('input', function(){
+//     // get the new index value
+//     var index = $(this).val();
+//
+//     // update the proportional symbols based off of the slider
+//     updatePropSymbols(mymap, attributes[index]);
+//
+//   });
+//
+//   // when the skip button is clicked
+//   $('.skip').click(function(){
+//
+//     // get the old index value
+//     var index = $('.range-slider').val();
+//
+//     // if forward button is clicked
+//     if ($(this).attr('id') == 'forward'){
+//
+//       // increment index
+//       index++;
+//       // if past the last attribute, wrap around to first attribute
+//       index = index > 16 ? 0 : index;
+//
+//     } else if ($(this).attr('id') == 'reverse'){ // if reverse button is clicked
+//
+//       // decrement index
+//       index--;
+//       // if past the first attribute, wrap around to last attribute
+//       index = index < 0 ? 16 : index;
+//
+//     };
+//
+//     // update slider
+//     $('.range-slider').val(index);
+//
+//     // update the proportional symbols based off of the skip buttons clicked
+//     updatePropSymbols(mymap, attributes[index]);
+//
+// 	});
+//
+// }; // close to createSequenceControls function
 
 
 // var to create a dropdown menu
@@ -530,7 +628,7 @@ function getOverlayData(mymap, attributes) {
 						}
 			});
 
-			//function to size the overlay data according to wildfires
+			//function to size the overlay data according to Excessive Heat Events
 			stateExcessiveHeatLayer.eachLayer(function(layer){
 				// wildfire event
 				var d = layer.feature.properties.Excessive_Heat_2000;
@@ -640,7 +738,7 @@ function getOverlayData(mymap, attributes) {
 			dropdown(mymap, attributes);
 
 			$(".dropdown select").on("change", function(g) {
-					console.log("target value: " + g.target.value);
+
 					var targetLayer = g.target.value;
 
 					if (targetLayer == 'stateTotalEventsLayer') {
@@ -685,7 +783,6 @@ function getOverlayData(mymap, attributes) {
 							baseLayers(mymap);
 							mymap.addLayer(activeLayer);
 							attributes = processData(response, activeField);
-							console.log("muff");
 							createSequenceControls(mymap, attributes);
 							updateLegend(mymap, attributes[0]);
 					} else if (targetLayer == 'stateExcessiveHeatLayer') {
@@ -868,8 +965,7 @@ function updatePropSymbols(mymap, attribute){
       // want more variation
       var attValue = Number(props[attribute]);
 
-      // multiply by 1000 to give us variation between the originally small growth
-      // numbers
+      // radius
       var radius = calcPropRadius(attValue * 2);
 
       // set the updated radius to the layer
@@ -903,7 +999,8 @@ function updatePropSymbols(mymap, attribute){
 
 // create graph for the initial state view
 function stateGraph(csvData){
-    // svg to contain chart
+
+		// svg to contain chart
     var vis = d3.select('#right-pane')
         .append('svg')
         .attr('width', window.innerWidth * 0.15)
@@ -916,6 +1013,7 @@ function stateGraph(csvData){
         .data(csvData)
         .enter()
         .append()
-}
+
+};
 
 $(document).ready(initialize);
