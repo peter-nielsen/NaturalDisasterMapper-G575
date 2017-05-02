@@ -39,6 +39,7 @@ function getData(mymap) {
 // callback for data viz
 function callback(error, csvData){
     createMap();
+		stateGraph('data/state_events.csv');
 };
 
 
@@ -754,7 +755,7 @@ function search (mymap, data, proportionalSymbols){
 
   // add the control to the map
   mymap.addControl(searchLayer);
-	$("#section-2").append(searchLayer);
+	//$("#section-2").append(searchLayer);
 
 }; // close to search function
 
@@ -872,6 +873,48 @@ function Popup(properties, layer, radius){
     });
   }; // close to bindToLayer
 }; // close to Popup function
+
+
+// create graph for the initial state view
+function stateGraph(csvData){
+    // svg to contain chart
+    var vis = d3.select('#right-pane')
+        .append('svg')
+        .attr('width', window.innerWidth * 0.15)
+        .attr('height', window.innerWidth * 0.15)
+        .attr("class", "chart");
+
+    //scale
+    var x = d3.scaleLinear()
+        .range([0, window.innerWidth*0.15])
+        .domain([2000, 2016]);
+    var y = d3.scaleLinear()
+        .range([0, window.innerHeight*0.15])
+        .domain([0, 40]);
+
+    //axis
+    var xAxis = d3.axisBottom()
+        .scale(x);
+    var yAxis = d3.axisLeft()
+        .scale(y);
+
+    vis.append("svg:g")
+        .attr("translate", 5)
+        .call(xAxis);
+    vis.append("svg:g")
+        .attr("translate", 5)
+        .call(yAxis);
+
+    // lines for line graph
+    var line = d3.svg.line()
+        .x(function(d,i){
+            return x(i);
+        })
+        .y(function(d){
+            return y(d);
+        })
+    vis.append("svg:path").attr("d", line(csvData));
+};
 
 
 $(document).ready(initialize);

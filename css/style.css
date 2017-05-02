@@ -173,11 +173,12 @@ body {
     font-size: 15px;
     width: 30px;
 }
+
 .chart {
-    background-color: black;
     border: medium solid #999;
-    display: block;
-    margin: auto;
+    position: absolute;
+    top: 30px;
+    left: 4%;
 }
 
 .chart {
