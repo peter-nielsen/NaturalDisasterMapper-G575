@@ -754,8 +754,8 @@ function search (mymap, data, proportionalSymbols){
   }); // close to var searchLayer
 
   // add the control to the map
-  mymap.addControl(searchLayer);
-	//$("#section-2").append(searchLayer);
+	//$("#section-2").append(searchLayer.onAdd(mymap));
+	$(".search").append(searchLayer.onAdd(mymap));
 
 }; // close to search function
 
@@ -912,8 +912,7 @@ function stateGraph(csvData){
         })
         .y(function(d){
             return y(d);
-        })
-    vis.append("svg:path").attr("d", line(csvData));
+        });
 };
 
 
