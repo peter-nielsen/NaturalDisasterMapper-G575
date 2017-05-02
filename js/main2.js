@@ -39,7 +39,7 @@ function getData(mymap) {
 // callback for data viz
 function callback(error, csvData){
     createMap();
-		stateGraph('data/state_events.csv');
+		stateGraph(csvData);
 };
 
 
