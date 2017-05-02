@@ -754,7 +754,7 @@ function search (mymap, data, proportionalSymbols){
 
   // add the control to the map
   mymap.addControl(searchLayer);
-	//$("#section-2").append(searchLayer);
+	$("#section-2").append(searchLayer);
 
 }; // close to search function
 
