@@ -257,17 +257,18 @@ function layers(mymap) {
 				//pointToLayer is used to change the marker features to circle markers,
 				pointToLayer: function (feature, latlng) {
 					return L.circleMarker (latlng, geojsonMarkerOptions);
-						}
+					}
 			});
 
 			//function to size the overlay data according to wildfires
 			stateTornadosLayer.eachLayer(function(layer){
-				// wildfire event
-				var f = layer.feature.properties.Tornado_2000;
-				// the radius is calculated using the calcPropSymbols function
-				var radius7 = calcPropRadius(f);
-				//the radius is set to the data layer
-				layer.setRadius(radius7);
+					// tornado event
+					var f = layer.feature.properties.Tornado_2000;
+					// the radius is calculated using the calcPropSymbols function
+					var radius7 = calcPropRadius(f);
+					//the radius is set to the data layer
+					layer.setRadius(radius7);
+
 			});
 
 			//geoJSON layer with leaflet is created to add data to the map
@@ -331,6 +332,7 @@ function layers(mymap) {
 							baseLayers(mymap);
 							mymap.addLayer(activeLayer);
 							attributes = processData(response, activeField);
+							//console.log("asdfas: " + stateTotalEventsLayer.Location);
 							updateLegend(mymap, attributes[sauce]);
 					} else if (targetLayer == 'stateAvalanchesLayer') {
 							activeLayer = stateAvalanchesLayer;
@@ -460,7 +462,11 @@ function updateLegend(mymap, attribute){
 
 	var year = attribute.split("_").pop(); // split on the 3rd _
 
-  var eventType = attribute.split("_")[0] + " "; // split on the 4th _
+  var eventType = attribute.split("_")[0] + " "; //
+
+	if (attribute.split("_")[1] !== year) {
+		eventType = attribute.split("_")[0] + " " + attribute.split("_")[1] + " ";
+	}
 
   // content to be added to the legend
   var legendContent = "<b>Number of " + eventType + "Events in " + year + ".</b>";
@@ -605,7 +611,7 @@ function createSequenceControls(mymap, attributes, index) {
 		var number = 2000 + index;
 		attributes[index] = activeField+"_"+number;
 		sauce = index;
-		console.log("attributes[index]: " + attributes[index]);
+		//console.log("attributes[index]: " + attributes[index]);
 
     // update the proportional symbols based off of the skip buttons clicked
     updatePropSymbols(mymap, attributes[index]);
@@ -754,7 +760,7 @@ function search (mymap, data, proportionalSymbols){
 
 
 // function to convert markers to circle markers
-function pointToLayer(feature, latlng, attributes, layer, mymap){
+function pointToLayer(feature, latlng, attributes, layer){
 
   // determine which attribute to visualize with proportional symbols
   var attribute = attributes[0];
@@ -780,6 +786,36 @@ function pointToLayer(feature, latlng, attributes, layer, mymap){
 
 	// creates a new popup object
   var popup = new Popup(feature.properties, layer, options.radius);
+
+	// if (mymap.getZoom() < 7) {
+	// 	console.log("should remove the county marker");
+	// 	if (feature.properties.Location !== "Arizona" &&
+	// 			feature.properties.Location !== "New Mexico" &&
+	// 			feature.properties.Location !== "California" &&
+	// 			feature.properties.Location !== "Nevada") {
+	// 		console.log(feature.properties.Location);
+	// 		var a = layer;
+	// 		console.log("a: ", a);
+	// 		mymap.removeLayer(a);
+	// 		return false;
+	// 	};
+	// };
+
+	mymap.on('zoomend', function (e) {
+		if (feature.properties.Location == "Arizona" && mymap.getZoom() >= 7 ||
+				feature.properties.Location == "New Mexico" && mymap.getZoom() >= 7 ||
+				feature.properties.Location == "California" && mymap.getZoom() >= 7 ||
+				feature.properties.Location == "Nevada" && mymap.getZoom() >= 7) {
+			var x = layer;
+			mymap.removeLayer(x);
+		} else if (feature.properties.Location == "Arizona" && mymap.getZoom() < 7 ||
+							 feature.properties.Location == "New Mexico" && mymap.getZoom() < 7 ||
+						 	 feature.properties.Location == "California" && mymap.getZoom() < 7 ||
+						 	 feature.properties.Location == "Nevada" && mymap.getZoom() < 7) {
+			var y = layer;
+			mymap.addLayer(y);
+		}
+	});
 
   // add popup to circle marker
   popup.bindToLayer();
