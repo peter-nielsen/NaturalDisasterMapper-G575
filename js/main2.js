@@ -802,21 +802,21 @@ function pointToLayer(feature, latlng, attributes, layer){
 	// 	};
 	// };
 
-	mymap.on('zoomend', function (e) {
-		if (feature.properties.Location == "Arizona" && mymap.getZoom() >= 7 ||
-				feature.properties.Location == "New Mexico" && mymap.getZoom() >= 7 ||
-				feature.properties.Location == "California" && mymap.getZoom() >= 7 ||
-				feature.properties.Location == "Nevada" && mymap.getZoom() >= 7) {
-			var x = layer;
-			mymap.removeLayer(x);
-		} else if (feature.properties.Location == "Arizona" && mymap.getZoom() < 7 ||
-							 feature.properties.Location == "New Mexico" && mymap.getZoom() < 7 ||
-						 	 feature.properties.Location == "California" && mymap.getZoom() < 7 ||
-						 	 feature.properties.Location == "Nevada" && mymap.getZoom() < 7) {
-			var y = layer;
-			mymap.addLayer(y);
-		}
-	});
+	// mymap.on('zoomend', function (e) {
+	// 	if (feature.properties.Location == "Arizona" && mymap.getZoom() >= 7 ||
+	// 			feature.properties.Location == "New Mexico" && mymap.getZoom() >= 7 ||
+	// 			feature.properties.Location == "California" && mymap.getZoom() >= 7 ||
+	// 			feature.properties.Location == "Nevada" && mymap.getZoom() >= 7) {
+	// 		var x = layer;
+	// 		mymap.removeLayer(x);
+	// 	} else if (feature.properties.Location == "Arizona" && mymap.getZoom() < 7 ||
+	// 						 feature.properties.Location == "New Mexico" && mymap.getZoom() < 7 ||
+	// 					 	 feature.properties.Location == "California" && mymap.getZoom() < 7 ||
+	// 					 	 feature.properties.Location == "Nevada" && mymap.getZoom() < 7) {
+	// 		var y = layer;
+	// 		mymap.addLayer(y);
+	// 	}
+	// });
 
   // add popup to circle marker
   popup.bindToLayer();
