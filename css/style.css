@@ -189,16 +189,22 @@ body {
 
 .chart {
     border: medium solid #999;
+    fill: medium solid #999;
     position: absolute;
     top: 30px;
     left: 4%;
 }
 
 .chart {
-    background-color: black;
     border: medium solid #999;
+    fill: medium solid #999;
     display: block;
     margin: auto;
+}
+
+.lines {
+    stroke-width: 2;
+    fill: none;
 }
 
 .leaflet-popup-content p {
