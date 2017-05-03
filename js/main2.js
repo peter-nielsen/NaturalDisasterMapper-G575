@@ -886,6 +886,11 @@ function stateGraph(csvData){
     var width = window.innerWidth * 0.15;
     var height = window.innerWidth * 0.15;
     
+    var title = d3.select('#right-pane')
+        .text('All Natural Disasters By State, 2000-2016')
+        .style('text-align', 'center')
+        .style('font-weight', 'bold');
+    
     // svg to contain chart
     var vis = d3.select('#right-pane')
         .append('svg')
@@ -895,7 +900,7 @@ function stateGraph(csvData){
 
     //scales
     var x = d3.scaleLinear()
-        .range([0, width])
+        .range([0, width-27])
         .domain([2000, 2016]);
     
     var y = d3.scaleLinear()
@@ -907,15 +912,15 @@ function stateGraph(csvData){
         .scale(x);
     var yAxis = d3.axisLeft()
         .scale(y);
-/*
+
     //Adding the scales to the chart. placement is tricky.
     vis.append("svg:g")
-        .attr("transform", 'translate(30,' + (height-17).toString() + ')')
+        .attr("transform", 'translate(30,' + (height).toString() + ')')
         .call(xAxis);
     vis.append("svg:g")
-        .attr("transform", 'translate(20, 0)')
+        .attr("transform", 'translate(27, 0)')
         .call(yAxis);
-*/
+
 
     for (var row = 0; row < csvData.length; row++){
         vis.append('polyline')
@@ -937,6 +942,7 @@ function stateGraph(csvData){
             (x(2015)).toString() + ',' + (y(csvData[row]['Total_Events_2015'])).toString() + ',' + 
             (x(2016)).toString() + ',' + (y(csvData[row]['Total_Events_2016'])).toString())
             .attr('class', 'lines')
+            .attr('transform', 'translate(28,0)')
             .style('stroke', function(){
                 if (row == 0){
                     return 'red';
@@ -972,7 +978,7 @@ function stateGraph(csvData){
     */
     
     //create array out of only desired values and use them with the y axis generator
-    d3.select(".dropdown select")
+    d3.selectAll(".dropdown select")
         .on("change", function(e){//e is undefined right now... figure out why
             console.log(e.target.value);
             updateStateGraph(vis, x, y, e.target.value, csvData);
