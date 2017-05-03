@@ -187,18 +187,11 @@ body {
 }
 
 .chart {
-    border: medium solid #999;
-    fill: medium solid #999;
+    border: medium solid black;
+    background-color: #999;
     position: absolute;
     top: 30px;
     left: 4%;
-}
-
-.chart {
-    border: medium solid #999;
-    fill: medium solid #999;
-    display: block;
-    margin: auto;
 }
 
 .lines {

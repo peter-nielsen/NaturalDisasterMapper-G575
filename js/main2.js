@@ -882,14 +882,16 @@ function stateGraph(csvData){
         console.log(csvData[row]);    
     }
     
+    //chart title
+    var title = d3.select('#right-pane')
+        .text('All Natural Disasters By State, 2000-2016')
+        .style('font-family', 'Helvetica, sans-serif')
+        .style('text-align', 'center')
+        .style('font-weight', 'bold');
+    
     //chart width and height
     var width = window.innerWidth * 0.15;
     var height = window.innerWidth * 0.15;
-    
-    var title = d3.select('#right-pane')
-        .text('All Natural Disasters By State, 2000-2016')
-        .style('text-align', 'center')
-        .style('font-weight', 'bold');
     
     // svg to contain chart
     var vis = d3.select('#right-pane')
@@ -900,11 +902,11 @@ function stateGraph(csvData){
 
     //scales
     var x = d3.scaleLinear()
-        .range([0, width-27])
+        .range([0, width-30])
         .domain([2000, 2016]);
     
     var y = d3.scaleLinear()
-        .range([0, height])
+        .range([0, height-27])
         .domain([600, 0]);
 
     //axis
@@ -915,11 +917,16 @@ function stateGraph(csvData){
 
     //Adding the scales to the chart. placement is tricky.
     vis.append("svg:g")
-        .attr("transform", 'translate(30,' + (height).toString() + ')')
+        .attr("transform", 'translate(27,' + (height-20).toString() + ')')
         .call(xAxis);
     vis.append("svg:g")
-        .attr("transform", 'translate(27, 0)')
+        .attr("transform", 'translate(27, 6)')
         .call(yAxis);
+    var lineArea = d3.select('.chart')
+        .append('svg')
+        .attr('width', width-27)
+        .attr('height', height-20)
+        .style('fill', 'black');
 
 
     for (var row = 0; row < csvData.length; row++){
@@ -942,7 +949,10 @@ function stateGraph(csvData){
             (x(2015)).toString() + ',' + (y(csvData[row]['Total_Events_2015'])).toString() + ',' + 
             (x(2016)).toString() + ',' + (y(csvData[row]['Total_Events_2016'])).toString())
             .attr('class', 'lines')
-            .attr('transform', 'translate(28,0)')
+            .attr('transform', 'translate(28,6)')
+            .attr('id', function(){
+                return csvData[row]['Location']
+            })
             .style('stroke', function(){
                 if (row == 0){
                     return 'red';
