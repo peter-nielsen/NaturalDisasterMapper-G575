@@ -13,8 +13,8 @@ var swStates = new L.GeoJSON.AJAX("data/sw_states.geojson", {style: swStyle});
 var counties = new L.GeoJSON.AJAX("data/counties.geojson", {style: countyStyle}).bringToBack();
 var statesJson = new L.GeoJSON.AJAX("data/state_events.geojson");
 var countiesJson = new L.GeoJSON.AJAX("data/county_events.geojson");
-var basemap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+var basemap = L.tileLayer('https://api.mapbox.com/styles/v1/djwaro/cj2a22xj1001m2tpeuqgavppe/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZGp3YXJvIiwiYSI6ImNpdXJwYnRidTAwOWgyeXJ2ZnJ6ZnVtb3AifQ.1ajSBLNXDrHg6M7PE_Py_A', {
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
 });
 
 /////////////////////// global variables ///////////////////////////////////////
@@ -44,7 +44,7 @@ function createMap() {
 
 	// create map, map div, and map's initial view
 	mymap = L.map('mapid', {
-	}).setView([37.0866, -115.00], 5);
+	}).setView([37.0866, -113.50], 5);
 
 	// set map boundaries
 	mymap.setMaxBounds([
@@ -53,9 +53,7 @@ function createMap() {
 	]).setMinZoom(3);
 
 	// tile layer
-	basemap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-	}).addTo(mymap);
+	basemap.addTo(mymap);
 
 	// add navigation bar to the map
 	L.control.navbar().addTo(mymap);
@@ -83,7 +81,7 @@ function swStyle() {
 				fillColor: 'white',
 				weight: 3,
 				opacity: 1,
-				color: 'white',
+				color: 'gray',
 				fillOpacity: 0,
 		};
 };
@@ -95,7 +93,7 @@ function countyStyle() {
 				fillColor: 'white',
 				weight: 1,
 				opacity: 1,
-				color: 'white',
+				color: 'gray',
 				fillOpacity: 0,
 		};
 };
@@ -107,7 +105,7 @@ function statesStyle() {
 				fillColor: 'gray',
 				weight: 2,
 				opacity: 1,
-				color: 'white',
+				color: 'gray',
 				fillOpacity: 0.7
 		};
 };
@@ -138,7 +136,7 @@ function layers(mymap) {
 		    color: "#000",
 		    weight: 1,
 		    opacity: 1,
-		    fillOpacity: 0.7
+		    fillOpacity: 0.8
 			};
 
 			//geoJSON layer with leaflet is created to add data to the map
@@ -421,7 +419,7 @@ function layers(mymap) {
 // function to create the Proportional Symbols map legend
 function createLegend(mymap, attributes){
 
-      $('#section-3').append('<div id="temporal-legend" >');
+		$('#section-3').append('<div id="temporal-legend" >');
 
       // start attribute legend svg string
       var svg = '<svg id="attribute-legend" width="200px" height="150px">';
@@ -764,11 +762,11 @@ function pointToLayer(feature, latlng, attributes, layer){
 
   // create marker options
   var options = {
-    fillColor: "#FFD700",
+    fillColor: "#ffd633",
     color: "#000",
     weight: 1,
     opacity: 1,
-    fillOpacity: 0.7
+    fillOpacity: 0.8
   };
 
   // For each feature, determine its value for the selected attribute
@@ -876,23 +874,23 @@ function Popup(properties, layer, radius){
 function stateGraph(csvData){
     //array of all year for x values
     var yearsArray = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016];
-    
+
     //print info for each item/state in csv file
     for (var row = 0; row < csvData.length; row++){
-        console.log(csvData[row]);    
+        console.log(csvData[row]);
     }
-    
+
     //chart title
     var title = d3.select('#right-pane')
         .text('All Natural Disasters By State, 2000-2016')
         .style('font-family', 'Helvetica, sans-serif')
         .style('text-align', 'center')
         .style('font-weight', 'bold');
-    
+
     //chart width and height
     var width = window.innerWidth * 0.15;
     var height = window.innerWidth * 0.15;
-    
+
     // svg to contain chart
     var vis = d3.select('#right-pane')
         .append('svg')
@@ -904,7 +902,7 @@ function stateGraph(csvData){
     var x = d3.scaleLinear()
         .range([0, width-30])
         .domain([2000, 2016]);
-    
+
     var y = d3.scaleLinear()
         .range([0, height-27])
         .domain([600, 0]);
@@ -931,22 +929,22 @@ function stateGraph(csvData){
 
     for (var row = 0; row < csvData.length; row++){
         vis.append('polyline')
-            .attr('points', (x(2000)).toString() + ',' + (y(csvData[row]['Total_Events_2000'])).toString() + ',' + 
-            (x(2001)).toString() + ',' + (y(csvData[row]['Total_Events_2001'])).toString() + ',' + 
-            (x(2002)).toString() + ',' + (y(csvData[row]['Total_Events_2002'])).toString() + ',' + 
-            (x(2003)).toString() + ',' + (y(csvData[row]['Total_Events_2003'])).toString() + ',' + 
-            (x(2004)).toString() + ',' + (y(csvData[row]['Total_Events_2004'])).toString() + ',' + 
-            (x(2005)).toString() + ',' + (y(csvData[row]['Total_Events_2005'])).toString() + ',' + 
-            (x(2006)).toString() + ',' + (y(csvData[row]['Total_Events_2006'])).toString() + ',' + 
-            (x(2007)).toString() + ',' + (y(csvData[row]['Total_Events_2007'])).toString() + ',' + 
-            (x(2008)).toString() + ',' + (y(csvData[row]['Total_Events_2008'])).toString() + ',' + 
-            (x(2009)).toString() + ',' + (y(csvData[row]['Total_Events_2009'])).toString() + ',' + 
-            (x(2010)).toString() + ',' + (y(csvData[row]['Total_Events_2010'])).toString() + ',' + 
-            (x(2011)).toString() + ',' + (y(csvData[row]['Total_Events_2011'])).toString() + ',' + 
-            (x(2012)).toString() + ',' + (y(csvData[row]['Total_Events_2012'])).toString() + ',' + 
-            (x(2013)).toString() + ',' + (y(csvData[row]['Total_Events_2013'])).toString() + ',' + 
-            (x(2014)).toString() + ',' + (y(csvData[row]['Total_Events_2014'])).toString() + ',' + 
-            (x(2015)).toString() + ',' + (y(csvData[row]['Total_Events_2015'])).toString() + ',' + 
+            .attr('points', (x(2000)).toString() + ',' + (y(csvData[row]['Total_Events_2000'])).toString() + ',' +
+            (x(2001)).toString() + ',' + (y(csvData[row]['Total_Events_2001'])).toString() + ',' +
+            (x(2002)).toString() + ',' + (y(csvData[row]['Total_Events_2002'])).toString() + ',' +
+            (x(2003)).toString() + ',' + (y(csvData[row]['Total_Events_2003'])).toString() + ',' +
+            (x(2004)).toString() + ',' + (y(csvData[row]['Total_Events_2004'])).toString() + ',' +
+            (x(2005)).toString() + ',' + (y(csvData[row]['Total_Events_2005'])).toString() + ',' +
+            (x(2006)).toString() + ',' + (y(csvData[row]['Total_Events_2006'])).toString() + ',' +
+            (x(2007)).toString() + ',' + (y(csvData[row]['Total_Events_2007'])).toString() + ',' +
+            (x(2008)).toString() + ',' + (y(csvData[row]['Total_Events_2008'])).toString() + ',' +
+            (x(2009)).toString() + ',' + (y(csvData[row]['Total_Events_2009'])).toString() + ',' +
+            (x(2010)).toString() + ',' + (y(csvData[row]['Total_Events_2010'])).toString() + ',' +
+            (x(2011)).toString() + ',' + (y(csvData[row]['Total_Events_2011'])).toString() + ',' +
+            (x(2012)).toString() + ',' + (y(csvData[row]['Total_Events_2012'])).toString() + ',' +
+            (x(2013)).toString() + ',' + (y(csvData[row]['Total_Events_2013'])).toString() + ',' +
+            (x(2014)).toString() + ',' + (y(csvData[row]['Total_Events_2014'])).toString() + ',' +
+            (x(2015)).toString() + ',' + (y(csvData[row]['Total_Events_2015'])).toString() + ',' +
             (x(2016)).toString() + ',' + (y(csvData[row]['Total_Events_2016'])).toString())
             .attr('class', 'lines')
             .attr('transform', 'translate(28,6)')
@@ -973,10 +971,10 @@ function stateGraph(csvData){
                     return 'purple';
                 }
             });
-        
+
         console.log(csvData[row]['Location']);
     };
-    
+
     // lines for line graph
     /*
     var lines = vis.selectAll('.lines')
@@ -986,7 +984,7 @@ function stateGraph(csvData){
         .attr("stroke-width", 2)
         .attr("stroke", "white");
     */
-    
+
     //create array out of only desired values and use them with the y axis generator
     d3.selectAll(".dropdown select")
         .on("change", function(e){//e is undefined right now... figure out why
@@ -999,7 +997,7 @@ function stateGraph(csvData){
 function updateStateGraph(vis, x, y, val, csvData){
     console.log(val, csvData[0]);
     //use dropdown event listener and do something differnt to csvData each time a different dropdown option is selected.
-    
+
 }
 
 
