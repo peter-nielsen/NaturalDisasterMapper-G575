@@ -623,7 +623,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 			};
 	});
 
-				
+
 	activeField = "Total_Events";
 
 
@@ -1103,27 +1103,26 @@ function stateGraph(csvData){
         console.log(csvData[row]);
     }
 
-/*<<<<<<< HEAD
+
     //chart width and height
     var width = window.innerWidth * 0.15;
     var height = window.innerWidth * 0.15;
 
-=======
+
     //chart title
->>>>>>> dwaro/master
+
     var title = d3.select('#right-pane')
         .text('All Natural Disasters By State, 2000-2016')
         .style('font-family', 'Helvetica, sans-serif')
         .style('text-align', 'center')
         .style('font-weight', 'bold');
 
-<<<<<<< HEAD
-=======
+
     //chart width and height
     var width = window.innerWidth * 0.15;
     var height = window.innerWidth * 0.15;
 
->>>>>>> dwaro/master*/
+
     // svg to contain chart
     var vis = d3.select('#right-pane')
         .append('svg')
