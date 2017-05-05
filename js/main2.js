@@ -11,8 +11,6 @@ $("#title").append("Natural Disaster Mapper");
 var states = new L.GeoJSON.AJAX("data/states_excluding_SW.geojson", {style: statesStyle});
 var swStates = new L.GeoJSON.AJAX("data/sw_states.geojson", {style: swStyle});
 var counties = new L.GeoJSON.AJAX("data/counties.geojson", {style: countyStyle}).bringToBack();
-var statesJson = new L.GeoJSON.AJAX("data/state_events.geojson");
-var countiesJson = new L.GeoJSON.AJAX("data/county_events.geojson");
 var basemap = L.tileLayer('https://api.mapbox.com/styles/v1/djwaro/cj2a22xj1001m2tpeuqgavppe/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZGp3YXJvIiwiYSI6ImNpdXJwYnRidTAwOWgyeXJ2ZnJ6ZnVtb3AifQ.1ajSBLNXDrHg6M7PE_Py_A', {
 	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
 });
@@ -25,22 +23,25 @@ var mymap;
 
 // assigns the respected geojsons to the apropriate variables
 function getData(mymap) {
+
 	d3.queue()
 			.defer(d3.csv, "data/state_events.csv") // load attributes from csv
 			.defer(d3.csv, "data/county_events.csv")
+			.defer(d3.json, "data/state_events.geojson")
+			.defer(d3.json, "data/county_events.geojson")
 			.await(callback);
 }; // close to getData
 
 
 // callback for data viz
-function callback(error, csvData){
-    createMap();
+function callback(error, csvData, county_eventsCSV, state_eventsJSON, county_eventsJSON){
+	  createMap(state_eventsJSON, county_eventsJSON);
 		stateGraph(csvData);
 };
 
 
 // sets map element and its properties
-function createMap() {
+function createMap(state_eventsJSON, county_eventsJSON) {
 
 	// create map, map div, and map's initial view
 	mymap = L.map('mapid', {
@@ -69,8 +70,7 @@ function createMap() {
 	mymap.on('zoomend', function (e) {
 		changeLayers(mymap);
 	});
-
-	layers(mymap);
+	layers(mymap, state_eventsJSON, county_eventsJSON);
 
 }; // close to createMap
 
@@ -124,293 +124,516 @@ function changeLayers(mymap) {
 
 
 // function to add the initial State total events layer
-function layers(mymap) {
+function layers(mymap,state_eventsJSON, county_eventsJSON) {
+	var allLayers = {};
 
-	var events = $.ajax("data/state_events.geojson", {
-		dataType: "json",
-		success: function(response){
+	//marker style options are set to a variable
+	var geojsonMarkerOptions = {
+		fillColor: "#00FFCC",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 0.8
+	};
 
-			//marker style options are set to a variable
-			var geojsonMarkerOptions = {
-				fillColor: "#00FFCC",
-		    color: "#000",
-		    weight: 1,
-		    opacity: 1,
-		    fillOpacity: 0.8
-			};
-
-			//geoJSON layer with leaflet is created to add data to the map
-			var stateTotalEventsLayer = L.geoJson(response, {
-				//pointToLayer is used to change the marker features to circle markers,
-				pointToLayer: function (feature, latlng) {
-					return L.circleMarker (latlng, geojsonMarkerOptions);
-				}
-			});
-
-			//function to size the overlay data according to total events
-			stateTotalEventsLayer.eachLayer(function(layer){
-				//total events property is set to props
-				var props = layer.feature.properties.Total_Events_2000;
-				// the radius is calculated using the calcPropSymbols function
-				var radius = calcPropRadius(props);
-				//the radius is set to the data layer
-				layer.setRadius(radius);
-			});
-
-			//geoJSON layer with leaflet is created to add data to the map
-			var stateAvalanchesLayer = L.geoJson(response, {
-				//pointToLayer is used to change the marker features to circle markers,
-				pointToLayer: function (feature, latlng) {
-					return L.circleMarker (latlng, geojsonMarkerOptions);
-				}
-			});
-
-			//function to size the overlay data according to wildfires
-			stateAvalanchesLayer.eachLayer(function(layer){
-				// wildfire event
-				var b = layer.feature.properties.Avalanche_2000;
-				// the radius is calculated using the calcPropSymbols function
-				var radius3 = calcPropRadius(b);
-				//the radius is set to the data layer
-				layer.setRadius(radius3);
-			});
-
-			//geoJSON layer with leaflet is created to add data to the map
-			var stateBlizzardsLayer = L.geoJson(response, {
-				//pointToLayer is used to change the marker features to circle markers,
-				pointToLayer: function (feature, latlng) {
-					return L.circleMarker (latlng, geojsonMarkerOptions);
-						}
-			});
-
-			//function to size the overlay data according to wildfires
-			stateBlizzardsLayer.eachLayer(function(layer){
-				// wildfire event
-				var c = layer.feature.properties.Blizzard_2000;
-				// the radius is calculated using the calcPropSymbols function
-				var radius4 = calcPropRadius(c);
-				//the radius is set to the data layer
-				layer.setRadius(radius4);
-			});
-
-			//geoJSON layer with leaflet is created to add data to the map
-			var stateDroughtsLayer = L.geoJson(response, {
-				//pointToLayer is used to change the marker features to circle markers,
-				pointToLayer: function (feature, latlng) {
-					return L.circleMarker (latlng, geojsonMarkerOptions);
-						}
-			});
-
-			//function to size the overlay data according to wildfires
-			stateDroughtsLayer.eachLayer(function(layer){
-				// wildfire event
-				var a = layer.feature.properties.Drought_2000;
-				// the radius is calculated using the calcPropSymbols function
-				var radius2 = calcPropRadius(a);
-				//the radius is set to the data layer
-				layer.setRadius(radius2);
-			});
-
-			//geoJSON layer with leaflet is created to add data to the map
-			var stateExcessiveHeatLayer = L.geoJson(response, {
-				//pointToLayer is used to change the marker features to circle markers,
-				pointToLayer: function (feature, latlng) {
-					return L.circleMarker (latlng, geojsonMarkerOptions);
-						}
-			});
-
-			//function to size the overlay data according to Excessive Heat Events
-			stateExcessiveHeatLayer.eachLayer(function(layer){
-				// wildfire event
-				var d = layer.feature.properties.Excessive_Heat_2000;
-				// the radius is calculated using the calcPropSymbols function
-				var radius5 = calcPropRadius(d);
-				//the radius is set to the data layer
-				layer.setRadius(radius5);
-			});
-
-			//geoJSON layer with leaflet is created to add data to the map
-			var stateExtremeColdLayer = L.geoJson(response, {
-				//pointToLayer is used to change the marker features to circle markers,
-				pointToLayer: function (feature, latlng) {
-					return L.circleMarker (latlng, geojsonMarkerOptions);
-						}
-			});
-
-			//function to size the overlay data according to wildfires
-			stateExtremeColdLayer.eachLayer(function(layer){
-				// wildfire event
-				var e = layer.feature.properties.Extreme_Cold_2000;
-				// the radius is calculated using the calcPropSymbols function
-				var radius6 = calcPropRadius(e);
-				//the radius is set to the data layer
-				layer.setRadius(radius6);
-			});
-
-			//geoJSON layer with leaflet is created to add data to the map
-			var stateTornadosLayer = L.geoJson(response, {
-				//pointToLayer is used to change the marker features to circle markers,
-				pointToLayer: function (feature, latlng) {
-					return L.circleMarker (latlng, geojsonMarkerOptions);
-					}
-			});
-
-			//function to size the overlay data according to wildfires
-			stateTornadosLayer.eachLayer(function(layer){
-					// tornado event
-					var f = layer.feature.properties.Tornado_2000;
-					// the radius is calculated using the calcPropSymbols function
-					var radius7 = calcPropRadius(f);
-					//the radius is set to the data layer
-					layer.setRadius(radius7);
-
-			});
-
-			//geoJSON layer with leaflet is created to add data to the map
-			var stateWildfiresLayer = L.geoJson(response, {
-				//pointToLayer is used to change the marker features to circle markers,
-				pointToLayer: function (feature, latlng) {
-					return L.circleMarker (latlng, geojsonMarkerOptions);
-						}
-			});
-
-			//function to size the overlay data according to wildfires
-			stateWildfiresLayer.eachLayer(function(layer){
-				// wildfire event
-				var mops = layer.feature.properties.Wildfire_2000;
-				// the radius is calculated using the calcPropSymbols function
-				var radius1 = calcPropRadius(mops);
-				//the radius is set to the data layer
-				layer.setRadius(radius1);
-			});
-
-
-			//leaflet overlay control to add the overlay data
-			var totalEventsOverlay = {
-			"<span class = 'overlayText'>State Total Events</span>": stateTotalEventsLayer
-			};
-			var avalanches = {
-			"<span class = 'overlayText'>Avalanches</span>": stateAvalanchesLayer
-			};
-			var blizzards = {
-			"<span class = 'overlayText'>Blizzards</span>": stateBlizzardsLayer
-			};
-			var droughts = {
-			"<span class = 'overlayText'>Droughts</span>": stateDroughtsLayer
-			};
-			var excessiveHeat = {
-			"<span class = 'overlayText'>Droughts</span>": stateExcessiveHeatLayer
-			};
-			var extremeCold = {
-			"<span class = 'overlayText'>Droughts</span>": stateExtremeColdLayer
-			};
-			var tornados = {
-			"<span class = 'overlayText'>Droughts</span>": stateTornadosLayer
-			};
-			var wildfires = {
-			"<span class = 'overlayText'>Wildfires</span>": stateWildfiresLayer
-			};
-
-			// call to create the dropdown menu
-			dropdown(mymap, attributes);
-
-			$(".dropdown select").on("change", function(g) {
-
-					var targetLayer = g.target.value;
-
-					if (targetLayer == 'stateTotalEventsLayer') {
-							activeLayer = stateTotalEventsLayer;
-							activeField = "Total_Events";
-							mymap.eachLayer(function (layer) {
-    							mymap.removeLayer(layer);
-							});
-							baseLayers(mymap);
-							mymap.addLayer(activeLayer);
-							attributes = processData(response, activeField);
-							//console.log("asdfas: " + stateTotalEventsLayer.Location);
-							updateLegend(mymap, attributes[sauce]);
-					} else if (targetLayer == 'stateAvalanchesLayer') {
-							activeLayer = stateAvalanchesLayer;
-							activeField = "Avalanche";
-							mymap.eachLayer(function (layer) {
-    							mymap.removeLayer(layer);
-							});
-							baseLayers(mymap);
-							mymap.addLayer(activeLayer);
-							attributes = processData(response, activeField);
-							updateLegend(mymap, attributes[sauce]);
-					} else if (targetLayer == 'stateBlizzardsLayer') {
-							activeLayer = stateBlizzardsLayer;
-							activeField = "Blizzard";
-							mymap.eachLayer(function (layer) {
-    							mymap.removeLayer(layer);
-							});
-							baseLayers(mymap);
-							mymap.addLayer(activeLayer);
-							attributes = processData(response, activeField);
-							updateLegend(mymap, attributes[sauce]);
-					} else if (targetLayer == 'stateDroughtsLayer') {
-							activeLayer = stateDroughtsLayer;
-							activeField = "Drought";
-							mymap.eachLayer(function (layer) {
-    							mymap.removeLayer(layer);
-							});
-							baseLayers(mymap);
-							mymap.addLayer(activeLayer);
-							attributes = processData(response, activeField);
-							updateLegend(mymap, attributes[sauce]);
-					} else if (targetLayer == 'stateExcessiveHeatLayer') {
-							activeLayer = stateExcessiveHeatLayer;
-							activeField = "Excessive_Heat"
-							mymap.eachLayer(function (layer) {
-    							mymap.removeLayer(layer);
-							});
-							baseLayers(mymap);
-							mymap.addLayer(activeLayer);
-							attributes = processData(response, activeField);
-							updateLegend(mymap, attributes[sauce]);
-					} else if (targetLayer == 'stateExtremeColdLayer') {
-							activeLayer = stateExtremeColdLayer;
-							activeField = "Extreme_Cold";
-							mymap.eachLayer(function (layer) {
-    							mymap.removeLayer(layer);
-							});
-							baseLayers(mymap);
-							mymap.addLayer(activeLayer);
-							attributes = processData(response, activeField);
-							updateLegend(mymap, attributes[sauce]);
-					} else if (targetLayer == 'stateTornadosLayer') {
-							activeLayer = stateTornadosLayer;
-							activeField = "Tornado";
-							mymap.eachLayer(function (layer) {
-    							mymap.removeLayer(layer);
-							});
-							baseLayers(mymap);
-							mymap.addLayer(activeLayer);
-							attributes = processData(response, activeField);
-							updateLegend(mymap, attributes[sauce]);
-					} else if (targetLayer == 'stateWildfiresLayer') {
-							activeLayer = stateWildfiresLayer;
-							activeField = "Wildfire";
-							mymap.eachLayer(function (layer) {
-    							mymap.removeLayer(layer);
-							});
-							baseLayers(mymap);
-							mymap.addLayer(activeLayer);
-							attributes = processData(response, activeField);
-							updateLegend(mymap, attributes[sauce]);
-					};
-			});
-
-			activeField = "Total_Events";
-			// creating an array of attributes
-			attributes = processData(response, activeField);
-			// call function to create proportional symbols
-			createPropSymbols(response, mymap, attributes);
-			createSequenceControls(mymap, attributes);
-			createLegend(mymap, attributes);
+	//geoJSON layer with leaflet is created to add data to the map
+	allLayers.stateTotalEventsLayer = L.geoJson(state_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
 		}
 	});
+
+	//function to size the overlay data according to total events
+	allLayers.stateTotalEventsLayer.eachLayer(function(layer){
+		//total events property is set to props
+		var props = layer.feature.properties.Total_Events_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius = calcPropRadius(props);
+		//the radius is set to the data layer
+		layer.setRadius(radius);
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+	allLayers.stateAvalanchesLayer = L.geoJson(state_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+		}
+	});
+
+	//function to size the overlay data according to wildfires
+	allLayers.stateAvalanchesLayer.eachLayer(function(layer){
+		// wildfire event
+		var b = layer.feature.properties.Avalanche_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius3 = calcPropRadius(b);
+		//the radius is set to the data layer
+		layer.setRadius(radius3);
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+	allLayers.stateBlizzardsLayer = L.geoJson(state_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+				}
+	});
+
+	//function to size the overlay data according to wildfires
+	allLayers.stateBlizzardsLayer.eachLayer(function(layer){
+		// wildfire event
+		var c = layer.feature.properties.Blizzard_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius4 = calcPropRadius(c);
+		//the radius is set to the data layer
+		layer.setRadius(radius4);
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+	allLayers.stateDroughtsLayer = L.geoJson(state_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+				}
+	});
+
+	//function to size the overlay data according to wildfires
+	allLayers.stateDroughtsLayer.eachLayer(function(layer){
+		// wildfire event
+		var a = layer.feature.properties.Drought_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius2 = calcPropRadius(a);
+		//the radius is set to the data layer
+		layer.setRadius(radius2);
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+allLayers.stateExcessiveHeatLayer = L.geoJson(state_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+				}
+	});
+
+	//function to size the overlay data according to Excessive Heat Events
+	allLayers.stateExcessiveHeatLayer.eachLayer(function(layer){
+		// wildfire event
+		var d = layer.feature.properties.Excessive_Heat_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius5 = calcPropRadius(d);
+		//the radius is set to the data layer
+		layer.setRadius(radius5);
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+	allLayers.stateExtremeColdLayer = L.geoJson(state_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+				}
+	});
+
+	//function to size the overlay data according to wildfires
+	allLayers.stateExtremeColdLayer.eachLayer(function(layer){
+		// wildfire event
+		var e = layer.feature.properties.Extreme_Cold_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius6 = calcPropRadius(e);
+		//the radius is set to the data layer
+		layer.setRadius(radius6);
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+allLayers.stateTornadosLayer = L.geoJson(state_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+			}
+	});
+
+	//function to size the overlay data according to wildfires
+	allLayers.stateTornadosLayer.eachLayer(function(layer){
+			// tornado event
+			var f = layer.feature.properties.Tornado_2000;
+			// the radius is calculated using the calcPropSymbols function
+			var radius7 = calcPropRadius(f);
+			//the radius is set to the data layer
+			layer.setRadius(radius7);
+
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+				}
+	});
+
+	//function to size the overlay data according to wildfires
+	allLayers.stateWildfiresLayer.eachLayer(function(layer){
+		// wildfire event
+		var mops = layer.feature.properties.Wildfire_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius1 = calcPropRadius(mops);
+		//the radius is set to the data layer
+		layer.setRadius(radius1);
+	});
+	//adds in county layer
+	allLayers.countyTotalEventsLayer = L.geoJson(county_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+		}
+	});
+
+	//function to size the overlay data according to total events
+	allLayers.countyTotalEventsLayer.eachLayer(function(layer){
+		//total events property is set to props
+		var props = layer.feature.properties.Total_Events_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius8 = calcPropRadius(props);
+		//the radius is set to the data layer
+		layer.setRadius(radius8);
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+	allLayers.countyAvalanchesLayer = L.geoJson(county_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+		}
+	});
+
+	//function to size the overlay data according to wildfires
+	allLayers.countyAvalanchesLayer.eachLayer(function(layer){
+		// wildfire event
+		var b = layer.feature.properties.Avalanche_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius9 = calcPropRadius(b);
+		//the radius is set to the data layer
+		layer.setRadius(radius9);
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+	allLayers.countyBlizzardsLayer = L.geoJson(county_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+				}
+	});
+
+	//function to size the overlay data according to wildfires
+	allLayers.countyBlizzardsLayer.eachLayer(function(layer){
+		// wildfire event
+		var c = layer.feature.properties.Blizzard_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius10 = calcPropRadius(c);
+		//the radius is set to the data layer
+		layer.setRadius(radius10);
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+	allLayers.countyDroughtsLayer = L.geoJson(county_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+				}
+	});
+
+	//function to size the overlay data according to wildfires
+	allLayers.countyDroughtsLayer.eachLayer(function(layer){
+		// wildfire event
+		var a = layer.feature.properties.Drought_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius11 = calcPropRadius(a);
+		//the radius is set to the data layer
+		layer.setRadius(radius11);
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+	allLayers.countyExcessiveHeatLayer = L.geoJson(county_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+				}
+	});
+
+	//function to size the overlay data according to Excessive Heat Events
+	allLayers.countyExcessiveHeatLayer.eachLayer(function(layer){
+		// wildfire event
+		var d = layer.feature.properties.Excessive_Heat_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius12 = calcPropRadius(d);
+		//the radius is set to the data layer
+		layer.setRadius(radius12);
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+	allLayers.countyExtremeColdLayer = L.geoJson(county_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+				}
+	});
+
+	//function to size the overlay data according to wildfires
+	allLayers.countyExtremeColdLayer.eachLayer(function(layer){
+		// wildfire event
+		var e = layer.feature.properties.Extreme_Cold_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius13 = calcPropRadius(e);
+		//the radius is set to the data layer
+		layer.setRadius(radius13);
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+	allLayers.countyTornadosLayer = L.geoJson(county_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+			}
+	});
+
+	//function to size the overlay data according to wildfires
+	allLayers.countyTornadosLayer.eachLayer(function(layer){
+			// tornado event
+			var f = layer.feature.properties.Tornado_2000;
+			// the radius is calculated using the calcPropSymbols function
+			var radius14 = calcPropRadius(f);
+			//the radius is set to the data layer
+			layer.setRadius(radius14);
+
+	});
+
+	//geoJSON layer with leaflet is created to add data to the map
+	allLayers.countyWildfiresLayer = L.geoJson(county_eventsJSON, {
+		//pointToLayer is used to change the marker features to circle markers,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker (latlng, geojsonMarkerOptions);
+				}
+	});
+
+	//function to size the overlay data according to wildfires
+	allLayers.countyWildfiresLayer.eachLayer(function(layer){
+		// wildfire event
+		var mops = layer.feature.properties.Wildfire_2000;
+		// the radius is calculated using the calcPropSymbols function
+		var radius15 = calcPropRadius(mops);
+		//the radius is set to the data layer
+		layer.setRadius(radius15);
+	});
+
+
+	//leaflet overlay control to add the overlay data
+	var totalEventsOverlay = {
+	"<span class = 'overlayText'>State Total Events</span>": allLayers.stateTotalEventsLayer //& allLayers.countyTotalEventsLayer
+	};
+	var avalanches = {
+	"<span class = 'overlayText'>Avalanches</span>": allLayers.stateAvalanchesLayer //& allLayers.countyAvalanchesLayer
+	};
+	var blizzards = {
+	"<span class = 'overlayText'>Blizzards</span>": allLayers.stateBlizzardsLayer //& allLayers.countyBlizzardsLayer
+	};
+	var droughts = {
+	"<span class = 'overlayText'>Droughts</span>": allLayers.stateDroughtsLayer //& allLayers.countyDroughtsLayer
+	};
+	var excessiveHeat = {
+	"<span class = 'overlayText'>Droughts</span>": allLayers.stateExcessiveHeatLayer //& allLayers.countyExcessiveHeatLayer
+	};
+	var extremeCold = {
+	"<span class = 'overlayText'>Droughts</span>": allLayers.stateExtremeColdLayer //& allLayers.countyExtremeColdLayer
+	};
+	var tornados = {
+	"<span class = 'overlayText'>Droughts</span>": allLayers.stateTornadosLayer //& allLayers.countyTornadosLayer
+	};
+	var wildfires = {
+	"<span class = 'overlayText'>Wildfires</span>": allLayers.stateWildfiresLayer// & allLayers.countyWildfiresLayer
+};
+
+	// call to create the dropdown menu
+	dropdown(mymap, attributes);
+
+	$(".dropdown select").on("change", function(g) {
+
+			var targetLayer = g.target.value;
+
+			if (targetLayer == 'stateTotalEventsLayer' && mymap.getZoom() < 6) {
+					activeLayer = allLayers.stateTotalEventsLayer;
+					activeField = "Total_Events";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(state_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			} else if (targetLayer == 'stateTotalEventsLayer' && mymap.getZoom() >= 6) {
+					activeLayer = allLayers.countyTotalEventsLayer;
+					activeField = "Total_Events";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(county_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			}
+			else if (targetLayer == 'stateAvalanchesLayer' && mymap.getZoom() < 6) {
+					activeLayer = allLayers.stateAvalanchesLayer;
+					activeField = "Avalanche";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(state_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			} else if (targetLayer == 'stateAvalanchesLayer' && mymap.getZoom() >= 6) {
+					activeLayer = allLayers.countyAvalanchesLayer;
+					activeField = "Avalanche";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(county_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			}else if (targetLayer == 'stateBlizzardsLayer' && mymap.getZoom() < 6) {
+					activeLayer = allLayers.stateBlizzardsLayer;
+					activeField = "Blizzard";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(state_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			} else if (targetLayer == 'stateBlizzardsLayer' && mymap.getZoom() >= 6) {
+					activeLayer = allLayers.countyBlizzardsLayer;
+					activeField = "Blizzard";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(county_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			}else if (targetLayer == 'stateDroughtsLayer' && mymap.getZoom() < 6) {
+					activeLayer = allLayers.stateDroughtsLayer;
+					activeField = "Drought";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(state_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			} else if (targetLayer == 'stateDroughtsLayer' && mymap.getZoom() >= 6) {
+					activeLayer = allLayers.countyDroughtsLayer;
+					activeField = "Drought";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(county_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			}else if (targetLayer == 'stateExcessiveHeatLayer' && mymap.getZoom() < 6) {
+					activeLayer = allLayers.stateExcessiveHeatLayer;
+					activeField = "Excessive_Heat"
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(state_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			} else if (targetLayer == 'stateExcessiveHeatLayer' && mymap.getZoom() >= 6) {
+					activeLayer = allLayers.countyExcessiveHeatLayer;
+					activeField = "Excessive_Heat"
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(county_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			}else if (targetLayer == 'stateExtremeColdLayer' && mymap.getZoom() < 6) {
+					activeLayer = allLayers.stateExtremeColdLayer;
+					activeField = "Extreme_Cold";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(state_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			} else if (targetLayer == 'stateExtremeColdLayer' && mymap.getZoom() >= 6) {
+					activeLayer = allLayers.countyExtremeColdLayer;
+					activeField = "Extreme_Cold";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(county_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			}else if (targetLayer == 'stateTornadosLayer' && mymap.getZoom() < 6) {
+					activeLayer = allLayers.stateTornadosLayer;
+					activeField = "Tornado";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(state_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			} else if (targetLayer == 'stateTornadosLayer' && mymap.getZoom() >= 6) {
+					activeLayer = allLayers.countyTornadosLayer;
+					activeField = "Tornado";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(county_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			}else if (targetLayer == 'stateWildfiresLayer' && mymap.getZoom() < 6) {
+					activeLayer = allLayers.stateWildfiresLayer;
+					activeField = "Wildfire";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(state_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			}else if (targetLayer == 'stateWildfiresLayer' && mymap.getZoom() >= 6) {
+					activeLayer = allLayers.countyWildfiresLayer;
+					activeField = "Wildfire";
+					mymap.eachLayer(function (layer) {
+							mymap.removeLayer(layer);
+					});
+					baseLayers(mymap);
+					mymap.addLayer(activeLayer);
+					attributes = processData(county_eventsJSON, activeField);
+					updateLegend(mymap, attributes[sauce]);
+			};
+	});
+
+				
+	activeField = "Total_Events";
+
+
+	// creating an array of attributes
+	attributes = processData(state_eventsJSON, activeField);
+	// call function to create proportional symbols
+	createPropSymbols(state_eventsJSON, mymap, attributes);
+	createSequenceControls(mymap, attributes);
+	createLegend(mymap, attributes);
+
 	//events.addTo(mymap);
 
 }; // close to layers function
@@ -880,7 +1103,7 @@ function stateGraph(csvData){
         console.log(csvData[row]);
     }
 
-<<<<<<< HEAD
+/*<<<<<<< HEAD
     //chart width and height
     var width = window.innerWidth * 0.15;
     var height = window.innerWidth * 0.15;
@@ -900,7 +1123,7 @@ function stateGraph(csvData){
     var width = window.innerWidth * 0.15;
     var height = window.innerWidth * 0.15;
 
->>>>>>> dwaro/master
+>>>>>>> dwaro/master*/
     // svg to contain chart
     var vis = d3.select('#right-pane')
         .append('svg')
