@@ -1,9 +1,7 @@
 /* Stylesheet by David J. Waro, Peter Nielsen, Jacob P. Hrubecky */
 
 body {
-  background-image: url('dark_fish_skin.png');
-  width: 100%;
-  height: 100%;
+
 }
 
 #title {
@@ -21,17 +19,17 @@ body {
 }
 
 #top {
-  width: 100em;
+  width: 600px;
   top: 0;
   left: 0;
   height: 80px;
   position: fixed;
   display: inline-block;
   background: blue; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(left top, #001a66, white); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(bottom right, #001a66, white); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(bottom right, #001a66, white); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(to bottom right, #001a66, white); /* Standard syntax */
+  background: -webkit-linear-gradient(left top, #e6b800, white); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(bottom right, #e6b800, white); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(bottom right, #e6b800, white); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to bottom right, #e6b800, white); /* Standard syntax */
   opacity: 0.8;
   border: solid;
   border-width: thin;
@@ -39,20 +37,77 @@ body {
   z-index: -1;
 }
 
+#tabBar {
+  position: fixed;
+  top: 81px;
+  left: 0px;
+  height: 29px;
+  width: 600px;
+  border: solid;
+  border-width: thin;
+  border-color: black;
+  background-image: url("gray_jean.png");
+}
+
+#tab1 {
+  position: fixed;
+  top: 81px;
+  left: 0;
+  width: 150px;
+  height: 29px;
+  border-right: solid;
+  border-width: thin;
+  border-color: black;
+  text-align: center;
+}
+
+#tab2 {
+  position: fixed;
+  top: 81px;
+  left: 151px;
+  width: 149px;
+  height: 29px;
+  border-right: solid;
+  border-width: thin;
+  border-color: black;
+  text-align: center;
+}
+
+#tab3 {
+  position: fixed;
+  top: 81px;
+  left: 301px;
+  width: 149px;
+  height: 29px;
+  border-right: solid;
+  border-width: thin;
+  border-color: black;
+  text-align: center;
+}
+
+
+#tab4 {
+  position: fixed;
+  top: 81px;
+  left: 451px;
+  width: 149px;
+  height: 29px;
+  border-width: thin;
+  border-color: black;
+  text-align: center;
+}
+
 #mapid {
-  height: 80%;
-  width: 60%;
-  position: absolute;
+  height: 100%;
+  width: 100%;
+  position: fixed;
   top:19%;
   bottom:0;
-  left:20%;
-  right:20%;
+  left: 0;
+  top: 0;
   overflow: hidden;
   display: inline-block;
-  z-index: 1000;
-  border-style: solid;
-  border-width: medium;
-  border-color: black;
+  z-index: -100;
 }
 
 .legend-control-container {
@@ -119,16 +174,13 @@ body {
 #left-pane {
   position: fixed;
   display: inline-block;
-  top: 19%;
-  width: 17%;
-  max-height: 500px;
-  left: 1.5%;
-  right: 81.5%;
-  bottom: 5%;
+  top: 150px;
+  width: 225px;
+  height: 500px;
+  left: 0;
   border: solid;
   border-width: thin;
   border-color: black;
-  border-radius: 1em;
   background-image: url("gray_jean.png");
   overflow-y: scroll;
 }
@@ -154,7 +206,6 @@ body {
   border: solid;
   border-width: thin;
   border-color: black;
-  border-radius: 1em;
   background-image: url("gray_jean.png");
 }
 
@@ -188,18 +239,11 @@ body {
 }
 
 .chart {
-    border: medium solid #999;
-    fill: medium solid #999;
+    border: medium solid black;
+    background-color: #999;
     position: absolute;
-    top: 30px;
+    top: 40px;
     left: 4%;
-}
-
-.chart {
-    border: medium solid #999;
-    fill: medium solid #999;
-    display: block;
-    margin: auto;
 }
 
 .lines {

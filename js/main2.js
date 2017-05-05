@@ -13,8 +13,8 @@ var swStates = new L.GeoJSON.AJAX("data/sw_states.geojson", {style: swStyle});
 var counties = new L.GeoJSON.AJAX("data/counties.geojson", {style: countyStyle}).bringToBack();
 var statesJson = new L.GeoJSON.AJAX("data/state_events.geojson");
 var countiesJson = new L.GeoJSON.AJAX("data/county_events.geojson");
-var basemap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-	attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+var basemap = L.tileLayer('https://api.mapbox.com/styles/v1/djwaro/cj2a22xj1001m2tpeuqgavppe/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiZGp3YXJvIiwiYSI6ImNpdXJwYnRidTAwOWgyeXJ2ZnJ6ZnVtb3AifQ.1ajSBLNXDrHg6M7PE_Py_A', {
+	attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
 });
 
 /////////////////////// global variables ///////////////////////////////////////
@@ -44,7 +44,7 @@ function createMap() {
 
 	// create map, map div, and map's initial view
 	mymap = L.map('mapid', {
-	}).setView([37.0866, -115.00], 5);
+	}).setView([37.0866, -113.50], 5);
 
 	// set map boundaries
 	mymap.setMaxBounds([
@@ -53,9 +53,7 @@ function createMap() {
 	]).setMinZoom(3);
 
 	// tile layer
-	basemap = L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-		attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-	}).addTo(mymap);
+	basemap.addTo(mymap);
 
 	// add navigation bar to the map
 	L.control.navbar().addTo(mymap);
@@ -83,7 +81,7 @@ function swStyle() {
 				fillColor: 'white',
 				weight: 3,
 				opacity: 1,
-				color: 'white',
+				color: 'gray',
 				fillOpacity: 0,
 		};
 };
@@ -95,7 +93,7 @@ function countyStyle() {
 				fillColor: 'white',
 				weight: 1,
 				opacity: 1,
-				color: 'white',
+				color: 'gray',
 				fillOpacity: 0,
 		};
 };
@@ -107,7 +105,7 @@ function statesStyle() {
 				fillColor: 'gray',
 				weight: 2,
 				opacity: 1,
-				color: 'white',
+				color: 'gray',
 				fillOpacity: 0.7
 		};
 };
@@ -138,7 +136,7 @@ function layers(mymap) {
 		    color: "#000",
 		    weight: 1,
 		    opacity: 1,
-		    fillOpacity: 0.7
+		    fillOpacity: 0.8
 			};
 
 			//geoJSON layer with leaflet is created to add data to the map
@@ -421,7 +419,7 @@ function layers(mymap) {
 // function to create the Proportional Symbols map legend
 function createLegend(mymap, attributes){
 
-      $('#section-3').append('<div id="temporal-legend" >');
+		$('#section-3').append('<div id="temporal-legend" >');
 
       // start attribute legend svg string
       var svg = '<svg id="attribute-legend" width="200px" height="150px">';
@@ -764,11 +762,11 @@ function pointToLayer(feature, latlng, attributes, layer){
 
   // create marker options
   var options = {
-    fillColor: "#FFD700",
+    fillColor: "#ffd633",
     color: "#000",
     weight: 1,
     opacity: 1,
-    fillOpacity: 0.7
+    fillOpacity: 0.8
   };
 
   // For each feature, determine its value for the selected attribute
@@ -882,15 +880,27 @@ function stateGraph(csvData){
         console.log(csvData[row]);
     }
 
+<<<<<<< HEAD
     //chart width and height
     var width = window.innerWidth * 0.15;
     var height = window.innerWidth * 0.15;
 
+=======
+    //chart title
+>>>>>>> dwaro/master
     var title = d3.select('#right-pane')
         .text('All Natural Disasters By State, 2000-2016')
+        .style('font-family', 'Helvetica, sans-serif')
         .style('text-align', 'center')
         .style('font-weight', 'bold');
 
+<<<<<<< HEAD
+=======
+    //chart width and height
+    var width = window.innerWidth * 0.15;
+    var height = window.innerWidth * 0.15;
+
+>>>>>>> dwaro/master
     // svg to contain chart
     var vis = d3.select('#right-pane')
         .append('svg')
@@ -900,11 +910,11 @@ function stateGraph(csvData){
 
     //scales
     var x = d3.scaleLinear()
-        .range([0, width-27])
+        .range([0, width-30])
         .domain([2000, 2016]);
 
     var y = d3.scaleLinear()
-        .range([0, height])
+        .range([0, height-27])
         .domain([600, 0]);
 
     //axis
@@ -915,11 +925,16 @@ function stateGraph(csvData){
 
     //Adding the scales to the chart. placement is tricky.
     vis.append("svg:g")
-        .attr("transform", 'translate(30,' + (height).toString() + ')')
+        .attr("transform", 'translate(27,' + (height-20).toString() + ')')
         .call(xAxis);
     vis.append("svg:g")
-        .attr("transform", 'translate(27, 0)')
+        .attr("transform", 'translate(27, 6)')
         .call(yAxis);
+    var lineArea = d3.select('.chart')
+        .append('svg')
+        .attr('width', width-27)
+        .attr('height', height-20)
+        .style('fill', 'black');
 
 
     for (var row = 0; row < csvData.length; row++){
@@ -942,7 +957,10 @@ function stateGraph(csvData){
             (x(2015)).toString() + ',' + (y(csvData[row]['Total_Events_2015'])).toString() + ',' +
             (x(2016)).toString() + ',' + (y(csvData[row]['Total_Events_2016'])).toString())
             .attr('class', 'lines')
-            .attr('transform', 'translate(28,0)')
+            .attr('transform', 'translate(28,6)')
+            .attr('id', function(){
+                return csvData[row]['Location']
+            })
             .style('stroke', function(){
                 if (row == 0){
                     return 'red';
