@@ -45,11 +45,11 @@ function createMap(state_eventsJSON, county_eventsJSON) {
 
 	// create map, map div, and map's initial view
 	mymap = L.map('mapid', {
-	}).setView([37.0866, -113.50], 5);
+	}).setView([35.50, -120.50], 5);
 
 	// set map boundaries
 	mymap.setMaxBounds([
-		[0, -200],
+		[-35, -210],
 		[75, -20],
 	]).setMinZoom(3);
 
@@ -129,7 +129,7 @@ function layers(mymap,state_eventsJSON, county_eventsJSON) {
 
 	//marker style options are set to a variable
 	var geojsonMarkerOptions = {
-		fillColor: "#00FFCC",
+		fillColor: "#ffd633",
     color: "#000",
     weight: 1,
     opacity: 1,
@@ -1047,7 +1047,8 @@ function dropdown(mymap, attributes) {
 	'<option value="stateBlizzardsLayer">Blizzard</option><option value="stateDroughtsLayer">Drought</option><option value="stateExcessiveHeatLayer">Excessive Heat</option>'+
 	'<option value="stateExtremeColdLayer">Extreme Cold/ Wind Chill</option><option value="stateTornadosLayer">Tornado</option><option value="stateWildfiresLayer">Wildfire</option></select>';
 
-	$("#section-1").append(dropdown);
+	$("#tab2-1").html("<b>Select an Event</b>");
+	$("#tab2-1").append(dropdown);
 
 };
 
@@ -1118,7 +1119,7 @@ function search (mymap, data, proportionalSymbols){
 
   // add the control to the map
 	//$("#section-2").append(searchLayer.onAdd(mymap));
-	$(".search").append(searchLayer.onAdd(mymap));
+	$("#tab1-1").append(searchLayer.onAdd(mymap));
 
 }; // close to search function
 
@@ -1151,38 +1152,10 @@ function pointToLayer(feature, latlng, attributes, layer){
 	// creates a new popup object
   var popup = new Popup(feature.properties, layer, options.radius);
 
-	// if (mymap.getZoom() < 7) {
-	// 	console.log("should remove the county marker");
-	// 	if (feature.properties.Location !== "Arizona" &&
-	// 			feature.properties.Location !== "New Mexico" &&
-	// 			feature.properties.Location !== "California" &&
-	// 			feature.properties.Location !== "Nevada") {
-	// 		console.log(feature.properties.Location);
-	// 		var a = layer;
-	// 		console.log("a: ", a);
-	// 		mymap.removeLayer(a);
-	// 		return false;
-	// 	};
-	// };
-
-	// mymap.on('zoomend', function (e) {
-	// 	if (feature.properties.Location == "Arizona" && mymap.getZoom() >= 7 ||
-	// 			feature.properties.Location == "New Mexico" && mymap.getZoom() >= 7 ||
-	// 			feature.properties.Location == "California" && mymap.getZoom() >= 7 ||
-	// 			feature.properties.Location == "Nevada" && mymap.getZoom() >= 7) {
-	// 		var x = layer;
-	// 		mymap.removeLayer(x);
-	// 	} else if (feature.properties.Location == "Arizona" && mymap.getZoom() < 7 ||
-	// 						 feature.properties.Location == "New Mexico" && mymap.getZoom() < 7 ||
-	// 					 	 feature.properties.Location == "California" && mymap.getZoom() < 7 ||
-	// 					 	 feature.properties.Location == "Nevada" && mymap.getZoom() < 7) {
-	// 		var y = layer;
-	// 		mymap.addLayer(y);
-	// 	}
-	// });
-
   // add popup to circle marker
   popup.bindToLayer();
+
+	console.log("Trying to see this");
 
   // event listeners to open popup on hover
   layer.on({
@@ -1257,8 +1230,8 @@ function stateGraph(csvData){
 
     //chart title
 
-    var title = d3.select('#right-pane')
-        .text('All Natural Disasters By State, 2000-2016')
+    var title = d3.select('#section-1')
+        .html('<br>All Natural Disasters By State</br>2000-2016')
         .style('font-family', 'Helvetica, sans-serif')
         .style('text-align', 'center')
         .style('font-weight', 'bold');
@@ -1269,7 +1242,7 @@ function stateGraph(csvData){
     var height = window.innerWidth * 0.15;
 
     // svg to contain chart
-    var vis = d3.select('#right-pane')
+    var vis = d3.select('#section-1')
         .append('svg')
         .attr('width', width)
         .attr('height', height)
@@ -1277,7 +1250,7 @@ function stateGraph(csvData){
 
     //scales
     var x = d3.scaleLinear()
-        .range([0, width-30])
+        .range([0, width + 50])
         .domain([2000, 2016]);
 
     var y = d3.scaleLinear()
@@ -1286,6 +1259,7 @@ function stateGraph(csvData){
 
     //axis
     var xAxis = d3.axisBottom()
+				.tickFormat(d3.format("d"))
         .scale(x);
     var yAxis = d3.axisLeft()
         .scale(y);
