@@ -1081,27 +1081,28 @@ function processData(data){
 
 
 // add circle markers for point features to the map
-function createPropSymbols(data, mymap, attributes){
+function createPropSymbols(state_eventsJSON, mymap, attributes){
 
   // create a Leaflet GeoJSON layer and add it to the map
-  var proportionalSymbols = L.geoJson(data, {
+  var proportionalSymbols = L.geoJson(state_eventsJSON, {
     pointToLayer: function(feature, latlng, mymap){
       return pointToLayer(feature, latlng, attributes);
     }
   }).addTo(mymap);
 
   // call search function
-  search(mymap, data, proportionalSymbols)
+  search(mymap, state_eventsJSON, proportionalSymbols)
 
 }; // close to createPropSymbols
 
 
 function clickZoom(e) {
+	console.log("click function not working");
     mymap.setView(e.target.getLatLng(), 6);
 };
 
 // funtion to create the search control
-function search (mymap, data, proportionalSymbols){
+function search (mymap, state_eventsJSON, proportionalSymbols){
 
   // new variable search control
   var searchLayer = new L.Control.Search({
@@ -1156,6 +1157,7 @@ function pointToLayer(feature, latlng, attributes, layer){
   popup.bindToLayer();
 
 	console.log("Trying to see this");
+
 
   // event listeners to open popup on hover
   layer.on({
@@ -1325,16 +1327,6 @@ function stateGraph(csvData){
 
         console.log(csvData[row]['Location']);
     };
-
-    // lines for line graph
-    /*
-    var lines = vis.selectAll('.lines')
-        .data(csvData)
-        .enter()
-        .append("line")
-        .attr("stroke-width", 2)
-        .attr("stroke", "white");
-    */
 
     //create array out of only desired values and use them with the y axis generator
     d3.selectAll(".dropdown select")

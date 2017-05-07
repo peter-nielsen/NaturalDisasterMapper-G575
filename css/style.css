@@ -4,18 +4,11 @@ body {
   overflow: scroll;
 }
 
+
 #title {
-  position: fixed;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  border: 1px;
-  stroke: black;
-  font: normal 50px/1 "Trebuchet MS", Helvetica, sans-serif;
-  color: rgba(255,255,255,1);
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  text-shadow: 4px 4px 6px rgba(0,0,0,0.91) ;
+  font: normal 4.5vw "Audiowide", Helvetica, sans-serif;
+  color: gray;
+  text-align: center;
 }
 
 #top {
@@ -177,6 +170,11 @@ body {
   height: 40%;
   width: 100%;
   top: 43%;
+}
+
+.legend-circle {
+  position: absolute;
+  bottom: 23%;
 }
 
 #section-4 {
