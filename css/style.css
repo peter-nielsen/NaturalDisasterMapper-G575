@@ -46,32 +46,50 @@ body {
   position: fixed;
   top: 81px;
   left: 0px;
-  width: 220px;
+  width: 200px;
   height: 59px;
   text-align: left;
   text-indent: 10px;
+  overflow: visible;
 }
 
 #tab1-1 {
   position: absolute;
-  top: 18px;
+  top: 2.5px;
   align-content: left;
-  left: 2%;
+  left: 0;
+  overflow: visible;
+}
+
+#tab1-2 {
+  float: right;
+  margin-top: 20px;
+  margin-left: 30px;
+  margin-right: 8px;
 }
 
 #tab2 {
   position: fixed;
   top: 81px;
-  left: 221px;
-  width: 299px;
+  left: 201px;
+  width: 230px;
   height: 59px;
   border-right: solid;
   border-width: thin;
   border-color: black;
   text-align: left;
+  overflow: visible;
 }
 
 #tab2-1 {
+  position: absolute;
+  top: 18px;
+  align-content: left;
+  left: 2%;
+  overflow: visible;
+}
+
+#tab3-1 {
   position: absolute;
   top: 10px;
   align-content: left;
@@ -81,13 +99,79 @@ body {
 #tab3 {
   position: fixed;
   top: 81px;
-  left: 521px;
+  left: 401px;
   width: 299px;
   height: 59px;
   border-right: solid;
   border-width: thin;
   border-color: black;
   text-align: center;
+  overflow: visible;
+}
+
+.container {
+    overflow: hidden;
+    font-family: Verdana;
+    top: 10px;
+}
+
+.container a {
+    float: left;
+    font-size: 16px;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+    top: 10px;
+    width: auto;
+}
+
+.dropdown .dropbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: black;
+    top: 5px;
+    padding: 14px 16px;
+    border: solid;
+    border-width: 2px;
+    border-color: black;
+    background-color: inherit;
+}
+
+.container a:hover, .dropdown:hover .dropbtn {
+    background-color: gold;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-image: url("gray_jean.png");
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
 
@@ -103,7 +187,7 @@ body {
 }
 
 #mapid {
-  height: 600px;
+  height: 550px;
   width: 100%;
   position: fixed;
   bottom:0;
@@ -115,10 +199,7 @@ body {
 }
 
 .legend-control-container {
-  background-color: rgba(255,255,255,0.8);
   text-align: center;
-  border: solid gray 1.5px;
-  border-radius: 1em;
 }
 
 #information {
@@ -131,18 +212,11 @@ body {
 }
 
 #temporal-legend {
-  position: absolute;
-  left: 6%;
-  top: 17%;
+  line-height: 20px;
+  padding: 3px;
   text-align: center;
-  font-family: Helvetica, sans-serif;
-}
-
-#attribute-legend {
-  position: fixed;
-  bottom: 15%;
-  left: 3%;
-  width: 230px;
+  font-family: Verdana, sans-serif;
+  bottom: 1%;
 }
 
 #reverseImage {
@@ -158,7 +232,7 @@ body {
 #section-1 {
   position: absolute;
   text-align: left;
-  font-family: Helvetica, sans-serif;
+  font-family: Verdana, sans-serif;
   width: 100%;
   top: 0;
   height: 39%;
@@ -167,14 +241,9 @@ body {
 
 #section-3 {
   position: absolute;
-  height: 40%;
+  height: 37%;
   width: 100%;
-  top: 43%;
-}
-
-.legend-circle {
-  position: absolute;
-  bottom: 23%;
+  top: 50%;
 }
 
 #section-4 {
@@ -184,13 +253,13 @@ body {
   bottom: 0;
 }
 
-#left-pane {
+#right-pane {
   position: fixed;
   display: inline-block;
-  top: 180px;
+  top: 165px;
   width: 300px;
   height: 500px;
-  left: 1%;
+  right: 1%;
   border: solid;
   border-width: thin;
   border-color: black;

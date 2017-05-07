@@ -45,7 +45,7 @@ function createMap(state_eventsJSON, county_eventsJSON) {
 
 	// create map, map div, and map's initial view
 	mymap = L.map('mapid', {
-	}).setView([35.50, -120.50], 5);
+	}).setView([35.50, -108.50], 5);
 
 	// set map boundaries
 	mymap.setMaxBounds([
@@ -453,8 +453,201 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 };
 
 	// call to create the dropdown menu
-	dropdown(mymap, attributes);
-	var activeLayer
+	//dropdown(mymap, attributes);
+	var activeLayer;
+
+	document.getElementById("total-events").addEventListener("click", function(e) {
+		if (mymap.getZoom() < 6) {
+			activeLayer = allLayers.stateTotalEventsLayer;
+			activeField = "Total_Events";
+			mymap.eachLayer(function (layer) {
+					mymap.removeLayer(layer);
+			});
+			baseLayers(mymap);
+			mymap.addLayer(activeLayer);
+			attributes = processData(state_eventsJSON, activeField);
+			updateLegend(mymap, attributes[sauce]);
+		} else if (mymap.getZoom() >= 6) {
+				activeLayer = allLayers.countyTotalEventsLayer;
+				activeField = "Total_Events";
+				mymap.eachLayer(function (layer) {
+						mymap.removeLayer(layer);
+				});
+				baseLayers(mymap);
+				mymap.addLayer(activeLayer);
+				attributes = processData(county_eventsJSON, activeField);
+				updateLegend(mymap, attributes[sauce]);
+		}
+	});
+
+	document.getElementById("avalanches").addEventListener("click", function(e) {
+		if (mymap.getZoom() < 6) {
+				activeLayer = allLayers.stateAvalanchesLayer;
+				activeField = "Avalanche";
+				mymap.eachLayer(function (layer) {
+						mymap.removeLayer(layer);
+				});
+				baseLayers(mymap);
+				mymap.addLayer(activeLayer);
+				attributes = processData(state_eventsJSON, activeField);
+				updateLegend(mymap, attributes[sauce]);
+		} else if (mymap.getZoom() >= 6) {
+				activeLayer = allLayers.countyAvalanchesLayer;
+				activeField = "Avalanche";
+				mymap.eachLayer(function (layer) {
+						mymap.removeLayer(layer);
+				});
+				baseLayers(mymap);
+				mymap.addLayer(activeLayer);
+				attributes = processData(county_eventsJSON, activeField);
+				updateLegend(mymap, attributes[sauce]);
+		}
+	});
+
+	document.getElementById("blizzards").addEventListener("click", function(e) {
+		if (mymap.getZoom() < 6) {
+			activeLayer = allLayers.stateBlizzardsLayer;
+			activeField = "Blizzard";
+			mymap.eachLayer(function (layer) {
+					mymap.removeLayer(layer);
+			});
+			baseLayers(mymap);
+			mymap.addLayer(activeLayer);
+			attributes = processData(state_eventsJSON, activeField);
+			updateLegend(mymap, attributes[sauce]);
+		} else if (mymap.getZoom() >= 6) {
+				activeLayer = allLayers.countyBlizzardsLayer;
+				activeField = "Blizzard";
+				mymap.eachLayer(function (layer) {
+						mymap.removeLayer(layer);
+				});
+				baseLayers(mymap);
+				mymap.addLayer(activeLayer);
+				attributes = processData(county_eventsJSON, activeField);
+				updateLegend(mymap, attributes[sauce]);
+		}
+	});
+
+	document.getElementById("droughts").addEventListener("click", function(e) {
+		if (mymap.getZoom() < 6) {
+			activeLayer = allLayers.stateDroughtsLayer;
+			activeField = "Drought";
+			mymap.eachLayer(function (layer) {
+					mymap.removeLayer(layer);
+			});
+			baseLayers(mymap);
+			mymap.addLayer(activeLayer);
+			attributes = processData(state_eventsJSON, activeField);
+			updateLegend(mymap, attributes[sauce]);
+		} else if (mymap.getZoom() >= 6) {
+				activeLayer = allLayers.countyDroughtsLayer;
+				activeField = "Drought";
+				mymap.eachLayer(function (layer) {
+						mymap.removeLayer(layer);
+				});
+				baseLayers(mymap);
+				mymap.addLayer(activeLayer);
+				attributes = processData(county_eventsJSON, activeField);
+				updateLegend(mymap, attributes[sauce]);
+		}
+	});
+
+	document.getElementById("excessive-heat").addEventListener("click", function(e) {
+		if (mymap.getZoom() < 6) {
+			activeLayer = allLayers.stateExcessiveHeatLayer;
+			activeField = "Excessive_Heat";
+			mymap.eachLayer(function (layer) {
+					mymap.removeLayer(layer);
+			});
+			baseLayers(mymap);
+			mymap.addLayer(activeLayer);
+			attributes = processData(state_eventsJSON, activeField);
+			updateLegend(mymap, attributes[sauce]);
+		} else if (mymap.getZoom() >= 6) {
+				activeLayer = allLayers.countyExcessiveHeatLayer;
+				activeField = "Excessive_Heat";
+				mymap.eachLayer(function (layer) {
+						mymap.removeLayer(layer);
+				});
+				baseLayers(mymap);
+				mymap.addLayer(activeLayer);
+				attributes = processData(county_eventsJSON, activeField);
+				updateLegend(mymap, attributes[sauce]);
+		}
+	});
+
+	document.getElementById("extreme-cold").addEventListener("click", function(e) {
+		if (mymap.getZoom() < 6) {
+			activeLayer = allLayers.stateExtremeColdLayer;
+			activeField = "Extreme_Cold";
+			mymap.eachLayer(function (layer) {
+					mymap.removeLayer(layer);
+			});
+			baseLayers(mymap);
+			mymap.addLayer(activeLayer);
+			attributes = processData(state_eventsJSON, activeField);
+			updateLegend(mymap, attributes[sauce]);
+		} else if (mymap.getZoom() >= 6) {
+				activeLayer = allLayers.countyExtremeColdLayer;
+				activeField = "Extreme_Cold";
+				mymap.eachLayer(function (layer) {
+						mymap.removeLayer(layer);
+				});
+				baseLayers(mymap);
+				mymap.addLayer(activeLayer);
+				attributes = processData(county_eventsJSON, activeField);
+				updateLegend(mymap, attributes[sauce]);
+		}
+	});
+
+	document.getElementById("tornado").addEventListener("click", function(e) {
+		if (mymap.getZoom() < 6) {
+			activeLayer = allLayers.stateTornadosLayer;
+			activeField = "Tornado";
+			mymap.eachLayer(function (layer) {
+					mymap.removeLayer(layer);
+			});
+			baseLayers(mymap);
+			mymap.addLayer(activeLayer);
+			attributes = processData(state_eventsJSON, activeField);
+			updateLegend(mymap, attributes[sauce]);
+		} else if (mymap.getZoom() >= 6) {
+				activeLayer = allLayers.countyTornadosLayer;
+				activeField = "Tornado";
+				mymap.eachLayer(function (layer) {
+						mymap.removeLayer(layer);
+				});
+				baseLayers(mymap);
+				mymap.addLayer(activeLayer);
+				attributes = processData(county_eventsJSON, activeField);
+				updateLegend(mymap, attributes[sauce]);
+		}
+	});
+
+	document.getElementById("wildfire").addEventListener("click", function(e) {
+		if (mymap.getZoom() < 6) {
+			activeLayer = allLayers.stateWildfiresLayer;
+			activeField = "Wildfire";
+			mymap.eachLayer(function (layer) {
+					mymap.removeLayer(layer);
+			});
+			baseLayers(mymap);
+			mymap.addLayer(activeLayer);
+			attributes = processData(state_eventsJSON, activeField);
+			updateLegend(mymap, attributes[sauce]);
+		} else if (mymap.getZoom() >= 6) {
+				activeLayer = allLayers.countyWildfiresLayer;
+				activeField = "Wildfire";
+				mymap.eachLayer(function (layer) {
+						mymap.removeLayer(layer);
+				});
+				baseLayers(mymap);
+				mymap.addLayer(activeLayer);
+				attributes = processData(county_eventsJSON, activeField);
+				updateLegend(mymap, attributes[sauce]);
+		}
+	});
+
 	$(".dropdown select").on("change", function(g) {
 			var targetLayer = g.target.value;
 			if (targetLayer == 'stateTotalEventsLayer' && mymap.getZoom() < 6) {
@@ -538,7 +731,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 					mymap.addLayer(activeLayer);
 					attributes = processData(county_eventsJSON, activeField);
 					updateLegend(mymap, attributes[sauce]);
-			}else if (targetLayer == 'stateExcessiveHeatLayer' && mymap.getZoom() < 6) {
+			} else if (targetLayer == 'stateExcessiveHeatLayer' && mymap.getZoom() < 6) {
 					activeLayer = allLayers.stateExcessiveHeatLayer;
 					activeField = "Excessive_Heat"
 					mymap.eachLayer(function (layer) {
@@ -789,7 +982,22 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 // function to create the Proportional Symbols map legend
 function createLegend(mymap, attributes){
 
-		$('#section-3').append('<div id="temporal-legend" >');
+	// // legend control in the bottom right of the map
+  // var LegendControl = L.Control.extend({
+  //   options: {
+  //     position: 'bottomleft'
+  //   },
+
+		// $('#section-3').append('<div id="temporal-legend" >');
+		// $('#section-3').append()
+		// onAdd: function (mymap) {
+
+      // create the control container with a particular class name
+      var legendContainer = L.DomUtil.create('div', 'legend-control-container');
+
+      $(legendContainer).append('<div id="temporal-legend" >');
+			$('#section-3').append(legendContainer)
+
 
       // start attribute legend svg string
       var svg = '<svg id="attribute-legend" width="200px" height="150px">';
@@ -815,8 +1023,20 @@ function createLegend(mymap, attributes){
       svg += "</svg>";
 
 			// add attribute legend svg to container
-      $('#section-3').append(svg);
+      $(legendContainer).append(svg);
 
+      // //t urn off any mouse event listeners on the legend
+      // $(legendContainer).on('mousedown dblclick', function(e){
+      //   L.DomEvent.stopPropagation(e);
+      // });
+
+      //return legendContainer;
+
+			$('#section-3').append(legendContainer);
+
+  //   } // close to onAdd
+  // }); // close to var LegendControl
+	//mymap.addControl(new LegendControl());
   updateLegend(mymap, attributes[0]);
 
 }; // close to createLegend function
@@ -1039,18 +1259,19 @@ function baseLayers(mymap) {
 };
 
 
-// var to create a dropdown menu
-function dropdown(mymap, attributes) {
-
-	var dropdown = L.DomUtil.create('div', 'dropdown');
-	dropdown.innerHTML = '<select><option value="stateTotalEventsLayer">Total Events</option><option value="stateAvalanchesLayer">Avalanche</option>'+
-	'<option value="stateBlizzardsLayer">Blizzard</option><option value="stateDroughtsLayer">Drought</option><option value="stateExcessiveHeatLayer">Excessive Heat</option>'+
-	'<option value="stateExtremeColdLayer">Extreme Cold/ Wind Chill</option><option value="stateTornadosLayer">Tornado</option><option value="stateWildfiresLayer">Wildfire</option></select>';
-
-	$("#tab2-1").html("<b>Select an Event</b>");
-	$("#tab2-1").append(dropdown);
-
-};
+// // var to create a dropdown menu
+// function dropdown(mymap, attributes) {
+//
+// 	var dropdown = L.DomUtil.create('div', 'dropdown');
+// 	dropdown.innerHTML = '<select><option value="stateTotalEventsLayer">Total Events</option><option value="stateAvalanchesLayer">Avalanche</option>'+
+// 	'<option value="stateBlizzardsLayer">Blizzard</option><option value="stateDroughtsLayer">Drought</option><option value="stateExcessiveHeatLayer">Excessive Heat</option>'+
+// 	'<option value="stateExtremeColdLayer">Extreme Cold/ Wind Chill</option><option value="stateTornadosLayer">Tornado</option><option value="stateWildfiresLayer">Wildfire</option></select>';
+//
+// 	$("#tab3-1").html("<b>Select an Event</b>");
+// 	$("#tab3-1").append(dropdown);
+//
+//
+// };
 
 
 // build an attributes array for the data
@@ -1120,7 +1341,8 @@ function search (mymap, state_eventsJSON, proportionalSymbols){
 
   // add the control to the map
 	//$("#section-2").append(searchLayer.onAdd(mymap));
-	$("#tab1-1").append(searchLayer.onAdd(mymap));
+	$("#tab2-1").append(searchLayer.onAdd(mymap));
+	$("#tab1-2").html("or");
 
 }; // close to search function
 
