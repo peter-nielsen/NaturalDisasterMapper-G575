@@ -347,18 +347,6 @@ body {
     stroke-width: 3.5;
     fill: none;
 }
-<<<<<<< Updated upstream
-.tooltip {
-  position: absolute;
-  text-align: center;
-  width: 60px;
-  height: 28px;
-  padding: 2px;
-  font: 12px sans-serif;
-  background: lightsteelblue;
-  border: 0px;
-  border-radius: 8px;
-=======
 
 .tooltip {
   position: absolute;
@@ -366,9 +354,10 @@ body {
   content: normal;
   width: 80px;
   height: 40px;
-  left: 70px;
+  left: 60px;
   padding: 0px;
   line-height: 1px;
+  font-weight: bold;
   font: 14px verdana sans-serif;
   border: solid;
   border-width: 1px;
@@ -380,11 +369,10 @@ body {
   text-align: center;
   width: 150px;
   height: 40px;
-  left: -40px;
+  left: -35px;
   top: -2px;
   padding: 0px;
   font: 14px verdana sans-serif;
->>>>>>> Stashed changes
   pointer-events: none;
 }
 
