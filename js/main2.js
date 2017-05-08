@@ -676,9 +676,15 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	
+
 
 	activeField = "Total_Events";
+	// creating an array of attributes
+	attributes = processData(state_eventsJSON, activeField);
+	// call function to create proportional symbols
+	createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attributes);
+	createSequenceControls(mymap, attributes);
+	createLegend(mymap, attributes);
 //function to switch county and state values based on zoom level
 	mymap.on('zoomend', function(){
 		if (activeField == "Total_Events" && mymap.getZoom() < 6) {
@@ -862,12 +868,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	});
 
 
-	// creating an array of attributes
-	attributes = processData(state_eventsJSON, activeField);
-	// call function to create proportional symbols
-	createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attributes);
-	createSequenceControls(mymap, attributes);
-	createLegend(mymap, attributes);
+
 
 	//events.addTo(mymap);
 
@@ -1237,8 +1238,8 @@ function search (mymap, proportionalSymbols, countySymbols){
 
       // set the view once searched to the circle marker's latlng and zoom
       mymap.setView(latlng, 6);
-
     } // close to moveToLocation
+		
   }); // close to var searchLayer
 
   // add the control to the map
