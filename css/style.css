@@ -1,7 +1,11 @@
 /* Stylesheet by David J. Waro, Peter Nielsen, Jacob P. Hrubecky */
 
 body {
-  overflow: scroll;
+  height: 1391;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
 }
 
 
@@ -15,8 +19,8 @@ body {
   width: 100%;
   top: 0;
   left: 0;
+  position: absolute;
   height: 80px;
-  position: fixed;
   display: inline-block;
   background: blue; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(left top, #e6b800, white); /* For Safari 5.1 to 6.0 */
@@ -30,8 +34,20 @@ body {
   z-index: -1;
 }
 
+#information-area {
+  top: 791px;
+  width: 100%;
+  height: 600px;
+  overflow: visible;
+  position: absolute;
+  border-top: solid;
+  border-width: thin;
+  border-color: black;
+  background-image: url("gray_jean.png");
+}
+
 #tabBar {
-  position: fixed;
+  position: absolute;
   top: 81px;
   left: 0px;
   height: 59px;
@@ -40,11 +56,12 @@ body {
   border-width: thin;
   border-color: black;
   background-image: url("gray_jean.png");
+  overflow: visible;
 }
 
 #tab1 {
-  position: fixed;
-  top: 81px;
+  position: absolute;
+  top: 2px;
   left: 0px;
   width: 200px;
   height: 59px;
@@ -55,21 +72,13 @@ body {
 
 #tab1-1 {
   position: absolute;
-  top: 2.5px;
   align-content: left;
   left: 0;
   overflow: visible;
 }
 
-#tab1-2 {
-  float: right;
-  margin-top: 20px;
-  margin-left: 30px;
-  margin-right: 8px;
-}
-
 #tab2 {
-  position: fixed;
+  position: absolute;
   top: 81px;
   left: 201px;
   width: 230px;
@@ -97,7 +106,7 @@ body {
 }
 
 #tab3 {
-  position: fixed;
+  position: absolute;
   top: 81px;
   left: 401px;
   width: 299px;
@@ -176,7 +185,7 @@ body {
 
 
 #tab4 {
-  position: fixed;
+  position: absolute;
   top: 81px;
   left: 821px;
   width: 299px;
@@ -187,9 +196,9 @@ body {
 }
 
 #mapid {
-  height: 550px;
+  height: 650px;
   width: 100%;
-  position: fixed;
+  position: absolute;
   bottom:0;
   right: 0;
   top: 141px;
@@ -200,15 +209,6 @@ body {
 
 .legend-control-container {
   text-align: center;
-}
-
-#information {
-  position: fixed;
-  display: inline-block;
-  width: 50%;
-  height: 500px;
-  left: 25%;
-  top: 700px;
 }
 
 #temporal-legend {
@@ -254,14 +254,14 @@ body {
 }
 
 #right-pane {
-  position: fixed;
+  position: absolute;
   display: inline-block;
   top: 165px;
   width: 300px;
   height: 500px;
   right: 1%;
   border: solid;
-  border-width: thin;
+  border-width: 2px;
   border-color: black;
   background-image: url("gray_jean.png");
   overflow-y: scroll;
