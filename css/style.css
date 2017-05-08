@@ -37,7 +37,7 @@ body {
 #information-area {
   top: 791px;
   width: 100%;
-  height: 600px;
+  height: 1100px;
   overflow: visible;
   position: absolute;
   border-top: solid;
@@ -46,8 +46,19 @@ body {
   background-image: url("gray_jean.png");
 }
 
+
 #information-area h1, h3, p{
   text-indent: 10px;
+}
+
+#information-area h1{
+  font-family: sans-serif;
+}
+#information-area h3{
+  font-family: sans-serif;
+}
+#information-area p{
+  font-family: georgia;
 }
 
 #tabBar {
@@ -87,7 +98,6 @@ body {
   left: 201px;
   width: 230px;
   height: 59px;
-  border-right: solid;
   border-width: thin;
   border-color: black;
   text-align: left;
@@ -108,7 +118,6 @@ body {
   left: 431px;
   width: 299px;
   height: 59px;
-  border-right: solid;
   border-width: thin;
   border-color: black;
   text-align: center;
@@ -132,6 +141,11 @@ body {
   border: solid;
   border-width: 2px;
   border-color: black;
+}
+
+.info:hover {
+  background-image: none;
+  background-color: gold;
 }
 
 .container {
@@ -332,17 +346,45 @@ body {
     stroke-width: 3.5;
     fill: none;
 }
-.tooltip {   
-  position: absolute;           
-  text-align: center;           
-  width: 60px;                  
-  height: 28px;                 
-  padding: 2px;             
-  font: 12px sans-serif;        
-  background: lightsteelblue;   
-  border: 0px;      
-  border-radius: 8px;           
-  pointer-events: none;         
+<<<<<<< Updated upstream
+.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 60px;
+  height: 28px;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+=======
+
+.tooltip {
+  position: absolute;
+  text-align: center;
+  content: normal;
+  width: 80px;
+  height: 40px;
+  left: 70px;
+  padding: 0px;
+  line-height: 1px;
+  font: 14px verdana sans-serif;
+  border: solid;
+  border-width: 1px;
+  pointer-events: none;
+}
+
+.tooltip p {
+  position: absolute;
+  text-align: center;
+  width: 150px;
+  height: 40px;
+  left: -40px;
+  top: -2px;
+  padding: 0px;
+  font: 14px verdana sans-serif;
+>>>>>>> Stashed changes
+  pointer-events: none;
 }
 
 .leaflet-popup-content p {
@@ -353,5 +395,5 @@ footer {
   position: absolute;
   font-size: 12px;
   left: 5px;
-  top: 1373px;
+  top: 1873px;
 }
