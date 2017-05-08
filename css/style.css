@@ -1,29 +1,26 @@
 /* Stylesheet by David J. Waro, Peter Nielsen, Jacob P. Hrubecky */
 
 body {
-
+  height: 1391;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
 }
 
+
 #title {
-  position: fixed;
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
-  box-sizing: content-box;
-  border: 1px;
-  stroke: black;
-  font: normal 50px/1 "Trebuchet MS", Helvetica, sans-serif;
-  color: rgba(255,255,255,1);
-  -o-text-overflow: ellipsis;
-  text-overflow: ellipsis;
-  text-shadow: 4px 4px 6px rgba(0,0,0,0.91) ;
+  font: normal 4.5vw "Audiowide", Helvetica, sans-serif;
+  color: gray;
+  text-align: center;
 }
 
 #top {
-  width: 600px;
+  width: 100%;
   top: 0;
   left: 0;
+  position: absolute;
   height: 80px;
-  position: fixed;
   display: inline-block;
   background: blue; /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(left top, #e6b800, white); /* For Safari 5.1 to 6.0 */
@@ -31,104 +28,195 @@ body {
   background: -moz-linear-gradient(bottom right, #e6b800, white); /* For Firefox 3.6 to 15 */
   background: linear-gradient(to bottom right, #e6b800, white); /* Standard syntax */
   opacity: 0.8;
-  border: solid;
+  border-bottom: solid;
   border-width: thin;
   border-color: black;
   z-index: -1;
 }
 
-#tabBar {
-  position: fixed;
-  top: 81px;
-  left: 0px;
-  height: 29px;
-  width: 600px;
-  border: solid;
+#information-area {
+  top: 791px;
+  width: 100%;
+  height: 600px;
+  overflow: visible;
+  position: absolute;
+  border-top: solid;
   border-width: thin;
   border-color: black;
   background-image: url("gray_jean.png");
 }
 
-#tab1 {
-  position: fixed;
+#tabBar {
+  position: absolute;
   top: 81px;
-  left: 0;
-  width: 150px;
-  height: 29px;
-  border-right: solid;
+  left: 0px;
+  height: 59px;
+  width: 100%;
+  border-bottom: solid;
   border-width: thin;
   border-color: black;
-  text-align: center;
+  background-image: url("gray_jean.png");
+  overflow: visible;
+}
+
+#tab1 {
+  position: absolute;
+  top: 2px;
+  left: 0px;
+  width: 200px;
+  height: 59px;
+  text-align: left;
+  text-indent: 10px;
+  overflow: visible;
+}
+
+#tab1-1 {
+  position: absolute;
+  align-content: left;
+  left: 0;
+  overflow: visible;
 }
 
 #tab2 {
-  position: fixed;
+  position: absolute;
   top: 81px;
-  left: 151px;
-  width: 149px;
-  height: 29px;
+  left: 201px;
+  width: 230px;
+  height: 59px;
   border-right: solid;
   border-width: thin;
   border-color: black;
-  text-align: center;
+  text-align: left;
+  overflow: visible;
+}
+
+#tab2-1 {
+  position: absolute;
+  top: 18px;
+  align-content: left;
+  left: 2%;
+  overflow: visible;
+}
+
+#tab3-1 {
+  position: absolute;
+  top: 10px;
+  align-content: left;
+  left: 2%;
 }
 
 #tab3 {
-  position: fixed;
+  position: absolute;
   top: 81px;
-  left: 301px;
-  width: 149px;
-  height: 29px;
+  left: 401px;
+  width: 299px;
+  height: 59px;
   border-right: solid;
   border-width: thin;
   border-color: black;
   text-align: center;
+  overflow: visible;
+}
+
+.container {
+    overflow: hidden;
+    font-family: Verdana;
+    top: 10px;
+}
+
+.container a {
+    float: left;
+    font-size: 16px;
+    color: black;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+    top: 10px;
+    width: auto;
+}
+
+.dropdown .dropbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    color: black;
+    top: 5px;
+    padding: 14px 16px;
+    border: solid;
+    border-width: 2px;
+    border-color: black;
+    background-color: inherit;
+}
+
+.container a:hover, .dropdown:hover .dropbtn {
+    background-color: gold;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-image: url("gray_jean.png");
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
 }
 
 
 #tab4 {
-  position: fixed;
+  position: absolute;
   top: 81px;
-  left: 451px;
-  width: 149px;
-  height: 29px;
+  left: 821px;
+  width: 299px;
+  height: 59px;
   border-width: thin;
   border-color: black;
   text-align: center;
 }
 
 #mapid {
-  height: 100%;
+  height: 650px;
   width: 100%;
-  position: fixed;
-  top:19%;
+  position: absolute;
   bottom:0;
-  left: 0;
-  top: 0;
+  right: 0;
+  top: 141px;
   overflow: hidden;
   display: inline-block;
   z-index: -100;
 }
 
 .legend-control-container {
-  background-color: rgba(255,255,255,0.8);
   text-align: center;
-  border: solid gray 1.5px;
-  border-radius: 1em;
 }
 
 #temporal-legend {
-  position: absolute;
-  left: 6%;
-  top: 17%;
+  line-height: 20px;
+  padding: 3px;
   text-align: center;
-  font-family: Helvetica, sans-serif;
-}
-
-#attribute-legend {
-  position: fixed;
-  bottom: 15%;
-  left: 3%;
+  font-family: Verdana, sans-serif;
+  bottom: 1%;
 }
 
 #reverseImage {
@@ -144,24 +232,18 @@ body {
 #section-1 {
   position: absolute;
   text-align: left;
-  font-family: Helvetica, sans-serif;
-  left: 11.5%;
-  top: 2%;
-}
-
-#section-2 {
-  position: absolute;
-  height: 20%;
-  top: 20%;
+  font-family: Verdana, sans-serif;
   width: 100%;
+  top: 0;
+  height: 39%;
   bottom: 60%;
 }
 
 #section-3 {
   position: absolute;
-  height: 40%;
+  height: 37%;
   width: 100%;
-  bottom: 20%;
+  top: 50%;
 }
 
 #section-4 {
@@ -171,15 +253,15 @@ body {
   bottom: 0;
 }
 
-#left-pane {
-  position: fixed;
+#right-pane {
+  position: absolute;
   display: inline-block;
-  top: 150px;
-  width: 225px;
+  top: 165px;
+  width: 300px;
   height: 500px;
-  left: 0;
+  right: 1%;
   border: solid;
-  border-width: thin;
+  border-width: 2px;
   border-color: black;
   background-image: url("gray_jean.png");
   overflow-y: scroll;
@@ -192,21 +274,6 @@ body {
 .search {
   text-align: center;
   margin-left: 40px;
-}
-
-#right-pane {
-  position: fixed;
-  display: inline-block;
-  top: 19%;
-  width: 17%;
-  height: 76%;
-  left: 81.5%;
-  right: 1.5%;
-  bottom: 5%;
-  border: solid;
-  border-width: thin;
-  border-color: black;
-  background-image: url("gray_jean.png");
 }
 
 .range-slider {
@@ -239,11 +306,10 @@ body {
 }
 
 .chart {
-    border: medium solid black;
-    background-color: #999;
     position: absolute;
-    top: 40px;
-    left: 4%;
+    top: 60px;
+    left: 3%;
+    width: 275px;
 }
 
 .lines {

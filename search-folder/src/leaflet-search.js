@@ -97,7 +97,7 @@ L.Control.Search = L.Control.extend({
 		autoCollapseTime: 1200,			//delay for autoclosing alert and collapse after blur
 		textErr: 'Location not found',	//error message
 		textCancel: 'Cancel',		    //title in cancel button
-		textPlaceholder: 'Search...',   //placeholder value
+		textPlaceholder: 'Search for a location',   //placeholder value
 		position: 'topleft',
 		hideMarkerOnCollapse: false,    //remove circle and marker on search control collapsed
 		marker: {						//custom L.Marker or false for hide

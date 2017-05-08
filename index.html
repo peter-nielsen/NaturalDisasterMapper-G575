@@ -8,6 +8,7 @@
         <!--put your external stylesheet links here-->
         <link rel="stylesheet" href="lib/leaflet.css">
         <link rel="stylesheet" href="search-folder/src/leaflet-search.css">
+        <link async href="http://fonts.googleapis.com/css?family=Audiowide" data-generated="http://enjoycss.com" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="lib/Leaflet.NavBar/src/Leaflet.NavBar.css">
 		    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
@@ -21,21 +22,43 @@
       <div id="top"></div>
       <div id="mydiv"></div>
       <div id="tabBar">
-        <div id="tab1">Tab 1</div>
-        <div id="tab2">Tab 2</div>
-        <div id="tab3">Tab 3</div>
+        <div id="tab1" class="container">
+            <div class="dropdown">
+              <button class="dropbtn"><b>Select an Event</b></button>
+              <div class="dropdown-content">
+                <a href="#" id="total-events">Total Events</a>
+                <a href="#" id="avalanches">Avalanche</a>
+                <a href="#" id="blizzards">Blizzard</a>
+                <a href="#" id="droughts">Drought</a>
+                <a href="#" id="excessive-heat">Excessive Heat</a>
+                <a href="#" id="extreme-cold">Extreme Cold</a>
+                <a href="#" id="tornado">Tornado</a>
+                <a href="#" id="wildfire">Wildfire</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="tab2">
+          <div id="tab2-1">
+          </div>
+        </div>
+        <div id="tab3" class="container">
+          <div id="tab3-1"></div>
+        </div>
         <div id="tab4">Tab 4</div>
       </div>
       <div id="mapid"></div>
-      <div id="left-pane">
-        <div id="section-1"><b>Select an Event</b></div>
-        <div id="section-2">
-            <div class="search"></div>
+      <div id="right-pane">
+        <div id="section-1"></div>
+        <div id="section-3">
+          <div class="legend-circle"></div>
         </div>
-        <div id="section-3"></div>
         <div id="section-4"></div>
       </div>
-      <div id="right-pane"></div>
+      <div id="information-area">
+        <h1>Disaster Information</h1>
+        <p>Information to eventually see</p>
+      </div>
 
         <script type="text/javascript" src="lib/leaflet-src.js"></script>
         <script type="text/javascript" src="js/ajax.js"></script>
