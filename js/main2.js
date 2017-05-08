@@ -676,11 +676,6 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> origin/master
 	activeField = "Total_Events";
 	// creating an array of attributes
 	attributes = processData(state_eventsJSON, activeField);
@@ -1133,7 +1128,8 @@ function updatePropSymbols(mymap, attribute){
         },
         click: function(){
 						// click content
-        }
+        },
+
       }); // close to layer.on
     }; // close to if statement
   }); // close to eachLayer function
@@ -1234,13 +1230,22 @@ function search (mymap, proportionalSymbols, countySymbols){
     propertyName: 'Location',  // search for State name
     marker: false,
     moveToLocation: function (latlng, title, mymap) {
-
       // set the view once searched to the circle marker's latlng and zoom
       mymap.setView(latlng, 6);
-    } // close to moveToLocation
-		
+			searchPopup(latlng, title, mymap);
+    }// close to moveToLocation
+
+
   }); // close to var searchLayer
 
+	//function to add a popup when area is searched
+	function searchPopup  (latlng, title, mymap){
+		console.log('popup');
+		var searchPopup = L.popup()
+		.setLatLng(latlng)
+		.setContent(title)
+		.openOn(mymap)
+	};
   // add the control to the map
 	//$("#section-2").append(searchLayer.onAdd(mymap));
 	$("#tab2-1").append(searchLayer.onAdd(mymap));
@@ -1443,15 +1448,15 @@ function stateGraph(csvData){
                     return '#386cb0';
                 }
             });
-        
+
         console.log(csvData[row]['Location']);
     };
-    
+
     //create label for tooltip
     var tooltip = d3.select('#section-1').append('div')
                     .attr('class', 'tooltip')
                     .style('opacity', 0);
-    
+
     vis.selectAll('.lines')
         .on('mouseover', function(){
             console.log(this.id);
@@ -1466,10 +1471,10 @@ function stateGraph(csvData){
         .on("mouseout", function(){
             d3.select('#'+ (this.id).toString())
                 .style("stroke-width", "3.5");
-            d3.select('.tooltip')      
+            d3.select('.tooltip')
                 .style("opacity", 0);
         });
-    
+
     $(".dropdown select").on("change", function(g) {
         console.log('plese register');
     })
@@ -1487,7 +1492,7 @@ function stateGraph(csvData){
 function updateStateGraph(vis, val, csvData, title){
     console.log(val, csvData[0]);
     var graphAttr;
-    
+
     if (val == 'Avalanche'){
         graphAttr = 'Avalanche';
     }
@@ -1512,14 +1517,14 @@ function updateStateGraph(vis, val, csvData, title){
     else {
         graphAttr = 'Total_Events'
     }
-    
+
     //title
     var title = d3.select('#section-1')
         .html('<br>' + val + ' By State</br>2000-2016')
         .style('font-family', 'Helvetica, sans-serif')
         .style('text-align', 'center')
-        .style('font-weight', 'bold');    
-    
+        .style('font-weight', 'bold');
+
     for (var row = 0; row < csvData.length; row++){
     vis.append('polyline')
         .attr('points', (x(2000)).toString() + ',' + (y(csvData[row]['Total_Events_2000'])).toString() + ',' +
@@ -1565,7 +1570,7 @@ function updateStateGraph(vis, val, csvData, title){
             }
         });
         console.log(csvData[row]['Location']);
-    }; 
+    };
 }
 
 
