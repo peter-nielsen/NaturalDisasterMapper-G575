@@ -649,6 +649,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	});
 
 	$(".dropdown select").on("change", function(g) {
+            //updateStateGraph(vis, e.target.value, csvData, title);
 			var targetLayer = g.target.value;
 			if (targetLayer == 'stateTotalEventsLayer' && mymap.getZoom() < 6) {
 					activeLayer = allLayers.stateTotalEventsLayer;
@@ -1499,7 +1500,7 @@ function stateGraph(csvData){
 
 
     for (var row = 0; row < csvData.length; row++){
-        vis.append('polyline')
+        var lines = vis.append('polyline')
             .attr('points', (x(2000)).toString() + ',' + (y(csvData[row]['Total_Events_2000'])).toString() + ',' +
             (x(2001)).toString() + ',' + (y(csvData[row]['Total_Events_2001'])).toString() + ',' +
             (x(2002)).toString() + ',' + (y(csvData[row]['Total_Events_2002'])).toString() + ',' +
@@ -1547,23 +1548,25 @@ function stateGraph(csvData){
     };
     
     //create label for tooltip
-    var label = d3.select('#section-1').append('div')
+    var tooltip = d3.select('#section-1').append('div')
                     .attr('class', 'tooltip')
                     .style('opacity', 0);
     
     vis.selectAll('.lines')
         .on('mouseover', function(){
             console.log(this.id);
-            label.transition()        
-                .duration(50)      
-                .style("opacity", 1);
-            label.html(this.id)
-                .style("left", (d3.event.pageX) + "px")     
-                .style("top", (d3.event.pageY) + "px");
+            d3.select('#' + (this.id).toString())
+                .style("stroke-width", "6");
+            d3.select('.tooltip')
+                .style("opacity", 1)
+                .html('<p>' + this.id + '</p>')
+                .style('left', width/2 +'px')
+                .style('top', '70px');
         })
-        .on("mouseout", function(){       
-            label.transition()        
-                .duration(500)      
+        .on("mouseout", function(){
+            d3.select('#'+ (this.id).toString())
+                .style("stroke-width", "3.5");
+            d3.select('.tooltip')      
                 .style("opacity", 0);
         });
     
