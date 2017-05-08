@@ -47,8 +47,9 @@ body {
 }
 
 
-#information-area h1, h3, p{
-  text-indent: 10px;
+#information-area h1, h3, p {
+  text-align: left;
+  padding-left: 10px;
 }
 
 #information-area h1{

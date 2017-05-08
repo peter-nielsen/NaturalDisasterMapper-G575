@@ -462,8 +462,6 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	"<span class = 'overlayText'>Wildfires</span>": allLayers.stateWildfiresLayer// & allLayers.countyWildfiresLayer
 };
 
-	// call to create the dropdown menu
-	//dropdown(mymap, attributes);
 	var activeLayer;
 
 	$("#total-events").on("click", function(e) {
@@ -697,6 +695,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	activeField = "Total_Events";
 	// creating an array of attributes
 	attributes = processData(state_eventsJSON, activeField);
+	activeLayer = allLayers.stateTotalEventsLayer;
 	// call function to create proportional symbols
 	createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attributes);
 	createSequenceControls(mymap, attributes);
@@ -704,7 +703,8 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	sauce = $('.range-slider').val();
 	updateLegend(mymap, attributes[sauce]);
 	updatePropSymbols(mymap, attributes[sauce]);
-//function to switch county and state values based on zoom level
+
+	//function to switch county and state values based on zoom level
 	mymap.on('zoomend', function(){
 		if (activeField == "Total_Events" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateTotalEventsLayer;
@@ -1122,8 +1122,8 @@ function updatePropSymbols(mymap, attribute){
         mouseout: function(){
           this.closePopup();
         },
-        click: function(){
-						// click content
+        click: function(e){
+						clickZoom(e);
         },
 
       }); // close to layer.on
@@ -1203,7 +1203,11 @@ function createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attribute
 
 function clickZoom(e) {
 	console.log("click function not working");
+	if (mymap.getZoom() < 6) {
     mymap.setView(e.target.getLatLng(), 6);
+	} else {
+		mymap.setView(e.target.getLatLng(), 8);
+	}
 };
 
 // funtion to create the search control
@@ -1216,7 +1220,7 @@ function search (mymap, proportionalSymbols, countySymbols){
     marker: false,
     moveToLocation: function (latlng, title, mymap) {
       // set the view once searched to the circle marker's latlng and zoom
-      mymap.setView(latlng, 8);
+      mymap.setView(latlng, 7);
 			searchPopup(latlng, title, mymap);
     }// close to moveToLocation
   }); // close to moveToLocation
@@ -1276,7 +1280,7 @@ function pointToLayer(feature, latlng, attributes, layer){
       this.closePopup();
     },
 		click: function(e){
-				clickZoom(e);
+			clickZoom(e)
 		}
   });
 
@@ -1323,13 +1327,30 @@ function Popup(properties, layer, radius){
 
 // create graph for the initial state view
 function stateGraph(csvData){
+
+    //print info for each item/state in csv file
+    for (var row = 0; row < csvData.length; row++){
+        console.log(csvData[row]);
+    }
+
+
+    //chart width and height
+    var width = window.innerWidth * 0.15;
+    var height = window.innerWidth * 0.15;
+
     //chart title
     $('.lines').fadeOut(1000);
     var title = d3.select('#section-1')
         .html('<br>' + activeField + ' By State</br>2000-2016')
+        .html('<br>Total Events By State</br>2000-2016')
         .style('font-family', 'Helvetica, sans-serif')
         .style('text-align', 'center')
         .style('font-weight', 'bold');
+
+
+    //chart width and height
+    var width = window.innerWidth * 0.15;
+    var height = window.innerWidth * 0.15;
 
     // svg to contain chart
     var vis = d3.select('#section-1')
@@ -1338,13 +1359,22 @@ function stateGraph(csvData){
         .attr('height', height)
         .attr("class", "chart");
 
+    //scales
+    var x = d3.scaleLinear()
+        .range([0, width + 50])
+        .domain([2000, 2016]);
+
+    var y = d3.scaleLinear()
+        .range([0, height-27])
+        .domain([600, 0]);
+
     //axis
     var xAxis = d3.axisBottom()
-        .tickFormat(d3.format("d"))
+				.tickFormat(d3.format("d"))
         .scale(x);
     var yAxis = d3.axisLeft()
         .scale(y);
-  
+
     // Adding the scales to the chart.
     vis.append("svg:g")
         .attr("transform", 'translate(27,' + (height-20).toString() + ')')
@@ -1352,12 +1382,17 @@ function stateGraph(csvData){
     vis.append("svg:g")
         .attr("transform", 'translate(27, 6)')
         .call(yAxis);
-    
+
     //create label for tooltip
     var tooltip = d3.select('#section-1')
         .append('div')
         .attr('class', 'tooltip')
         .style('opacity', 0);
+    var lineArea = d3.select('.chart')
+        .append('svg')
+        .attr('width', width-27)
+        .attr('height', height-20)
+        .style('fill', 'black');
 
     for (var row = 0; row < csvData.length; row++){
         var lines = vis.append('polyline')
@@ -1417,6 +1452,21 @@ function stateGraph(csvData){
     //what happends when lines are moused over
     vis.selectAll('.lines')
         .on('mouseover', highlight)
+        .on('mouseover', function(){
+            console.log("id: " + this.id);
+            d3.select('#' + (this.id).toString())
+                .style("stroke-width", "6");
+
+								if (this.id == "New_Mexico_") {
+									this.id = this.id.split("_")[0] + " "
+									 + this.id.split("_")[1];
+								}
+            d3.select('.tooltip')
+                .style("opacity", 1)
+                .html('<p>' + this.id + '</p>')
+                .style('left', width/2 +'px')
+                .style('top', '70px');
+        })
         .on("mouseout", function(){
 					if (this.id == "New Mexico"){
 						this.id = "New_Mexico_";
@@ -1425,10 +1475,10 @@ function stateGraph(csvData){
                 .style("stroke-width", "3.5");
             d3.select('.tooltip')
                 .style("opacity", 0);
-        });  
-    
+        });
+
     //updateStateGraph(vis, csvData, title);
-    
+
     /*
     $('#total-events').on('click', function(){
         updateStateGraph(vis, activeField, csvData, title, x, y);
@@ -1461,17 +1511,110 @@ function highlight(){
     console.log("id: " + this.id);
     d3.select('#' + (this.id).toString())
         .style("stroke-width", "6");
-                  
+
     if (this.id == "New_Mexico_") {
         this.id = this.id.split("_")[0] + " " + this.id.split("_")[1];
     }
-        
+
     d3.select('.tooltip')
         .style("opacity", 1)
         .html('<p>' + this.id + '</p>')
         .style('left', width/2 +'px')
-        .style('top', '70px');    
-}
+        .style('top', '70px');
+
+    //create array out of only desired values and use them with the y axis generator
+    d3.selectAll(".dropdown-element a")
+        .on("change", function(e){//e is undefined right now... figure out why
+            console.log(e.target.value);
+            console.log('hello');
+            updateStateGraph(vis, e.target.value, csvData, title);
+    })
+
+};
+
+function updateStateGraph(vis, val, csvData, title){
+    console.log(val, csvData[0]);
+    var graphAttr;
+
+    if (val == 'Avalanche'){
+        graphAttr = 'Avalanche';
+    }
+    else if (val == 'Blizzard'){
+        graphAttr = 'Blizzard'
+    }
+    else if (val == 'Drought'){
+        graphAttr = 'Drought'
+    }
+    else if (val == 'Excessive Heat'){
+        graphAttr = 'Excessive_Heat'
+    }
+    else if (val == 'Extreme Cold'){
+        graphAttr = 'Extreme_Cold'
+    }
+    else if (val == 'Tornado'){
+        graphAttr = 'Tornado'
+    }
+    else if (val == 'Wildfire'){
+        graphAttr = 'Wildfire'
+    }
+    else {
+        graphAttr = 'Total_Events'
+    }
+
+    //title
+    var title = d3.select('#section-1')
+        .html('<br>' + val + ' By State</br>2000-2016')
+        .style('font-family', 'Helvetica, sans-serif')
+        .style('text-align', 'center')
+        .style('font-weight', 'bold');
+
+    for (var row = 0; row < csvData.length; row++){
+    vis.append('polyline')
+        .attr('points', (x(2000)).toString() + ',' + (y(csvData[row]['Total_Events_2000'])).toString() + ',' +
+        (x(2001)).toString() + ',' + (y(csvData[row][graphAttr + '_2001'])).toString() + ',' +
+        (x(2002)).toString() + ',' + (y(csvData[row][graphAttr + '_2002'])).toString() + ',' +
+        (x(2003)).toString() + ',' + (y(csvData[row][graphAttr + '_2003'])).toString() + ',' +
+        (x(2004)).toString() + ',' + (y(csvData[row][graphAttr + '_2004'])).toString() + ',' +
+        (x(2005)).toString() + ',' + (y(csvData[row][graphAttr + '_2005'])).toString() + ',' +
+        (x(2006)).toString() + ',' + (y(csvData[row][graphAttr + '_2006'])).toString() + ',' +
+        (x(2007)).toString() + ',' + (y(csvData[row][graphAttr + '_2007'])).toString() + ',' +
+        (x(2008)).toString() + ',' + (y(csvData[row][graphAttr + '_2008'])).toString() + ',' +
+        (x(2009)).toString() + ',' + (y(csvData[row][graphAttr + '_2009'])).toString() + ',' +
+        (x(2010)).toString() + ',' + (y(csvData[row][graphAttr + '_2010'])).toString() + ',' +
+        (x(2011)).toString() + ',' + (y(csvData[row][graphAttr + '_2011'])).toString() + ',' +
+        (x(2012)).toString() + ',' + (y(csvData[row][graphAttr + '_2012'])).toString() + ',' +
+        (x(2013)).toString() + ',' + (y(csvData[row][graphAttr + '_2013'])).toString() + ',' +
+        (x(2014)).toString() + ',' + (y(csvData[row][graphAttr + '_2014'])).toString() + ',' +
+        (x(2015)).toString() + ',' + (y(csvData[row][graphAttr + '_2015'])).toString() + ',' +
+        (x(2016)).toString() + ',' + (y(csvData[row][graphAttr + '_2016'])).toString())
+        .attr('class', 'lines')
+        .attr('transform', 'translate(28,6)')
+        .attr('id', function(){
+            return csvData[row]['Location']
+        })
+        .style('stroke', function(){
+            if (row == 0){
+                return 'red';
+            }
+            else if (row == 1){
+                return 'orange';
+            }
+            else if (row == 2){
+                return 'yellow';
+            }
+            else if (row == 3){
+                return 'green';
+            }
+            else if (row == 4){
+                return 'blue';
+            }
+            else{
+                return 'purple';
+            }
+        });
+        console.log(csvData[row]['Location']);
+    };
+};
 
 
 $(document).ready(initialize);
