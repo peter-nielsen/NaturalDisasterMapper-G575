@@ -26,14 +26,14 @@
             <div class="dropdown">
               <button class="dropbtn"><b>Select an Event</b></button>
               <div class="dropdown-content">
-                <a href="#" id="total-events">Total Events</a>
-                <a href="#" id="avalanches">Avalanche</a>
-                <a href="#" id="blizzards">Blizzard</a>
-                <a href="#" id="droughts">Drought</a>
-                <a href="#" id="excessive-heat">Excessive Heat</a>
-                <a href="#" id="extreme-cold">Extreme Cold</a>
-                <a href="#" id="tornado">Tornado</a>
-                <a href="#" id="wildfire">Wildfire</a>
+                <a href="#" class="dropdown-element" id="total-events">Total Events</a>
+                <a href="#" class="dropdown-element" id="avalanches">Avalanche</a>
+                <a href="#" class="dropdown-element" id="blizzards">Blizzard</a>
+                <a href="#" class="dropdown-element" id="droughts">Drought</a>
+                <a href="#" class="dropdown-element" id="excessive-heat">Excessive Heat</a>
+                <a href="#" class="dropdown-element" id="extreme-cold">Extreme Cold</a>
+                <a href="#" class="dropdown-element" id="tornado">Tornado</a>
+                <a href="#" class="dropdown-element" id="wildfire">Wildfire</a>
               </div>
             </div>
           </div>
@@ -42,8 +42,10 @@
           <div id="tab2-1">
           </div>
         </div>
-        <div id="tab3" class="container">
-          <div id="tab3-1"></div>
+        <div id="tab3">
+          <div id="tab3-1">
+          <button class="info"><b>Learn more about hazardous weather!</b></button>
+          </div>
         </div>
         <div id="tab4">Tab 4</div>
       </div>
@@ -55,10 +57,21 @@
         </div>
         <div id="section-4"></div>
       </div>
+
       <div id="information-area">
-        <h1>Disaster Information</h1>
-        <p>Information to eventually see</p>
+        <h1><a href="event-info">Hazardous Weather</a></h1>
+        <p>Hazardous weather doesn't always mean that it'll be an iminent threat.</p>
+        <div id="left-half">
+          <h3>Avalanches</h3>
+          <br></br>
+          <h3>Blizzards</h3>
+          <br></br>
+          <h3>Droughts</h3>
+          <br></br>
+          <h3>Excessive Heat</h3>
+        </div>
       </div>
+      <footer>Information collected from NOAA</footer>
 
         <script type="text/javascript" src="lib/leaflet-src.js"></script>
         <script type="text/javascript" src="js/ajax.js"></script>
