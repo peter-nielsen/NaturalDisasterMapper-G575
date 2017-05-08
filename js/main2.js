@@ -1437,8 +1437,6 @@ function Popup(properties, layer, radius){
 // create graph for the initial state view
 // create graph for the initial state view
 function stateGraph(csvData){
-    //array of all year for x values
-    var yearsArray = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016];
 
     //print info for each item/state in csv file
     for (var row = 0; row < csvData.length; row++){
@@ -1452,9 +1450,8 @@ function stateGraph(csvData){
 
 
     //chart title
-
     var title = d3.select('#section-1')
-        .html('<br>All Natural Disasters By State</br>2000-2016')
+        .html('<br>Total Events By State</br>2000-2016')
         .style('font-family', 'Helvetica, sans-serif')
         .style('text-align', 'center')
         .style('font-weight', 'bold');
@@ -1527,41 +1524,145 @@ function stateGraph(csvData){
             })
             .style('stroke', function(){
                 if (row == 0){
-                    return 'red';
+                    return '#7fc97f';
                 }
                 else if (row == 1){
-                    return 'orange';
+                    return '#beaed4';
                 }
                 else if (row == 2){
-                    return 'yellow';
+                    return '#fdc086';
                 }
                 else if (row == 3){
-                    return 'green';
+                    return '#ffff99';
                 }
                 else if (row == 4){
                     return 'blue';
                 }
                 else{
-                    return 'purple';
+                    return '#386cb0';
                 }
             });
-
+        
         console.log(csvData[row]['Location']);
     };
+    
+    //create label for tooltip
+    var label = d3.select('#section-1').append('div')
+                    .attr('class', 'tooltip')
+                    .style('opacity', 0);
+    
+    vis.selectAll('.lines')
+        .on('mouseover', function(){
+            console.log(this.id);
+            label.transition()        
+                .duration(50)      
+                .style("opacity", 1);
+            label.html(this.id)
+                .style("left", (d3.event.pageX) + "px")     
+                .style("top", (d3.event.pageY) + "px");
+        })
+        .on("mouseout", function(){       
+            label.transition()        
+                .duration(500)      
+                .style("opacity", 0);
+        });
+    
+    $(".dropdown select").on("change", function(g) {
+        console.log('plese register');
+    })
 
     //create array out of only desired values and use them with the y axis generator
     d3.selectAll(".dropdown select")
         .on("change", function(e){//e is undefined right now... figure out why
             console.log(e.target.value);
-            updateStateGraph(vis, x, y, e.target.value, csvData);
+            console.log('hello');
+            updateStateGraph(vis, e.target.value, csvData, title);
     })
 
 };
 
-function updateStateGraph(vis, x, y, val, csvData){
+function updateStateGraph(vis, val, csvData, title){
     console.log(val, csvData[0]);
-    //use dropdown event listener and do something differnt to csvData each time a different dropdown option is selected.
-
+    var graphAttr;
+    
+    if (val == 'Avalanche'){
+        graphAttr = 'Avalanche';
+    }
+    else if (val == 'Blizzard'){
+        graphAttr = 'Blizzard'
+    }
+    else if (val == 'Drought'){
+        graphAttr = 'Drought'
+    }
+    else if (val == 'Excessive Heat'){
+        graphAttr = 'Excessive_Heat'
+    }
+    else if (val == 'Extreme Cold'){
+        graphAttr = 'Extreme_Cold'
+    }
+    else if (val == 'Tornado'){
+        graphAttr = 'Tornado'
+    }
+    else if (val == 'Wildfire'){
+        graphAttr = 'Wildfire'
+    }
+    else {
+        graphAttr = 'Total_Events'
+    }
+    
+    //title
+    var title = d3.select('#section-1')
+        .html('<br>' + val + ' By State</br>2000-2016')
+        .style('font-family', 'Helvetica, sans-serif')
+        .style('text-align', 'center')
+        .style('font-weight', 'bold');    
+    
+    for (var row = 0; row < csvData.length; row++){
+    vis.append('polyline')
+        .attr('points', (x(2000)).toString() + ',' + (y(csvData[row]['Total_Events_2000'])).toString() + ',' +
+        (x(2001)).toString() + ',' + (y(csvData[row][graphAttr + '_2001'])).toString() + ',' +
+        (x(2002)).toString() + ',' + (y(csvData[row][graphAttr + '_2002'])).toString() + ',' +
+        (x(2003)).toString() + ',' + (y(csvData[row][graphAttr + '_2003'])).toString() + ',' +
+        (x(2004)).toString() + ',' + (y(csvData[row][graphAttr + '_2004'])).toString() + ',' +
+        (x(2005)).toString() + ',' + (y(csvData[row][graphAttr + '_2005'])).toString() + ',' +
+        (x(2006)).toString() + ',' + (y(csvData[row][graphAttr + '_2006'])).toString() + ',' +
+        (x(2007)).toString() + ',' + (y(csvData[row][graphAttr + '_2007'])).toString() + ',' +
+        (x(2008)).toString() + ',' + (y(csvData[row][graphAttr + '_2008'])).toString() + ',' +
+        (x(2009)).toString() + ',' + (y(csvData[row][graphAttr + '_2009'])).toString() + ',' +
+        (x(2010)).toString() + ',' + (y(csvData[row][graphAttr + '_2010'])).toString() + ',' +
+        (x(2011)).toString() + ',' + (y(csvData[row][graphAttr + '_2011'])).toString() + ',' +
+        (x(2012)).toString() + ',' + (y(csvData[row][graphAttr + '_2012'])).toString() + ',' +
+        (x(2013)).toString() + ',' + (y(csvData[row][graphAttr + '_2013'])).toString() + ',' +
+        (x(2014)).toString() + ',' + (y(csvData[row][graphAttr + '_2014'])).toString() + ',' +
+        (x(2015)).toString() + ',' + (y(csvData[row][graphAttr + '_2015'])).toString() + ',' +
+        (x(2016)).toString() + ',' + (y(csvData[row][graphAttr + '_2016'])).toString())
+        .attr('class', 'lines')
+        .attr('transform', 'translate(28,6)')
+        .attr('id', function(){
+            return csvData[row]['Location']
+        })
+        .style('stroke', function(){
+            if (row == 0){
+                return 'red';
+            }
+            else if (row == 1){
+                return 'orange';
+            }
+            else if (row == 2){
+                return 'yellow';
+            }
+            else if (row == 3){
+                return 'green';
+            }
+            else if (row == 4){
+                return 'blue';
+            }
+            else{
+                return 'purple';
+            }
+        });
+        console.log(csvData[row]['Location']);
+    }; 
 }
 
 
