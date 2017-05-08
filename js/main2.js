@@ -970,7 +970,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	// creating an array of attributes
 	attributes = processData(state_eventsJSON, activeField);
 	// call function to create proportional symbols
-	createPropSymbols(state_eventsJSON, mymap, attributes);
+	createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attributes);
 	createSequenceControls(mymap, attributes);
 	createLegend(mymap, attributes);
 
@@ -1302,7 +1302,7 @@ function processData(data){
 
 
 // add circle markers for point features to the map
-function createPropSymbols(state_eventsJSON, mymap, attributes){
+function createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attributes){
 
   // create a Leaflet GeoJSON layer and add it to the map
   var proportionalSymbols = L.geoJson(state_eventsJSON, {
@@ -1310,9 +1310,17 @@ function createPropSymbols(state_eventsJSON, mymap, attributes){
       return pointToLayer(feature, latlng, attributes);
     }
   }).addTo(mymap);
+//creates searchable countySymbols layer
+	var countySymbols = L.geoJson(county_eventsJSON, {
+    pointToLayer: function(feature, latlng, mymap){
+      return pointToLayer(feature, latlng, attributes);
+    }
+  }).addTo(mymap);
 
   // call search function
-  search(mymap, state_eventsJSON, proportionalSymbols)
+  search(mymap, proportionalSymbols, countySymbols);
+//removes county symbols because we only want to display the states at map initialization
+	mymap.removeLayer(countySymbols);
 
 }; // close to createPropSymbols
 
@@ -1323,12 +1331,12 @@ function clickZoom(e) {
 };
 
 // funtion to create the search control
-function search (mymap, state_eventsJSON, proportionalSymbols){
-
+function search (mymap, proportionalSymbols, countySymbols){
+console.log(countySymbols);
   // new variable search control
   var searchLayer = new L.Control.Search({
     position: 'topright',  // positions the operator in the top left of the screen
-    layer: proportionalSymbols,  // use proportionalSymbols as the layer to search through
+    layer: L.featureGroup([proportionalSymbols,countySymbols]), // use proportionalSymbols as theand countySymbols layer to search through
     propertyName: 'Location',  // search for State name
     marker: false,
     moveToLocation: function (latlng, title, mymap) {
