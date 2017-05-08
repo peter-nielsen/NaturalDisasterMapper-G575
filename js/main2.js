@@ -456,7 +456,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	//dropdown(mymap, attributes);
 	var activeLayer;
 
-	document.getElementById("total-events").addEventListener("click", function(e) {
+	$("#total-events").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateTotalEventsLayer;
 			activeField = "Total_Events";
@@ -480,7 +480,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("avalanches").addEventListener("click", function(e) {
+	$("#avalanches").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateAvalanchesLayer;
 				activeField = "Avalanche";
@@ -504,7 +504,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("blizzards").addEventListener("click", function(e) {
+	$("#blizzards").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateBlizzardsLayer;
 			activeField = "Blizzard";
@@ -528,7 +528,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("droughts").addEventListener("click", function(e) {
+	$("#droughts").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateDroughtsLayer;
 			activeField = "Drought";
@@ -552,7 +552,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("excessive-heat").addEventListener("click", function(e) {
+	$("#excessive-heat").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateExcessiveHeatLayer;
 			activeField = "Excessive_Heat";
@@ -576,7 +576,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("extreme-cold").addEventListener("click", function(e) {
+	$("#extreme-cold").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateExtremeColdLayer;
 			activeField = "Extreme_Cold";
@@ -600,7 +600,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("tornado").addEventListener("click", function(e) {
+	$("#tornado").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateTornadosLayer;
 			activeField = "Tornado";
@@ -624,7 +624,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("wildfire").addEventListener("click", function(e) {
+	$("#wildfire").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateWildfiresLayer;
 			activeField = "Wildfire";
@@ -1268,10 +1268,6 @@ function baseLayers(mymap) {
 // 	'<option value="stateBlizzardsLayer">Blizzard</option><option value="stateDroughtsLayer">Drought</option><option value="stateExcessiveHeatLayer">Excessive Heat</option>'+
 // 	'<option value="stateExtremeColdLayer">Extreme Cold/ Wind Chill</option><option value="stateTornadosLayer">Tornado</option><option value="stateWildfiresLayer">Wildfire</option></select>';
 //
-// 	$("#tab3-1").html("<b>Select an Event</b>");
-// 	$("#tab3-1").append(dropdown);
-//
-//
 // };
 
 
@@ -1436,7 +1432,6 @@ function Popup(properties, layer, radius){
 
 
 // create graph for the initial state view
-// create graph for the initial state view
 function stateGraph(csvData){
 
     //print info for each item/state in csv file
@@ -1575,7 +1570,7 @@ function stateGraph(csvData){
     })
 
     //create array out of only desired values and use them with the y axis generator
-    d3.selectAll(".dropdown select")
+    d3.selectAll(".dropdown-element a")
         .on("change", function(e){//e is undefined right now... figure out why
             console.log(e.target.value);
             console.log('hello');

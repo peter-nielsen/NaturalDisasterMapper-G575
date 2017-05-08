@@ -1,7 +1,7 @@
 /* Stylesheet by David J. Waro, Peter Nielsen, Jacob P. Hrubecky */
 
 body {
-  height: 1391;
+  height: 1381;
   width: 100%;
   margin: 0;
   padding: 0;
@@ -44,6 +44,10 @@ body {
   border-width: thin;
   border-color: black;
   background-image: url("gray_jean.png");
+}
+
+#information-area h1, h3, p{
+  text-indent: 10px;
 }
 
 #tabBar {
@@ -98,17 +102,10 @@ body {
   overflow: visible;
 }
 
-#tab3-1 {
-  position: absolute;
-  top: 10px;
-  align-content: left;
-  left: 2%;
-}
-
 #tab3 {
   position: absolute;
   top: 81px;
-  left: 401px;
+  left: 431px;
   width: 299px;
   height: 59px;
   border-right: solid;
@@ -116,6 +113,25 @@ body {
   border-color: black;
   text-align: center;
   overflow: visible;
+}
+
+#tab3-1 {
+  position: absolute;
+  top: 3px;
+  height: 59px;
+  align-content: left;
+  left: 0px;
+}
+
+.info {
+  width: 90%;
+  height: 90%;
+  left: 0;
+  font-size: 15px;
+  background-image: url("gray_jean.png");
+  border: solid;
+  border-width: 2px;
+  border-color: black;
 }
 
 .container {
@@ -331,4 +347,11 @@ body {
 
 .leaflet-popup-content p {
   margin:  0.2em 0;
+}
+
+footer {
+  position: absolute;
+  font-size: 12px;
+  left: 5px;
+  top: 1373px;
 }
