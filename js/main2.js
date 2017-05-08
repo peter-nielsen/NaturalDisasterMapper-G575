@@ -456,7 +456,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	//dropdown(mymap, attributes);
 	var activeLayer;
 
-	document.getElementById("total-events").addEventListener("click", function(e) {
+	$("#total-events").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateTotalEventsLayer;
 			activeField = "Total_Events";
@@ -482,7 +482,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("avalanches").addEventListener("click", function(e) {
+	$("#avalanches").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateAvalanchesLayer;
 				activeField = "Avalanche";
@@ -510,7 +510,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("blizzards").addEventListener("click", function(e) {
+	$("#blizzards").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateBlizzardsLayer;
 			activeField = "Blizzard";
@@ -536,7 +536,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("droughts").addEventListener("click", function(e) {
+	$("#droughts").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateDroughtsLayer;
 			activeField = "Drought";
@@ -564,7 +564,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("excessive-heat").addEventListener("click", function(e) {
+	$("#excessive-heat").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateExcessiveHeatLayer;
 			activeField = "Excessive_Heat";
@@ -592,7 +592,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("extreme-cold").addEventListener("click", function(e) {
+	$("#extreme-cold").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateExtremeColdLayer;
 			activeField = "Extreme_Cold";
@@ -620,7 +620,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("tornado").addEventListener("click", function(e) {
+	$("#tornado").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateTornadosLayer;
 			activeField = "Tornado";
@@ -648,7 +648,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 		}
 	});
 
-	document.getElementById("wildfire").addEventListener("click", function(e) {
+	$("#wildfire").on("click", function(e) {
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateWildfiresLayer;
 			activeField = "Wildfire";
@@ -675,8 +675,6 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				updatePropSymbols(mymap, attributes[sauce]);
 		}
 	});
-
-	
 
 	activeField = "Total_Events";
 //function to switch county and state values based on zoom level
@@ -1162,10 +1160,6 @@ function baseLayers(mymap) {
 // 	'<option value="stateBlizzardsLayer">Blizzard</option><option value="stateDroughtsLayer">Drought</option><option value="stateExcessiveHeatLayer">Excessive Heat</option>'+
 // 	'<option value="stateExtremeColdLayer">Extreme Cold/ Wind Chill</option><option value="stateTornadosLayer">Tornado</option><option value="stateWildfiresLayer">Wildfire</option></select>';
 //
-// 	$("#tab3-1").html("<b>Select an Event</b>");
-// 	$("#tab3-1").append(dropdown);
-//
-//
 // };
 
 
@@ -1337,10 +1331,7 @@ function Popup(properties, layer, radius){
 
 
 // create graph for the initial state view
-// create graph for the initial state view
 function stateGraph(csvData){
-    //array of all year for x values
-    var yearsArray = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016];
 
     //print info for each item/state in csv file
     for (var row = 0; row < csvData.length; row++){
@@ -1354,9 +1345,8 @@ function stateGraph(csvData){
 
 
     //chart title
-
     var title = d3.select('#section-1')
-        .html('<br>All Natural Disasters By State</br>2000-2016')
+        .html('<br>Total Events By State</br>2000-2016')
         .style('font-family', 'Helvetica, sans-serif')
         .style('text-align', 'center')
         .style('font-weight', 'bold');
@@ -1404,7 +1394,7 @@ function stateGraph(csvData){
 
 
     for (var row = 0; row < csvData.length; row++){
-        vis.append('polyline')
+        var lines = vis.append('polyline')
             .attr('points', (x(2000)).toString() + ',' + (y(csvData[row]['Total_Events_2000'])).toString() + ',' +
             (x(2001)).toString() + ',' + (y(csvData[row]['Total_Events_2001'])).toString() + ',' +
             (x(2002)).toString() + ',' + (y(csvData[row]['Total_Events_2002'])).toString() + ',' +
@@ -1429,41 +1419,147 @@ function stateGraph(csvData){
             })
             .style('stroke', function(){
                 if (row == 0){
-                    return 'red';
+                    return '#7fc97f';
                 }
                 else if (row == 1){
-                    return 'orange';
+                    return '#beaed4';
                 }
                 else if (row == 2){
-                    return 'yellow';
+                    return '#fdc086';
                 }
                 else if (row == 3){
-                    return 'green';
+                    return '#ffff99';
                 }
                 else if (row == 4){
                     return 'blue';
                 }
                 else{
-                    return 'purple';
+                    return '#386cb0';
                 }
             });
-
+        
         console.log(csvData[row]['Location']);
     };
+    
+    //create label for tooltip
+    var tooltip = d3.select('#section-1').append('div')
+                    .attr('class', 'tooltip')
+                    .style('opacity', 0);
+    
+    vis.selectAll('.lines')
+        .on('mouseover', function(){
+            console.log(this.id);
+            d3.select('#' + (this.id).toString())
+                .style("stroke-width", "6");
+            d3.select('.tooltip')
+                .style("opacity", 1)
+                .html('<p>' + this.id + '</p>')
+                .style('left', width/2 +'px')
+                .style('top', '70px');
+        })
+        .on("mouseout", function(){
+            d3.select('#'+ (this.id).toString())
+                .style("stroke-width", "3.5");
+            d3.select('.tooltip')      
+                .style("opacity", 0);
+        });
+    
+    $(".dropdown select").on("change", function(g) {
+        console.log('plese register');
+    })
 
     //create array out of only desired values and use them with the y axis generator
-    d3.selectAll(".dropdown select")
+    d3.selectAll(".dropdown-element a")
         .on("change", function(e){//e is undefined right now... figure out why
             console.log(e.target.value);
-            updateStateGraph(vis, x, y, e.target.value, csvData);
+            console.log('hello');
+            updateStateGraph(vis, e.target.value, csvData, title);
     })
 
 };
 
-function updateStateGraph(vis, x, y, val, csvData){
+function updateStateGraph(vis, val, csvData, title){
     console.log(val, csvData[0]);
-    //use dropdown event listener and do something differnt to csvData each time a different dropdown option is selected.
-
+    var graphAttr;
+    
+    if (val == 'Avalanche'){
+        graphAttr = 'Avalanche';
+    }
+    else if (val == 'Blizzard'){
+        graphAttr = 'Blizzard'
+    }
+    else if (val == 'Drought'){
+        graphAttr = 'Drought'
+    }
+    else if (val == 'Excessive Heat'){
+        graphAttr = 'Excessive_Heat'
+    }
+    else if (val == 'Extreme Cold'){
+        graphAttr = 'Extreme_Cold'
+    }
+    else if (val == 'Tornado'){
+        graphAttr = 'Tornado'
+    }
+    else if (val == 'Wildfire'){
+        graphAttr = 'Wildfire'
+    }
+    else {
+        graphAttr = 'Total_Events'
+    }
+    
+    //title
+    var title = d3.select('#section-1')
+        .html('<br>' + val + ' By State</br>2000-2016')
+        .style('font-family', 'Helvetica, sans-serif')
+        .style('text-align', 'center')
+        .style('font-weight', 'bold');    
+    
+    for (var row = 0; row < csvData.length; row++){
+    vis.append('polyline')
+        .attr('points', (x(2000)).toString() + ',' + (y(csvData[row]['Total_Events_2000'])).toString() + ',' +
+        (x(2001)).toString() + ',' + (y(csvData[row][graphAttr + '_2001'])).toString() + ',' +
+        (x(2002)).toString() + ',' + (y(csvData[row][graphAttr + '_2002'])).toString() + ',' +
+        (x(2003)).toString() + ',' + (y(csvData[row][graphAttr + '_2003'])).toString() + ',' +
+        (x(2004)).toString() + ',' + (y(csvData[row][graphAttr + '_2004'])).toString() + ',' +
+        (x(2005)).toString() + ',' + (y(csvData[row][graphAttr + '_2005'])).toString() + ',' +
+        (x(2006)).toString() + ',' + (y(csvData[row][graphAttr + '_2006'])).toString() + ',' +
+        (x(2007)).toString() + ',' + (y(csvData[row][graphAttr + '_2007'])).toString() + ',' +
+        (x(2008)).toString() + ',' + (y(csvData[row][graphAttr + '_2008'])).toString() + ',' +
+        (x(2009)).toString() + ',' + (y(csvData[row][graphAttr + '_2009'])).toString() + ',' +
+        (x(2010)).toString() + ',' + (y(csvData[row][graphAttr + '_2010'])).toString() + ',' +
+        (x(2011)).toString() + ',' + (y(csvData[row][graphAttr + '_2011'])).toString() + ',' +
+        (x(2012)).toString() + ',' + (y(csvData[row][graphAttr + '_2012'])).toString() + ',' +
+        (x(2013)).toString() + ',' + (y(csvData[row][graphAttr + '_2013'])).toString() + ',' +
+        (x(2014)).toString() + ',' + (y(csvData[row][graphAttr + '_2014'])).toString() + ',' +
+        (x(2015)).toString() + ',' + (y(csvData[row][graphAttr + '_2015'])).toString() + ',' +
+        (x(2016)).toString() + ',' + (y(csvData[row][graphAttr + '_2016'])).toString())
+        .attr('class', 'lines')
+        .attr('transform', 'translate(28,6)')
+        .attr('id', function(){
+            return csvData[row]['Location']
+        })
+        .style('stroke', function(){
+            if (row == 0){
+                return 'red';
+            }
+            else if (row == 1){
+                return 'orange';
+            }
+            else if (row == 2){
+                return 'yellow';
+            }
+            else if (row == 3){
+                return 'green';
+            }
+            else if (row == 4){
+                return 'blue';
+            }
+            else{
+                return 'purple';
+            }
+        });
+        console.log(csvData[row]['Location']);
+    }; 
 }
 
 
