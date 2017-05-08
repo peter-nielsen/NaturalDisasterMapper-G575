@@ -476,7 +476,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}
 	});
 
@@ -490,7 +492,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(state_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		} else if (mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyAvalanchesLayer;
 				activeField = "Avalanche";
@@ -500,7 +504,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}
 	});
 
@@ -524,7 +530,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}
 	});
 
@@ -538,7 +546,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 			baseLayers(mymap);
 			mymap.addLayer(activeLayer);
 			attributes = processData(state_eventsJSON, activeField);
+			sauce = $('.range-slider').val();
 			updateLegend(mymap, attributes[sauce]);
+			updatePropSymbols(mymap, attributes[sauce]);
 		} else if (mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyDroughtsLayer;
 				activeField = "Drought";
@@ -548,7 +558,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}
 	});
 
@@ -562,7 +574,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 			baseLayers(mymap);
 			mymap.addLayer(activeLayer);
 			attributes = processData(state_eventsJSON, activeField);
+			sauce = $('.range-slider').val();
 			updateLegend(mymap, attributes[sauce]);
+			updatePropSymbols(mymap, attributes[sauce]);
 		} else if (mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyExcessiveHeatLayer;
 				activeField = "Excessive_Heat";
@@ -572,7 +586,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}
 	});
 
@@ -586,7 +602,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 			baseLayers(mymap);
 			mymap.addLayer(activeLayer);
 			attributes = processData(state_eventsJSON, activeField);
+			sauce = $('.range-slider').val();
 			updateLegend(mymap, attributes[sauce]);
+			updatePropSymbols(mymap, attributes[sauce]);
 		} else if (mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyExtremeColdLayer;
 				activeField = "Extreme_Cold";
@@ -596,7 +614,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}
 	});
 
@@ -610,7 +630,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 			baseLayers(mymap);
 			mymap.addLayer(activeLayer);
 			attributes = processData(state_eventsJSON, activeField);
+			sauce = $('.range-slider').val();
 			updateLegend(mymap, attributes[sauce]);
+			updatePropSymbols(mymap, attributes[sauce]);
 		} else if (mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyTornadosLayer;
 				activeField = "Tornado";
@@ -620,7 +642,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}
 	});
 
@@ -634,7 +658,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 			baseLayers(mymap);
 			mymap.addLayer(activeLayer);
 			attributes = processData(state_eventsJSON, activeField);
+			sauce = $('.range-slider').val();
 			updateLegend(mymap, attributes[sauce]);
+			updatePropSymbols(mymap, attributes[sauce]);
 		} else if (mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyWildfiresLayer;
 				activeField = "Wildfire";
@@ -644,180 +670,24 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}
 	});
 
-	$(".dropdown select").on("change", function(g) {
-            //updateStateGraph(vis, e.target.value, csvData, title);
-			var targetLayer = g.target.value;
-			if (targetLayer == 'stateTotalEventsLayer' && mymap.getZoom() < 6) {
-					activeLayer = allLayers.stateTotalEventsLayer;
-					activeField = "Total_Events";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(state_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			} else if (targetLayer == 'stateTotalEventsLayer' && mymap.getZoom() >= 6) {
-					activeLayer = allLayers.countyTotalEventsLayer;
-					activeField = "Total_Events";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(county_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			}
-			else if (targetLayer == 'stateAvalanchesLayer' && mymap.getZoom() < 6) {
-					activeLayer = allLayers.stateAvalanchesLayer;
-					activeField = "Avalanche";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(state_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			} else if (targetLayer == 'stateAvalanchesLayer' && mymap.getZoom() >= 6) {
-					activeLayer = allLayers.countyAvalanchesLayer;
-					activeField = "Avalanche";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(county_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			}else if (targetLayer == 'stateBlizzardsLayer' && mymap.getZoom() < 6) {
-					activeLayer = allLayers.stateBlizzardsLayer;
-					activeField = "Blizzard";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(state_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			} else if (targetLayer == 'stateBlizzardsLayer' && mymap.getZoom() >= 6) {
-					activeLayer = allLayers.countyBlizzardsLayer;
-					activeField = "Blizzard";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(county_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			}else if (targetLayer == 'stateDroughtsLayer' && mymap.getZoom() < 6) {
-					activeLayer = allLayers.stateDroughtsLayer;
-					activeField = "Drought";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(state_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			} else if (targetLayer == 'stateDroughtsLayer' && mymap.getZoom() >= 6) {
-					activeLayer = allLayers.countyDroughtsLayer;
-					activeField = "Drought";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(county_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			} else if (targetLayer == 'stateExcessiveHeatLayer' && mymap.getZoom() < 6) {
-					activeLayer = allLayers.stateExcessiveHeatLayer;
-					activeField = "Excessive_Heat"
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(state_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			} else if (targetLayer == 'stateExcessiveHeatLayer' && mymap.getZoom() >= 6) {
-					activeLayer = allLayers.countyExcessiveHeatLayer;
-					activeField = "Excessive_Heat"
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(county_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			}else if (targetLayer == 'stateExtremeColdLayer' && mymap.getZoom() < 6) {
-					activeLayer = allLayers.stateExtremeColdLayer;
-					activeField = "Extreme_Cold";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(state_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			} else if (targetLayer == 'stateExtremeColdLayer' && mymap.getZoom() >= 6) {
-					activeLayer = allLayers.countyExtremeColdLayer;
-					activeField = "Extreme_Cold";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(county_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			}else if (targetLayer == 'stateTornadosLayer' && mymap.getZoom() < 6) {
-					activeLayer = allLayers.stateTornadosLayer;
-					activeField = "Tornado";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(state_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			} else if (targetLayer == 'stateTornadosLayer' && mymap.getZoom() >= 6) {
-					activeLayer = allLayers.countyTornadosLayer;
-					activeField = "Tornado";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(county_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			}else if (targetLayer == 'stateWildfiresLayer' && mymap.getZoom() < 6) {
-					activeLayer = allLayers.stateWildfiresLayer;
-					activeField = "Wildfire";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(state_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			}else if (targetLayer == 'stateWildfiresLayer' && mymap.getZoom() >= 6) {
-					activeLayer = allLayers.countyWildfiresLayer;
-					activeField = "Wildfire";
-					mymap.eachLayer(function (layer) {
-							mymap.removeLayer(layer);
-					});
-					baseLayers(mymap);
-					mymap.addLayer(activeLayer);
-					attributes = processData(county_eventsJSON, activeField);
-					updateLegend(mymap, attributes[sauce]);
-			};
-	});
+<<<<<<< HEAD
 
 
-
+=======
+>>>>>>> origin/master
 	activeField = "Total_Events";
+	// creating an array of attributes
+	attributes = processData(state_eventsJSON, activeField);
+	// call function to create proportional symbols
+	createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attributes);
+	createSequenceControls(mymap, attributes);
+	createLegend(mymap, attributes);
 //function to switch county and state values based on zoom level
 	mymap.on('zoomend', function(){
 		if (activeField == "Total_Events" && mymap.getZoom() < 6) {
@@ -828,7 +698,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(state_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		} else if (activeField == "Total_Events" && mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyTotalEventsLayer;
 				mymap.eachLayer(function (layer) {
@@ -837,7 +709,10 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
+
 		}else if (activeField == "Avalanche" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateAvalanchesLayer;
 				mymap.eachLayer(function (layer) {
@@ -846,7 +721,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(state_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		} else if (activeField == "Avalanche" && mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyAvalanchesLayer;
 				mymap.eachLayer(function (layer) {
@@ -855,7 +732,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}else if (activeField == "Blizzard" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateBlizzardsLayer;
 				mymap.eachLayer(function (layer) {
@@ -864,7 +743,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(state_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		} else if (activeField == "Blizzard" && mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyBlizzardsLayer;
 				mymap.eachLayer(function (layer) {
@@ -873,7 +754,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}else if (activeField == "Drought" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateDroughtsLayer;
 				mymap.eachLayer(function (layer) {
@@ -882,7 +765,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(state_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		} else if (activeField == "Drought" && mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyDroughtsLayer;
 				mymap.eachLayer(function (layer) {
@@ -891,7 +776,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}else if (activeField == "Excessive_Heat" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateExcessiveHeatLayer;
 				mymap.eachLayer(function (layer) {
@@ -900,7 +787,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(state_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		} else if (activeField == "Excessive_Heat" && mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyExcessiveHeatLayer;
 				mymap.eachLayer(function (layer) {
@@ -909,7 +798,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}else if (activeField == "Extreme_Cold" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateExtremeColdLayer;
 				mymap.eachLayer(function (layer) {
@@ -918,7 +809,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(state_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		} else if (activeField == "Extreme_Cold" && mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyExtremeColdLayer;
 				mymap.eachLayer(function (layer) {
@@ -927,7 +820,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}else if (activeField == "Tornado" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateTornadosLayer;
 				mymap.eachLayer(function (layer) {
@@ -936,7 +831,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(state_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		} else if (activeField == "Tornado" && mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyTornadosLayer;
 				mymap.eachLayer(function (layer) {
@@ -945,7 +842,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}else if (activeField == "Wildfire" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateWildfiresLayer;
 				mymap.eachLayer(function (layer) {
@@ -954,7 +853,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(state_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		}else if (activeField == "Wildfire" && mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyWildfiresLayer;
 				mymap.eachLayer(function (layer) {
@@ -963,17 +864,14 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
 				attributes = processData(county_eventsJSON, activeField);
+				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
+				updatePropSymbols(mymap, attributes[sauce]);
 		};
 	});
 
 
-	// creating an array of attributes
-	attributes = processData(state_eventsJSON, activeField);
-	// call function to create proportional symbols
-	createPropSymbols(state_eventsJSON, mymap, attributes);
-	createSequenceControls(mymap, attributes);
-	createLegend(mymap, attributes);
+
 
 	//events.addTo(mymap);
 
@@ -1299,7 +1197,7 @@ function processData(data){
 
 
 // add circle markers for point features to the map
-function createPropSymbols(state_eventsJSON, mymap, attributes){
+function createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attributes){
 
   // create a Leaflet GeoJSON layer and add it to the map
   var proportionalSymbols = L.geoJson(state_eventsJSON, {
@@ -1307,9 +1205,17 @@ function createPropSymbols(state_eventsJSON, mymap, attributes){
       return pointToLayer(feature, latlng, attributes);
     }
   }).addTo(mymap);
+//creates searchable countySymbols layer
+	var countySymbols = L.geoJson(county_eventsJSON, {
+    pointToLayer: function(feature, latlng, mymap){
+      return pointToLayer(feature, latlng, attributes);
+    }
+  }).addTo(mymap);
 
   // call search function
-  search(mymap, state_eventsJSON, proportionalSymbols)
+  search(mymap, proportionalSymbols, countySymbols);
+//removes county symbols because we only want to display the states at map initialization
+	mymap.removeLayer(countySymbols);
 
 }; // close to createPropSymbols
 
@@ -1320,20 +1226,19 @@ function clickZoom(e) {
 };
 
 // funtion to create the search control
-function search (mymap, state_eventsJSON, proportionalSymbols){
-
+function search (mymap, proportionalSymbols, countySymbols){
   // new variable search control
   var searchLayer = new L.Control.Search({
     position: 'topright',  // positions the operator in the top left of the screen
-    layer: proportionalSymbols,  // use proportionalSymbols as the layer to search through
+    layer: L.featureGroup([proportionalSymbols,countySymbols]), // use proportionalSymbols as theand countySymbols layer to search through
     propertyName: 'Location',  // search for State name
     marker: false,
     moveToLocation: function (latlng, title, mymap) {
 
       // set the view once searched to the circle marker's latlng and zoom
       mymap.setView(latlng, 6);
-
     } // close to moveToLocation
+		
   }); // close to var searchLayer
 
   // add the control to the map
