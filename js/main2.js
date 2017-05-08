@@ -683,6 +683,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attributes);
 	createSequenceControls(mymap, attributes);
 	createLegend(mymap, attributes);
+	sauce = $('.range-slider').val();
+	updateLegend(mymap, attributes[sauce]);
+	updatePropSymbols(mymap, attributes[sauce]);
 //function to switch county and state values based on zoom level
 	mymap.on('zoomend', function(){
 		if (activeField == "Total_Events" && mymap.getZoom() < 6) {
