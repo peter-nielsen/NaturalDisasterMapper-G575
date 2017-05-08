@@ -683,10 +683,15 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attributes);
 	createSequenceControls(mymap, attributes);
 	createLegend(mymap, attributes);
+<<<<<<< Updated upstream
 	sauce = $('.range-slider').val();
 	updateLegend(mymap, attributes[sauce]);
 	updatePropSymbols(mymap, attributes[sauce]);
 //function to switch county and state values based on zoom level
+=======
+
+	//function to switch county and state values based on zoom level
+>>>>>>> Stashed changes
 	mymap.on('zoomend', function(){
 		if (activeField == "Total_Events" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateTotalEventsLayer;
@@ -867,27 +872,11 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				updatePropSymbols(mymap, attributes[sauce]);
 		};
 	});
-
-
-
-
-	//events.addTo(mymap);
-
 }; // close to layers function
 
 
 // function to create the Proportional Symbols map legend
 function createLegend(mymap, attributes){
-
-	// // legend control in the bottom right of the map
-  // var LegendControl = L.Control.extend({
-  //   options: {
-  //     position: 'bottomleft'
-  //   },
-
-		// $('#section-3').append('<div id="temporal-legend" >');
-		// $('#section-3').append()
-		// onAdd: function (mymap) {
 
       // create the control container with a particular class name
       var legendContainer = L.DomUtil.create('div', 'legend-control-container');
@@ -897,7 +886,7 @@ function createLegend(mymap, attributes){
 
 
       // start attribute legend svg string
-      var svg = '<svg id="attribute-legend" width="200px" height="150px">';
+      var svg = '<svg id="attribute-legend" width="230px" height="150px">';
 
       //object to base loop on
       var circles = {
@@ -922,18 +911,8 @@ function createLegend(mymap, attributes){
 			// add attribute legend svg to container
       $(legendContainer).append(svg);
 
-      // //t urn off any mouse event listeners on the legend
-      // $(legendContainer).on('mousedown dblclick', function(e){
-      //   L.DomEvent.stopPropagation(e);
-      // });
-
-      //return legendContainer;
-
 			$('#section-3').append(legendContainer);
 
-  //   } // close to onAdd
-  // }); // close to var LegendControl
-	//mymap.addControl(new LegendControl());
   updateLegend(mymap, attributes[0]);
 
 }; // close to createLegend function
@@ -1110,6 +1089,7 @@ function updatePropSymbols(mymap, attribute){
     if (layer.feature && layer.feature.properties[attribute]){
       // access feature properties
       var props = layer.feature.properties;
+
       // subtract one because all pop growths will be at 1._ _ attributes, so we
       // want more variation
       var attValue = Number(props[attribute]);
@@ -1154,18 +1134,7 @@ function baseLayers(mymap) {
 		mymap.on('zoomend', function (e) {
 			changeLayers(mymap, swStates, counties);
 		});
-};
-
-
-// // var to create a dropdown menu
-// function dropdown(mymap, attributes) {
-//
-// 	var dropdown = L.DomUtil.create('div', 'dropdown');
-// 	dropdown.innerHTML = '<select><option value="stateTotalEventsLayer">Total Events</option><option value="stateAvalanchesLayer">Avalanche</option>'+
-// 	'<option value="stateBlizzardsLayer">Blizzard</option><option value="stateDroughtsLayer">Drought</option><option value="stateExcessiveHeatLayer">Excessive Heat</option>'+
-// 	'<option value="stateExtremeColdLayer">Extreme Cold/ Wind Chill</option><option value="stateTornadosLayer">Tornado</option><option value="stateWildfiresLayer">Wildfire</option></select>';
-//
-// };
+}; //close to baseLayers
 
 
 // build an attributes array for the data
@@ -1234,12 +1203,10 @@ function search (mymap, proportionalSymbols, countySymbols){
     marker: false,
     moveToLocation: function (latlng, title, mymap) {
       // set the view once searched to the circle marker's latlng and zoom
-      mymap.setView(latlng, 6);
+      mymap.setView(latlng, 8);
 			searchPopup(latlng, title, mymap);
     }// close to moveToLocation
-
-
-  }); // close to var searchLayer
+  }); // close to moveToLocation
 
 	//function to add a popup when area is searched
 	function searchPopup  (latlng, title, mymap){
@@ -1286,9 +1253,6 @@ function pointToLayer(feature, latlng, attributes, layer){
 
   // add popup to circle marker
   popup.bindToLayer();
-
-	console.log("Trying to see this");
-
 
   // event listeners to open popup on hover
   layer.on({
@@ -1393,7 +1357,7 @@ function stateGraph(csvData){
     var yAxis = d3.axisLeft()
         .scale(y);
 
-    //Adding the scales to the chart. placement is tricky.
+    // Adding the scales to the chart.
     vis.append("svg:g")
         .attr("transform", 'translate(27,' + (height-20).toString() + ')')
         .call(xAxis);
@@ -1436,7 +1400,7 @@ function stateGraph(csvData){
                     return '#7fc97f';
                 }
                 else if (row == 1){
-                    return '#beaed4';
+                    return '#ff4d4d';
                 }
                 else if (row == 2){
                     return '#fdc086';
@@ -1457,14 +1421,19 @@ function stateGraph(csvData){
 
     //create label for tooltip
     var tooltip = d3.select('#section-1').append('div')
-                    .attr('class', 'tooltip')
-                    .style('opacity', 0);
+    		.attr('class', 'tooltip')
+        .style('opacity', 0);
 
     vis.selectAll('.lines')
         .on('mouseover', function(){
-            console.log(this.id);
+            console.log("id: " + this.id);
             d3.select('#' + (this.id).toString())
                 .style("stroke-width", "6");
+
+								if (this.id == "New_Mexico_") {
+									this.id = this.id.split("_")[0] + " "
+									 + this.id.split("_")[1];
+								}
             d3.select('.tooltip')
                 .style("opacity", 1)
                 .html('<p>' + this.id + '</p>')
@@ -1472,13 +1441,16 @@ function stateGraph(csvData){
                 .style('top', '70px');
         })
         .on("mouseout", function(){
+					if (this.id == "New Mexico"){
+						this.id = "New_Mexico_";
+					}
             d3.select('#'+ (this.id).toString())
                 .style("stroke-width", "3.5");
             d3.select('.tooltip')
                 .style("opacity", 0);
         });
 
-    $(".dropdown select").on("change", function(g) {
+    $(".dropdown-element a").on("change", function(g) {
         console.log('plese register');
     })
 

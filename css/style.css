@@ -98,7 +98,6 @@ body {
   left: 201px;
   width: 230px;
   height: 59px;
-  border-right: solid;
   border-width: thin;
   border-color: black;
   text-align: left;
@@ -119,7 +118,6 @@ body {
   left: 431px;
   width: 299px;
   height: 59px;
-  border-right: solid;
   border-width: thin;
   border-color: black;
   text-align: center;
@@ -143,6 +141,11 @@ body {
   border: solid;
   border-width: 2px;
   border-color: black;
+}
+
+.info:hover {
+  background-image: none;
+  background-color: gold;
 }
 
 .container {
@@ -343,6 +346,7 @@ body {
     stroke-width: 3.5;
     fill: none;
 }
+<<<<<<< Updated upstream
 .tooltip {
   position: absolute;
   text-align: center;
@@ -353,6 +357,33 @@ body {
   background: lightsteelblue;
   border: 0px;
   border-radius: 8px;
+=======
+
+.tooltip {
+  position: absolute;
+  text-align: center;
+  content: normal;
+  width: 80px;
+  height: 40px;
+  left: 70px;
+  padding: 0px;
+  line-height: 1px;
+  font: 14px verdana sans-serif;
+  border: solid;
+  border-width: 1px;
+  pointer-events: none;
+}
+
+.tooltip p {
+  position: absolute;
+  text-align: center;
+  width: 150px;
+  height: 40px;
+  left: -40px;
+  top: -2px;
+  padding: 0px;
+  font: 14px verdana sans-serif;
+>>>>>>> Stashed changes
   pointer-events: none;
 }
 
