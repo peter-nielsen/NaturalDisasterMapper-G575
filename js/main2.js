@@ -49,7 +49,7 @@ function createMap(state_eventsJSON, county_eventsJSON) {
 
 	// set map boundaries
 	mymap.setMaxBounds([
-		[-35, -210],
+		[0, -160],
 		[75, -20],
 	]).setMinZoom(3);
 
@@ -1342,7 +1342,6 @@ function search (mymap, state_eventsJSON, proportionalSymbols){
   // add the control to the map
 	//$("#section-2").append(searchLayer.onAdd(mymap));
 	$("#tab2-1").append(searchLayer.onAdd(mymap));
-	$("#tab1-2").html("or");
 
 }; // close to search function
 
