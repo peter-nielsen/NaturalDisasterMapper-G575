@@ -340,7 +340,6 @@ body {
     position: absolute;
     top: 60px;
     left: 3%;
-    width: 275px;
 }
 
 .lines {
@@ -355,8 +354,13 @@ body {
   width: 100px;
   height: 20px;
   padding: 2px;
+<<<<<<< Updated upstream
   font-weight: bold;
   font: 14px verdana sans-serif;
+=======
+  font: 14px verdana sans-serif;
+  font-weight: bold;
+>>>>>>> Stashed changes
 }
 
 .leaflet-popup-content p {
