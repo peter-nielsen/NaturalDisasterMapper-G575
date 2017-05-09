@@ -8,9 +8,8 @@ body {
   overflow-y: scroll;
 }
 
-
 #title {
-  font: normal 4.5vw "Audiowide", Helvetica, sans-serif;
+  font: normal 4.5vw "Audiowide", Verdana, sans-serif;
   color: gray;
   text-align: center;
 }
@@ -34,33 +33,50 @@ body {
   z-index: -1;
 }
 
+#mapid {
+  height: 650px;
+  width: 100%;
+  position: absolute;
+  bottom:0;
+  right: 0;
+  top: 141px;
+  overflow: hidden;
+  display: inline-block;
+  z-index: -100;
+}
+
 #information-area {
   top: 791px;
   width: 100%;
-  height: 1100px;
+  height: 990px;
   overflow: visible;
   position: absolute;
   border-top: solid;
   border-width: thin;
   border-color: black;
-  background-image: url("gray_jean.png");
+  color: white;
+  background-image: url("dark_fish_skin.png");
 }
 
-
-#information-area h1, h3, p {
+#information-area h1, h2, h3, p{
+  font-family: verdana, sans-serif;
   text-align: left;
   padding-left: 10px;
+  padding-right: 10px;
 }
 
-#information-area h1, h2{
-  font-family: sans-serif;
+#information-area h1 {
+  font-size: 40px;
 }
-#information-area h3{
-  font-family: sans-serif;
+
+#information-area h3 {
+  font-size: 21px;
 }
-#information-area p{
-  font-family: georgia;
+
+#information-area p {
+  font-size: 14px;
 }
+
 
 #tabBar {
   position: absolute;
@@ -71,7 +87,7 @@ body {
   border-bottom: solid;
   border-width: thin;
   border-color: black;
-  background-image: url("gray_jean.png");
+  background-image: url("dark_fish_skin.png");
   overflow: visible;
 }
 
@@ -109,7 +125,7 @@ body {
   position: absolute;
   top: 18px;
   align-content: left;
-  left: 2%;
+  left: 32px;
   overflow: visible;
 }
 
@@ -117,7 +133,7 @@ body {
   position: absolute;
   top: 81px;
   left: 431px;
-  width: 3199px;
+  width: 299px;
   height: 59px;
   border-width: thin;
   border-color: black;
@@ -129,8 +145,9 @@ body {
   position: absolute;
   top: 3px;
   height: 59px;
+  width: 250px;
   align-content: left;
-  left: 20px;
+  left: 60px;
 }
 
 .info {
@@ -138,20 +155,24 @@ body {
   height: 90%;
   left: 0;
   font-size: 15px;
-  background-image: url("gray_jean.png");
+  background-image: url("dark_fish_skin.png");
+  color: white;
+  font-family: verdana, sans-serif;
   border: solid;
   border-width: 2px;
-  border-color: black;
+  border-color: white;
 }
 
 .info:hover {
   background-image: none;
   background-color: gold;
+  cursor: pointer;
+  color: black;
 }
 
 .container {
     overflow: hidden;
-    font-family: Verdana;
+    font-family: Verdana, sans-serif;
     top: 10px;
 }
 
@@ -175,23 +196,26 @@ body {
     font-size: 16px;
     border: none;
     outline: none;
-    color: black;
+    color: white;
+    font-family: verdana, sans-serif;
     top: 5px;
     padding: 14px 16px;
     border: solid;
     border-width: 2px;
-    border-color: black;
+    border-color: white;
     background-color: inherit;
 }
 
 .container a:hover, .dropdown:hover .dropbtn {
     background-color: gold;
+    cursor: pointer;
+    color: black;
 }
 
 .dropdown-content {
     display: none;
     position: absolute;
-    background-image: url("gray_jean.png");
+    background-image: url("dark_fish_skin.png");
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
@@ -199,7 +223,8 @@ body {
 
 .dropdown-content a {
     float: none;
-    color: black;
+    font-family: verdana, sans-serif;
+    color: white;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -212,6 +237,7 @@ body {
 
 .dropdown:hover .dropdown-content {
     display: block;
+    align-content: center;
 }
 
 
@@ -231,24 +257,27 @@ body {
   top: 3px;
   height: 59px;
   align-content: left;
-  left: 55px;
+  left: 78px;
 }
 
 .help {
   width: 150px;
   height: 90%;
   left: 0;
+  color: white;
   font-size: 15px;
-  font-family: Verdana;
-  background-image: url("gray_jean.png");
+  font-family: Verdana, sans-serif;
+  background-image: url("dark_fish_skin.png");
   border: solid;
   border-width: 2px;
-  border-color: black;
+  border-color: white;
 }
 
 .help:hover {
   background-image: none;
   background-color: gold;
+  cursor: pointer;
+  color:black;
 }
 
 #tab5 {
@@ -265,7 +294,7 @@ body {
   top: 3px;
   height: 59px;
   align-content: left;
-  left: 49.5px;
+  left: 100px;
 }
 
 .about-us {
@@ -273,28 +302,28 @@ body {
   height: 90%;
   left: 0;
   font-size: 15px;
-  font-family: Verdana;
-  background-image: url("gray_jean.png");
+  color: white;
+  font-family: Verdana, sans-serif;
+  background-image: url("dark_fish_skin.png");
   border: solid;
   border-width: 2px;
-  border-color: black;
+  border-color: white;
 }
 
 .about-us:hover {
   background-image: none;
   background-color: gold;
+  cursor: pointer;
+  color: black;
 }
 
-#mapid {
-  height: 650px;
+#about-us-area {
+  top: 991px;
   width: 100%;
+  height: 450px;
+  overflow: visible;
   position: absolute;
-  bottom:0;
-  right: 0;
-  top: 141px;
-  overflow: hidden;
-  display: inline-block;
-  z-index: -100;
+  background-image: url("dark_fish_skin.png");
 }
 
 .legend-control-container {
@@ -413,13 +442,6 @@ body {
   width: 150px;
   height: 20px;
   padding: 2px;
-<<<<<<< HEAD
-  font-weight: bold;
-  font: 14px verdana sans-serif;
-  font: 14px verdana sans-serif;
-  font-weight: bold;
-=======
->>>>>>> dwaro/master
 }
 
 .leaflet-popup-content p {
@@ -446,8 +468,14 @@ body {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
+    font-family: verdana, sans-serif;
     border: 1px solid #888;
     width: 80%; /* Could be more or less, depending on screen size */
+}
+
+.panel-content li {
+  text-align: left;
+  font-size: 15px;
 }
 
 /* The Close Button */
@@ -467,18 +495,7 @@ body {
 
 footer {
   position: absolute;
-  font-size: 12px;
+  font-size: 14px;
   left: 5px;
-  top: 1873px;
-}
-#about-us {
-  top: 1100px;
-  width: 100%;
-  height: 1100px;
-  overflow: visible;
-  position: absolute;
-  border-top: solid;
-  border-width: thin;
-  border-color: black;
-  background-image: url("gray_jean.png");
+  bottom: 5px;
 }

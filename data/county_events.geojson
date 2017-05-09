@@ -5831,7 +5831,7 @@
     {
       "type": "Feature",
       "properties": {
-        "Location": "San Juan",
+        "Location": "San Juan NM",
         "Avalanche_2000": 0.00000000001,
         "Blizzard_2000": 0.00000000001,
         "Drought_2000": 7,
@@ -20880,7 +20880,7 @@
     {
       "type": "Feature",
       "properties": {
-        "Location": "San Juan",
+        "Location": "San Juan UT",
         "Avalanche_2000": 7,
         "Blizzard_2000": 0.00000000001,
         "Drought_2000": 0.00000000001,

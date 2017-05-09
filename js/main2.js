@@ -1218,7 +1218,6 @@ function createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attribute
 
 
 function clickZoom(e) {
-	console.log("click function not working");
 	if (mymap.getZoom() < 6) {
     mymap.setView(e.target.getLatLng(), 6);
 	} else {
@@ -1349,12 +1348,18 @@ function stateGraph(csvData){
 
     //chart title
     $('.lines').fadeOut(1000);
+		if (activeField == "Total_Events") {
+			activeField = "Total Events";
+		};
     var title = d3.select('#section-1')
-        .html('<br>' + activeField + ' By State</br>2000-2016')
+        .html('<br><b>' + activeField + ' By State</br>2000-2016</b>')
         .style('font-family', 'Helvetica, sans-serif')
         .style('text-align', 'center')
         .style('font-weight', 'bold');
 
+		if (activeField == "Total Events") {
+			activeField = "Total_Events";
+		};
     // svg to contain chart
     var vis = d3.select('#section-1')
         .append('svg')
@@ -1421,7 +1426,7 @@ function stateGraph(csvData){
                     return '#ff4d4d';
                 }
                 else if (row == 2){
-                    return '#fdc086';
+                    return '#feb24c';
                 }
                 else if (row == 3){
                     return '#ffff99';
@@ -1430,7 +1435,7 @@ function stateGraph(csvData){
                     return 'blue';
                 }
                 else{
-                    return '#386cb0';
+                    return 'turquoise';
                 }
             });
         $('.lines').fadeIn(1000);
@@ -1449,7 +1454,7 @@ function stateGraph(csvData){
         .on('mouseover', function(){
             console.log("id: " + this.id);
             d3.select('#' + (this.id).toString())
-                .style("stroke-width", "6");
+                .style("stroke-width", "7");
 
 								if (this.id == "New_Mexico_") {
 									this.id = this.id.split("_")[0] + " "
@@ -1458,7 +1463,7 @@ function stateGraph(csvData){
             d3.select('.tooltip')
                 .style("opacity", 1)
                 .html('<p>' + this.id + '</p>')
-                .style('left', width/4 +'px')
+                .style('left', width/5 +'px')
                 .style('top', '50px');
         })
         .on("mouseout", function(){
@@ -1471,34 +1476,6 @@ function stateGraph(csvData){
                 .style("opacity", 0);
         });
 
-    //updateStateGraph(vis, csvData, title);
-
-    /*
-    $('#total-events').on('click', function(){
-        updateStateGraph(vis, activeField, csvData, title, x, y);
-    });
-    $('#avalanches').on('click', function(){
-        updateStateGraph(vis, activeField, csvData, title, x, y);
-    });
-    $('#blizzards').on('click', function(){
-        updateStateGraph(vis, activeField, csvData, title, x, y);
-    });
-    $('#droughts').on('click', function(){
-        updateStateGraph(vis, activeField, csvData, title, x, y);
-    });
-    $('#excessive-heat').on('click', function(){
-        updateStateGraph(vis, activeField, csvData, title, x, y);
-    });
-    $('#extreme-cold').on('click', function(){
-        updateStateGraph(vis, activeField, csvData, title, x, y);
-    });
-    $('#tornado').on('click', function(){
-        updateStateGraph(vis, activeField, csvData, title, x, y);
-    });
-    $('#wildfire').on('click', function(){
-        updateStateGraph(vis, activeField, csvData, title, x, y);
-    });
-    */
 }
 
 function highlight(){

@@ -44,18 +44,15 @@
         </div>
         <div id="tab3">
           <div id="tab3-1">
-          <button class="info" onclick="myFunction()"><b>Learn more about hazardous weather!</b></button>
+          <button class="info" onclick="myFunction()"><b>Learn More!</b></button>
           <script>
           function myFunction() {
             location.href = "#information-area";
           }
-        </script>
+          </script>
           </div>
         </div>
         <div id="tab4">
-
-          </div>
-
           <div id="tab4-1">
             <!-- Trigger/Open The Modal -->
             <button id="helpBtn" class="help"><b>Help</b></button>
@@ -64,7 +61,15 @@
               <!-- Modal content -->
               <div class="panel-content">
                 <span class="close">&times;</span>
-                <p>Some text in the Modal..</p>
+                <p>Natural Disaster Mapper is a tool to find patterns and trends
+                in hazardous weather events.  It provides an easy way to visualize
+                natural disaster data in the American Southwest!</p>
+                <ul>
+                  <li>Selecting an event will let you filter through types of disasters,
+                  and the search bar will let you find an individual state or county!</li>
+                  <li>After finding an area of interest, use the index keys in the lower-right corner to sequence through years!</li>
+                  <li>If you get lost, don't worry! The zoom and recenter tools on the right side will keep you on track!</li>
+                </ul>
               </div>
             </div>
             <script>
@@ -97,7 +102,12 @@
         </div>
         <div id="tab5">
           <div id="tab5-1">
-            <button class="about-us"><b>About Us</b></button>
+            <button class="about-us" onclick="aboutFunction()"><b>About Us</b></button>
+            <script>
+            function aboutFunction() {
+              location.href = "#about-us-area";
+            }
+            </script>
           </div>
         </div>
       <div id="mapid"></div>
@@ -110,8 +120,8 @@
       </div>
 
       <div id="information-area">
-        <h1><a href="http://www.noaa.gov/topic-tags/natural-disasters" target="_">Hazardous Weather</a></h1>
-        <p>Hazardous weather doesn't always mean that it'll be an iminent threat.</p>
+        <h1><a href="http://www.noaa.gov/topic-tags/natural-disasters" target="_"
+               style="color: #fb3f00; text-decoration: none;">Hazardous Weather</a></h1>
         <div id="left-half">
           <h3>Avalanches</h3>
           <p>An avalanche is a rapid flow of snow down a hill or mountainside. Although avalanches can occur on any slope given the right conditions, certain times of the year and
@@ -158,11 +168,13 @@
           for the area which consumes the natural fuels and spreads in response to its environment.</p>
         </div>
 
-        <div id="about-us">
+        <div id="about-us-area">
           <h1>About Us</h1>
           <div id='david'>
-        <h2>David Waro</h2>
-        <p>info</p></div>
+            <h2>David J. Waro</h2>
+            <p>UW-Madison class of 2018. From Walworth, Wisconsin.
+              <br>B.A. Cartography/GIS & B.A. Economics</br>
+              Contact at:<b> dwaro@wisc.edu</b></p>
         <div id='jacob'>
           <h2>Jacob Hrubecky</h2>
         <p>info</p></div>
@@ -172,9 +184,10 @@
             <br>Majoring in Cartography/GIS with certificates in Digital Studies, Environmental Studies, and Italian. </br>
           Contact at:<b> Pnielsen3@wisc.edu</b></p></div>
           </div>
+          <footer>Information collected from <a href="http://www.noaa.gov" target="_"
+              style="color: #fff; text-decoration: none;"><b>NOAA</b></a></footer>
         </div>
 
-      <footer>Information collected from <a href="http://www.noaa.gov" target="_">NOAA</a></footer>
         <script type="text/javascript" src="lib/leaflet-src.js"></script>
         <script type="text/javascript" src="js/ajax.js"></script>
         <script type="text/javascript" src="lib/simple-statistics.js"></script>
