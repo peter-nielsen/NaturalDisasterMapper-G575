@@ -352,28 +352,11 @@ body {
   position: absolute;
   text-align: center;
   content: normal;
-  width: 80px;
-  height: 40px;
-  left: 60px;
-  padding: 0px;
-  line-height: 1px;
+  width: 100px;
+  height: 20px;
+  padding: 2px;
   font-weight: bold;
   font: 14px verdana sans-serif;
-  border: solid;
-  border-width: 1px;
-  pointer-events: none;
-}
-
-.tooltip p {
-  position: absolute;
-  text-align: center;
-  width: 150px;
-  height: 40px;
-  left: -35px;
-  top: -2px;
-  padding: 0px;
-  font: 14px verdana sans-serif;
-  pointer-events: none;
 }
 
 .leaflet-popup-content p {
