@@ -707,6 +707,16 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	createSequenceControls(mymap, attributes);
 	createLegend(mymap, attributes);
 
+	mymap.eachLayer(function (layer) {
+ 		 mymap.removeLayer(layer);
+  });
+  baseLayers(mymap);
+  mymap.addLayer(activeLayer);
+  attributes = processData(state_eventsJSON, activeField);
+  sauce = $('.range-slider').val();
+  updateLegend(mymap, attributes[sauce]);
+  updatePropSymbols(mymap, attributes[sauce]);
+
 
 	//function to switch county and state values based on zoom level
 	mymap.on('zoomend', function(){
@@ -1106,11 +1116,10 @@ function updatePropSymbols(mymap, attribute){
   mymap.eachLayer(function(layer){
     // if the layer contains both the layer feature and properties with attributes
     if (layer.feature && layer.feature.properties[attribute]){
-      // access feature properties
+			// access feature properties
+
       var props = layer.feature.properties;
 
-      // subtract one because all pop growths will be at 1._ _ attributes, so we
-      // want more variation
       var attValue = Number(props[attribute]);
       // radius
       var radius = calcPropRadius(attValue);
@@ -1130,10 +1139,11 @@ function updatePropSymbols(mymap, attribute){
         },
         click: function(e){
 						clickZoom(e);
-        },
+        }
 
       }); // close to layer.on
-    }; // close to if statement
+    }
+		// close to if statement
   }); // close to eachLayer function
   updateLegend(mymap, attribute); // update the temporal-legend
 }; // close to updatePropSymbols function
@@ -1203,6 +1213,7 @@ function createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attribute
   search(mymap, proportionalSymbols, countySymbols);
 //removes county symbols because we only want to display the states at map initialization
 	mymap.removeLayer(countySymbols);
+
 }; // close to createPropSymbols
 
 
@@ -1259,35 +1270,33 @@ function pointToLayer(feature, latlng, attributes, layer){
     opacity: 1,
     fillOpacity: 0.8
   };
-
+		var layer = L.circleMarker(latlng, options);
   // For each feature, determine its value for the selected attribute
   var attValue = Number(feature.properties[attribute]);
-
   // calculate the radius and assign it to the radius of the options marker.
   // Multiplied by 10
-  options.radius = calcPropRadius(attValue);
-
+	var radius = calcPropRadius(attValue);
+	layer.setRadius(radius);
   // assign the marker with the options styling and using the latlng repsectively
-  var layer = L.circleMarker(latlng, options);
 
+var props = feature.properties;
 	// creates a new popup object
-  var popup = new Popup(feature.properties, layer, options.radius);
-
-  // add popup to circle marker
-  popup.bindToLayer();
-
-  // event listeners to open popup on hover
-  layer.on({
-    mouseover: function(){
-      this.openPopup();
-    },
-    mouseout: function(){
-      this.closePopup();
-    },
+	var popup = new Popup(props, layer, radius);
+	//add popup to circle marker
+	popup.bindToLayer();
+	//event listeners to open popup on hover
+	layer.on({
+		mouseover: function(){
+			this.openPopup();
+		},
+		mouseout: function(){
+			this.closePopup();
+		},
 		click: function(e){
-			clickZoom(e)
+				clickZoom(e);
 		}
-  });
+
+	});
 
   // return the circle marker to the L.geoJson pointToLayer option
   return layer;
