@@ -21,7 +21,7 @@ var attributes;
 var sauce;
 var mymap;
 //chart width and height
-var width = window.innerWidth * 0.15;
+var width = window.innerWidth * 0.16;
 var height = window.innerWidth * 0.15;
 //scales
 var x = d3.scaleLinear()
@@ -700,8 +700,8 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 
 	activeField = "Total_Events";
 	// creating an array of attributes
-	attributes = processData(state_eventsJSON, activeField);
 	activeLayer = allLayers.stateTotalEventsLayer;
+	attributes = processData(state_eventsJSON, activeField);
 	// call function to create proportional symbols
 	createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attributes);
 	createSequenceControls(mymap, attributes);
@@ -726,6 +726,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 						mymap.removeLayer(layer);
 				});
 				baseLayers(mymap);
+				console.log("1111");
 				mymap.addLayer(activeLayer);
 				attributes = processData(state_eventsJSON, activeField);
 				sauce = $('.range-slider').val();
@@ -738,12 +739,13 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				});
 				baseLayers(mymap);
 				mymap.addLayer(activeLayer);
+				console.log("2222");
 				attributes = processData(county_eventsJSON, activeField);
 				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
 				updatePropSymbols(mymap, attributes[sauce]);
 
-		}else if (activeField == "Avalanche" && mymap.getZoom() < 6) {
+		} else if (activeField == "Avalanche" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateAvalanchesLayer;
 				mymap.eachLayer(function (layer) {
 						mymap.removeLayer(layer);
@@ -765,7 +767,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
 				updatePropSymbols(mymap, attributes[sauce]);
-		}else if (activeField == "Blizzard" && mymap.getZoom() < 6) {
+		} else if (activeField == "Blizzard" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateBlizzardsLayer;
 				mymap.eachLayer(function (layer) {
 						mymap.removeLayer(layer);
@@ -787,7 +789,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
 				updatePropSymbols(mymap, attributes[sauce]);
-		}else if (activeField == "Drought" && mymap.getZoom() < 6) {
+		} else if (activeField == "Drought" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateDroughtsLayer;
 				mymap.eachLayer(function (layer) {
 						mymap.removeLayer(layer);
@@ -809,7 +811,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 				sauce = $('.range-slider').val();
 				updateLegend(mymap, attributes[sauce]);
 				updatePropSymbols(mymap, attributes[sauce]);
-		}else if (activeField == "Excessive_Heat" && mymap.getZoom() < 6) {
+		} else if (activeField == "Excessive_Heat" && mymap.getZoom() < 6) {
 				activeLayer = allLayers.stateExcessiveHeatLayer;
 				mymap.eachLayer(function (layer) {
 						mymap.removeLayer(layer);
@@ -1345,24 +1347,13 @@ function stateGraph(csvData){
         console.log(csvData[row]);
     }
 
-
-    //chart width and height
-    var width = window.innerWidth * 0.15;
-    var height = window.innerWidth * 0.15;
-
     //chart title
     $('.lines').fadeOut(1000);
     var title = d3.select('#section-1')
         .html('<br>' + activeField + ' By State</br>2000-2016')
-        .html('<br>Total Events By State</br>2000-2016')
         .style('font-family', 'Helvetica, sans-serif')
         .style('text-align', 'center')
         .style('font-weight', 'bold');
-
-
-    //chart width and height
-    var width = window.innerWidth * 0.15;
-    var height = window.innerWidth * 0.15;
 
     // svg to contain chart
     var vis = d3.select('#section-1')
@@ -1370,15 +1361,6 @@ function stateGraph(csvData){
         .attr('width', width)
         .attr('height', height)
         .attr("class", "chart");
-
-    //scales
-    var x = d3.scaleLinear()
-        .range([0, width + 50])
-        .domain([2000, 2016]);
-
-    var y = d3.scaleLinear()
-        .range([0, height-27])
-        .domain([600, 0]);
 
     //axis
     var xAxis = d3.axisBottom()
