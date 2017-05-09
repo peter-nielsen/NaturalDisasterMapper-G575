@@ -117,7 +117,7 @@ body {
   position: absolute;
   top: 81px;
   left: 431px;
-  width: 299px;
+  width: 3199px;
   height: 59px;
   border-width: thin;
   border-color: black;
@@ -130,7 +130,7 @@ body {
   top: 3px;
   height: 59px;
   align-content: left;
-  left: 0px;
+  left: 20px;
 }
 
 .info {
@@ -218,12 +218,71 @@ body {
 #tab4 {
   position: absolute;
   top: 81px;
-  left: 821px;
-  width: 299px;
+  left: 751px;
+  width: 229px;
   height: 59px;
   border-width: thin;
   border-color: black;
   text-align: center;
+}
+
+#tab4-1 {
+  position: absolute;
+  top: 3px;
+  height: 59px;
+  align-content: left;
+  left: 55px;
+}
+
+.help {
+  width: 150px;
+  height: 90%;
+  left: 0;
+  font-size: 15px;
+  font-family: Verdana;
+  background-image: url("gray_jean.png");
+  border: solid;
+  border-width: 2px;
+  border-color: black;
+}
+
+.help:hover {
+  background-image: none;
+  background-color: gold;
+}
+
+#tab5 {
+  position: absolute;
+  top: 81px;
+  left: 980px;
+  width: 235px;
+  height: 59px;
+  text-align: center;
+}
+
+#tab5-1 {
+  position: absolute;
+  top: 3px;
+  height: 59px;
+  align-content: left;
+  left: 49.5px;
+}
+
+.about-us {
+  width: 150px;
+  height: 90%;
+  left: 0;
+  font-size: 15px;
+  font-family: Verdana;
+  background-image: url("gray_jean.png");
+  border: solid;
+  border-width: 2px;
+  border-color: black;
+}
+
+.about-us:hover {
+  background-image: none;
+  background-color: gold;
 }
 
 #mapid {
@@ -351,17 +410,110 @@ body {
   position: absolute;
   text-align: center;
   content: normal;
-  width: 100px;
+  width: 150px;
   height: 20px;
   padding: 2px;
+<<<<<<< HEAD
   font-weight: bold;
   font: 14px verdana sans-serif;
   font: 14px verdana sans-serif;
   font-weight: bold;
+=======
+>>>>>>> dwaro/master
 }
 
 .leaflet-popup-content p {
   margin:  0.2em 0;
+}
+
+/* Popup container */
+.help {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+/* The actual popup (appears on top) */
+.help .popuptext {
+    visibility: hidden;
+    width: 160px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -80px;
+}
+
+/* Popup arrow */
+.help .popuptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+
+.help .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+}
+
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+
+/* The Modal (background) */
+.popup-panel {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.panel-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 footer {

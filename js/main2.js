@@ -21,11 +21,11 @@ var attributes;
 var sauce;
 var mymap;
 //chart width and height
-var width = window.innerWidth * 0.16;
-var height = window.innerWidth * 0.15;
+var width = 310;
+var height = 175;
 //scales
 var x = d3.scaleLinear()
-    .range([0, width + 50])
+    .range([0, width -74])
     .domain([2000, 2016]);
 var y = d3.scaleLinear()
     .range([0, height-27])
@@ -41,7 +41,6 @@ function getData(mymap) {
 			.defer(d3.json, "data/county_events.geojson")
 			.await(callback);
 }; // close to getData
-
 
 // callback for data viz
 function callback(error, csvData, county_eventsCSV, state_eventsJSON, county_eventsJSON){
@@ -151,6 +150,7 @@ function layers(mymap,state_eventsJSON, county_eventsJSON, csvData) {
 		//pointToLayer is used to change the marker features to circle markers,
 		pointToLayer: function (feature, latlng) {
 			return L.circleMarker (latlng, geojsonMarkerOptions);
+			// event listeners to open popup on hover
 		}
 	});
 
@@ -1458,8 +1458,8 @@ function stateGraph(csvData){
             d3.select('.tooltip')
                 .style("opacity", 1)
                 .html('<p>' + this.id + '</p>')
-                .style('left', width/2 +'px')
-                .style('top', '70px');
+                .style('left', width/4 +'px')
+                .style('top', '50px');
         })
         .on("mouseout", function(){
 					if (this.id == "New Mexico"){
