@@ -1350,6 +1350,10 @@ function stateGraph(csvData){
     $('.lines').fadeOut(1000);
 		if (activeField == "Total_Events") {
 			activeField = "Total Events";
+		} else if (activeField == "Excessive_Heat") {
+			activeField = "Excessive Heat";
+		} else if (activeField == "Extreme_Cold") {
+			activeField = "Extreme Cold";
 		};
     var title = d3.select('#section-1')
         .html('<br><b>' + activeField + ' By State</br>2000-2016</b>')
@@ -1359,6 +1363,10 @@ function stateGraph(csvData){
 
 		if (activeField == "Total Events") {
 			activeField = "Total_Events";
+		} else if (activeField == "Excessive Heat") {
+			activeField = "Excessive_Heat";
+		} else if (activeField == "Extreme Cold") {
+			activeField = "Extreme_Cold";
 		};
     // svg to contain chart
     var vis = d3.select('#section-1')
