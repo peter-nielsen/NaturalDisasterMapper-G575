@@ -64,7 +64,11 @@
               <!-- Modal content -->
               <div class="panel-content">
                 <span class="close">&times;</span>
-                <p>Some text in the Modal..</p>
+                <p>•Natural Disaster Mapper is an easy way to visualize natural disasters in the American Southwest!
+                  <br>•Selecting an event will let you filter through types of disasters,
+                  and the search bar will let you find an individual state or county!
+                  <br>•After finding an area of interest, use the index keys in the lower-right corner to sequence through years!
+                <br>•If you get lost, don't worry! The zoom and recenter tools on the right side will keep you on track!</br></p>
               </div>
             </div>
             <script>
@@ -97,13 +101,15 @@
         </div>
         <div id="tab5">
           <div id="tab5-1">
-            <button class="about-us"><b>About Us</b></button>
-          </div>
+            <button class="about-us"onclick="aFunction()"><b>About Us</b></button>
+            <script>
+            function aFunction() {
+              location.href = "#about-us";
+            }
+          </script>
         </div>
-<<<<<<< HEAD
+        </div>
 
-=======
->>>>>>> dwaro/master
       <div id="mapid"></div>
       <div id="right-pane">
         <div id="section-1"></div>
