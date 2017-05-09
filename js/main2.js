@@ -474,7 +474,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 			baseLayers(mymap);
 			mymap.addLayer(activeLayer);
 			attributes = processData(state_eventsJSON, activeField);
+			sauce = $('.range-slider').val();
 			updateLegend(mymap, attributes[sauce]);
+			updatePropSymbols(mymap, attributes[sauce]);
             stateGraph(csvData);
 		} else if (mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyTotalEventsLayer;
@@ -521,6 +523,8 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	});
 
 	$("#blizzards").on("click", function(e) {
+
+		console.log(mymap.getZoom());
 		if (mymap.getZoom() < 6) {
 			activeLayer = allLayers.stateBlizzardsLayer;
 			activeField = "Blizzard";
@@ -530,7 +534,9 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 			baseLayers(mymap);
 			mymap.addLayer(activeLayer);
 			attributes = processData(state_eventsJSON, activeField);
+			sauce = $('.range-slider').val();
 			updateLegend(mymap, attributes[sauce]);
+			updatePropSymbols(mymap, attributes[sauce]);
             stateGraph(csvData);
 		} else if (mymap.getZoom() >= 6) {
 				activeLayer = allLayers.countyBlizzardsLayer;
@@ -700,9 +706,7 @@ allLayers.stateWildfiresLayer = L.geoJson(state_eventsJSON, {
 	createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attributes);
 	createSequenceControls(mymap, attributes);
 	createLegend(mymap, attributes);
-	sauce = $('.range-slider').val();
-	updateLegend(mymap, attributes[sauce]);
-	updatePropSymbols(mymap, attributes[sauce]);
+
 
 	//function to switch county and state values based on zoom level
 	mymap.on('zoomend', function(){
@@ -1197,7 +1201,6 @@ function createPropSymbols(state_eventsJSON, county_eventsJSON, mymap, attribute
   search(mymap, proportionalSymbols, countySymbols);
 //removes county symbols because we only want to display the states at map initialization
 	mymap.removeLayer(countySymbols);
-
 }; // close to createPropSymbols
 
 
