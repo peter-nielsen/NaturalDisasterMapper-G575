@@ -1034,6 +1034,7 @@ function getCircleValues(mymap, attribute){
 }; // close to getCircleValues
 
 
+// function creates sequencing controls
 function createSequenceControls(mymap, attributes, index) {
 
 	// create a sequence control variable
@@ -1185,8 +1186,6 @@ function processData(data){
   // empty array to hold attributes
   var attributes = [];
 
-	//console.log("activeField: " + activeField);
-
   // properties of the first feature in the dataset
   var properties = data.features[0].properties;
 
@@ -1262,8 +1261,7 @@ function search (mymap, proportionalSymbols, countySymbols){
 		.setContent(title)
 		.openOn(mymap)
 	};
-  // add the control to the map
-	//$("#section-2").append(searchLayer.onAdd(mymap));
+
 	$("#tab2-1").append(searchLayer.onAdd(mymap));
 
 }; // close to search function
@@ -1287,7 +1285,6 @@ function pointToLayer(feature, latlng, attributes){
   // For each feature, determine its value for the selected attribute
   var attValue = Number(feature.properties[attribute]);
   // calculate the radius and assign it to the radius of the options marker.
-  // Multiplied by 10
 	var radius = calcPropRadius(attValue);
 	layer.setRadius(radius);
   // assign the marker with the options styling and using the latlng repsectively
@@ -1297,19 +1294,6 @@ var props = feature.properties;
 	var popup = new Popup(props, layer, radius);
 	//add popup to circle marker
 	popup.bindToLayer();
-	//event listeners to open popup on hover
-	layer.on({
-		mouseover: function(){
-			this.openPopup();
-		},
-		mouseout: function(){
-			this.closePopup();
-		},
-		click: function(e){
-				clickZoom(e);
-		}
-
-	});
 
   // return the circle marker to the L.geoJson pointToLayer option
   return layer;
@@ -1358,9 +1342,8 @@ function createDropdown(csvData, county_eventsCSV){
             attrArray.push(county_eventsCSV[j]['County']);
         }
 
-    console.log['Yuma'.indexOf];
     //add select element
-    var dropdown = d3.select("#section-1")
+    var dropdown = d3.select("#section-2")
         .append("select")
         .style('position', 'absolute')
         .style('top', 0)
@@ -1387,12 +1370,19 @@ function createDropdown(csvData, county_eventsCSV){
 
 }
 
+// grpah to show counties data
 function countyGraph(csvData, county_eventsCSV, county){
     $('.chart').fadeIn(1000);
     $('.lines').fadeIn(1000);
     $('.title').fadeIn(1000);
 
-    //county = createDropdown(csvData, county_eventsCSV, county);
+		if (activeField == "Total_Events") {
+			activeField = "Total Events";
+		} else if (activeField == "Excessive_Heat") {
+			activeField = "Excessive Heat";
+		} else if (activeField == "Extreme_Cold") {
+			activeField = "Extreme Cold";
+		};
 
     var title1 = d3.select('#section-1')
         .html('<br>' + activeField + ' By County</br>2000-2016')
@@ -1400,6 +1390,14 @@ function countyGraph(csvData, county_eventsCSV, county){
         .style('font-family', 'Helvetica, sans-serif')
         .style('text-align', 'center')
         .style('font-weight', 'bold');
+
+				if (activeField == "Total Events") {
+					activeField = "Total_Events";
+				} else if (activeField == "Excessive Heat") {
+					activeField = "Excessive_Heat";
+				} else if (activeField == "Extreme Cold") {
+					activeField = "Extreme_Cold";
+				};
 
     var vis1 = d3.select('#section-1')
         .append('svg')
@@ -1548,6 +1546,8 @@ function countyGraph(csvData, county_eventsCSV, county){
     d3.selectAll('.lines1')
         .on('mouseover', highlight)
         .on('mouseout', dehighlight);
+
+					createDropdown(csvData, county_eventsCSV);
 }
 
 // create graph for the initial state view
@@ -1572,7 +1572,8 @@ function stateGraph(csvData, county_eventsCSV){
     var title = d3.select('#section-1')
         .html('<br><b>' + activeField + ' By State</br>2000-2016</b>')
         .attr('class','title')
-        .style('font-family', 'Helvetica, sans-serif')
+        .style('font-family', 'Verdana, sans-serif')
+				.style('top', 70)
         .style('text-align', 'center')
         .style('font-weight', 'bold');
 
@@ -1673,6 +1674,8 @@ function stateGraph(csvData, county_eventsCSV){
 
 }
 
+
+// unhighlight a line when not over it
 function dehighlight(){
     if (this.id.includes(' ')) {
         this.id = (this.id).replace(/ /gi, '_');
@@ -1683,6 +1686,8 @@ function dehighlight(){
         .style("opacity", 0);
 }
 
+
+// highlight the state or county line when over its line
 function highlight(){
     console.log("id: " + this.id);
     d3.select('#' + (this.id).toString())
@@ -1696,7 +1701,6 @@ function highlight(){
         .style("opacity", 1)
         .html('<b>' + this.id + '</b>');
 };
-
 
 
 $(document).ready(initialize);

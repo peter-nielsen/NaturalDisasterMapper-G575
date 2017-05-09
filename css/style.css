@@ -358,11 +358,19 @@ body {
   bottom: 60%;
 }
 
+#section-2 {
+  position: absolute;
+  top: 48%;
+  width: 90%;
+  left: 5%;
+  height: 5%;
+}
+
 #section-3 {
   position: absolute;
   height: 37%;
   width: 100%;
-  top: 50%;
+  top: 55%;
 }
 
 #section-4 {
